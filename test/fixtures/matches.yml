@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2013-03-01 14:54:06
+  tournament_id: 1
+  venue: MyString
+  match_type: MyString
+  team1_id: 1
+  team2_id: 1
+  winner_id: 1
+
+two:
+  date: 2013-03-01 14:54:06
+  tournament_id: 1
+  venue: MyString
+  match_type: MyString
+  team1_id: 1
+  team2_id: 1
+  winner_id: 1
