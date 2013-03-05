@@ -3,8 +3,7 @@ class CreateMatches < ActiveRecord::Migration
     create_table :matches do |t|
       t.references :tournament
       t.references :team
-      t.references :prediction
-      
+            
       t.datetime :date
       t.integer :tournament_id
       t.string :venue

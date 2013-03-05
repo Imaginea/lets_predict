@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301092635) do
+ActiveRecord::Schema.define(:version => 20130305130958) do
 
   create_table "matches", :force => true do |t|
     t.datetime "date"
     t.integer  "tournament_id"
     t.string   "venue"
     t.string   "match_type"
-    t.integer  "team1_id"
-    t.integer  "team2_id"
+    t.integer  "team"
+    t.integer  "opponent"
     t.integer  "winner_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20130301092635) do
     t.integer  "predicted_team_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "tournament_id"
   end
 
   create_table "teams", :force => true do |t|
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20130301092635) do
     t.integer  "points"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "email"
   end
 
 end

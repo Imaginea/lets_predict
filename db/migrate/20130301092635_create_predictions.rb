@@ -4,6 +4,7 @@ class CreatePredictions < ActiveRecord::Migration
       t.references :user
       t.references :team
       t.references :match
+      t.references :tournament
 
       t.integer :match_id
       t.integer :user_id
