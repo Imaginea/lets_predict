@@ -5,9 +5,10 @@ class SessionsController < ApplicationController
 
   def create    
     user = User.authenticate(params[:user])
+
     if user
       session[:user_id] = user.id
-      redirect_to root_url, :notice => "Successfully logged in"
+      redirect_to user_path(user), :notice => "Successfully logged in"
     else
       flash[:alert] = "Invalid Username or Password."
       render "new"
@@ -19,3 +20,4 @@ class SessionsController < ApplicationController
     redirect_to root_url, :notice => "Logged out"
   end
 end
+

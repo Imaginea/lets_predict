@@ -8,8 +8,8 @@ class CreateMatches < ActiveRecord::Migration
       t.integer :tournament_id
       t.string :venue
       t.string :match_type
-      t.integer :team1_id
-      t.integer :team2_id
+      t.integer :team
+      t.integer :opponent
       t.integer :winner_id
 
       t.timestamps

@@ -1,5 +1,5 @@
 class Match < ActiveRecord::Base
-  attr_accessible :date, :match_type, :team1_id, :team2_id, :tournament_id, :venue, :winner_id
+  attr_accessible :date, :match_type, :team, :opponent, :tournament_id, :venue, :winner_id
 
   belongs_to :tournament
   belongs_to :team1, :class_name => 'Team'
@@ -10,8 +10,8 @@ class Match < ActiveRecord::Base
 
   validates :date, :presence => true
   validates :match_type, :inclusion => { :in => %w(league semifinal final), :message => "Not a valid match type" }
-  validates :team1_id, :presence => true , :if => :league_match?
-  validates :team2_id, :presence => true , :if => :league_match?
+  validates :team, :presence => true , :if => :league_match?
+  validates :opponent, :presence => true , :if => :league_match?
 
   private 
 
