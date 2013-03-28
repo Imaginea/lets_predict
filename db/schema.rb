@@ -26,12 +26,13 @@ ActiveRecord::Schema.define(:version => 20130328112838) do
   end
 
   create_table "predictions", :force => true do |t|
-    t.integer  "match_id"
     t.integer  "user_id"
+    t.integer  "team_id"
+    t.integer  "match_id"
+    t.integer  "tournament_id"
     t.integer  "predicted_team_id"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
-    t.string   "tournament_id"
     t.integer  "points",            :default => 0
   end
 

@@ -5,7 +5,7 @@ development:
   database: lets-predict_development
   pool: 5
   username: root
-  password: supu123
+  password: 
   socket: /var/run/mysqld/mysqld.sock
 
 test:
@@ -15,7 +15,7 @@ test:
   database: lets-predict_test
   pool: 5
   username: root
-  password: supu123
+  password: 
   socket: /var/run/mysqld/mysqld.sock
 
 production:
@@ -25,5 +25,5 @@ production:
   database: lets-predict_production
   pool: 5
   username: root
-  password: supu123
+  password: 
   socket: /var/run/mysqld/mysqld.sock
