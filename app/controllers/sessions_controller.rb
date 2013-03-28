@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+  caches_page :new
+  
   def new
   end
 
@@ -8,7 +10,7 @@ class SessionsController < ApplicationController
 
     if user
       session[:user_id] = user.id
-      redirect_to user_path(user), :notice => "Successfully logged in"
+      redirect_to home_path, :notice => "Successfully logged in"
     else
       flash[:alert] = "Invalid Username or Password."
       render "new"
@@ -19,5 +21,6 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_url, :notice => "Logged out"
   end
+
 end
 

@@ -1,0 +1,16 @@
+%h3= @current_tournament.name
+%table.table-striped#users
+  %thead
+    %tr
+      %th Position
+      %th Name
+      %th E-Mail id
+      %th Points
+  %tbody
+    -  @current_tournament.leaderboard_users.all.each_with_index do |u, i|
+      %tr  
+        %td= i + 1
+        %td= link_to u.fullname, user_path(u) 
+        %td= u.email
+        %td= u.total_points.to_i
+= link_to "Back", home_path

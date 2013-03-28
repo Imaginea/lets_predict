@@ -1,5 +1,5 @@
 %h1 Login Form
 = form_tag sessions_path, :method => :post do
-  = text_field_tag "user[login]", ""
+  = text_field_tag "user[login]", "" 
   = password_field_tag "user[password]", ""
   = submit_tag "Submit"

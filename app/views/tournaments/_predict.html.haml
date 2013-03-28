@@ -1,0 +1,46 @@
+.modal-backdrop.in
+#predictModal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"false"}
+  .modal-header
+    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %h3= tournament.name
+    = form_tag(predictions_path, :method => :post) do
+      .modal-body
+        %h4{:align => "center"} League Matches      
+        %table.table-striped#match
+          %tbody
+            - tournament.matches.league_matches.includes(:team, :opponent).each_with_index do |match, index|
+              = hidden_field_tag "predictions[#{index}][match_id]", match.id
+              = hidden_field_tag "predictions[#{index}][tournament_id]", match.tournament.id
+              = hidden_field_tag "predictions[#{index}][predicted_team_id]", @predicted_teams[match.id].try(:first)
+              %tr
+                %td= match.date.label
+                %td.button-td
+                  %span{:id => "team-button-#{index}", " data-team-id" => "#{match.team.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, match.id, match.team.name)}
+                    = match.team.name
+                    %i{:id => "team-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.team.name)}
+                %td#vs-td vs
+                %td.button-td
+                  %span{:id => "opponent-button-#{index}","data-team-id" => "#{match.opponent.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, match.id, match.opponent.name)}
+                    = match.opponent.name
+                    %i{:id => "opponent-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.opponent.name)}
+                -foo = "at "
+                -foo << match.venue
+                %td#venue-td= foo
+        %h4{:align => "center"} Non League Matches
+        %table#non-league
+          %tbody
+          - tournament.matches.non_league_matches.includes(:team, :opponent).each_with_index do |match, index|
+            = hidden_field_tag "non_league_predictions[#{index}][match_id]", match.id
+            = hidden_field_tag "non_league_predictions[#{index}][tournament_id]", match.tournament.id
+
+            %tr
+              %td= match.date.label
+              %td= match.match_type.capitalize
+              %td 
+                =select_tag "non_league_predictions[#{index}][predicted_team_id]", options_from_collection_for_select(@teams, "id", "name", :selected => @predicted_teams[match.id].try(:first)), :include_blank => 'Select Tag'
+              -foo = "at "
+              -foo << match.venue
+              %td#non-league-venue= foo
+      .modal-footer
+        = submit_tag "Submit", :class => "btn btn-primary"
+        %a.btn.close-button{"data-dismiss"=> "modal", "aria-hidden" => "true"} Close

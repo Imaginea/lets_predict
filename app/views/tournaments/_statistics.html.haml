@@ -1,0 +1,36 @@
+#statisticsModal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"true"}
+  .modal-header
+    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %h3= tournament.name
+  .modal-body
+    %table.table-bordered.table-striped#match
+      %thead
+        %tr
+          %th Date
+          %th Venue
+          %th Team
+          %th Opponent
+          %th Predicted Team
+          %th Winner
+          %th Your Points
+      %tbody
+        - tournament.matches.includes(:team, :opponent).each do |m|
+          - if m.match_type =="league"
+            %tr
+              %td= m.date.label
+              %td= m.venue
+              %td= m.team.name
+              %td= m.opponent.name
+              %td= @predicted_teams[m.id].try(:second) || 'None'
+              %td= m.winner
+              %td ...
+          -else
+            %tr
+              %td= m.date.label
+              %td= m.venue
+              %td Yet to be known
+              %td Yet to be known
+              %td ...
+              %td Yet to be known
+              %td ...
+  .modal-footer

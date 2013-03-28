@@ -12,4 +12,49 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap
 //= require_tree .
+
+
+$(document).ready(function(){
+    $(document).on("click","[id^='team-button-'], [id^='opponent-button-']", function() {
+        changeButton($(this));
+    });
+    $(document).on("click", "#modal-container .close-button", function(e) 
+    {
+        if (confirm("Are you sure you want to close?")) 
+            $("#modal-container").hide();
+        else
+            e.preventDefault();
+    });
+});
+
+
+function changeButton(input) {
+
+    var current_index = input.attr("data-index");
+    var selected_team_id = input.attr("data-team-id");
+    var team_button =  "#team-button-" + current_index;
+    var opponent_button = "#opponent-button-" + current_index;
+    var icon_team = "#team-icon-" + current_index;
+    var icon_opponent = "#opponent-icon-" + current_index;
+
+    input.attr("disabled", "true");
+    input.attr("class", "btn btn-success btn-block");
+
+    if(input.attr('id').match(/team-button-/))
+    {
+        $(icon_team).show();
+        $(icon_opponent).hide();
+        $(opponent_button).attr("class","btn btn-block");
+        $(opponent_button).removeAttr("disabled");
+    }
+    else
+    {
+        $(icon_opponent).show();
+        $(icon_team).hide();
+        $(team_button).attr("class","btn btn-block")
+        $(team_button).removeAttr("disabled");
+    }
+    $("#predictions_"+ current_index + "_predicted_team_id").val(selected_team_id);
+};

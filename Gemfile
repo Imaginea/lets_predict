@@ -21,9 +21,12 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 end
+
+gem 'bootstrap-sass'
 gem "net-ldap", "~> 0.3.1"
 gem 'jquery-rails'
 gem "haml-rails"
+gem 'carrierwave'
 #gem 'fastercsv'
 
 

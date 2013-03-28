@@ -1,6 +1,28 @@
 LetsPredict::Application.routes.draw do
-  resources :sessions
-  resources :users
+  
+  resources :sessions 
+  resources :users do
+    collection do
+      get :leaderboard
+    end
+  end
+  resources :predictions do 
+    collection do 
+      get :predict
+    end
+  end
+  resources :tournaments do
+    member do
+      get :find_tournament
+    end
+  end
+  resources :matches do
+    collection  do
+      get :statistics
+    end
+  end
+
+  match '/home' => 'users#show'
   get "signout" => "sessions#destroy", :as => "signout"
 
   # The priority is based upon order of creation:

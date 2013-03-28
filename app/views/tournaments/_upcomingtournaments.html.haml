@@ -1,0 +1,25 @@
+#modal-container.hide
+- @new_tournament.each do |t|
+  .well
+    -foo = t.name 
+    -foo << " ( "
+    -foo <<  t.start_date.label
+    -foo << " - "
+    -foo <<  t.end_date.label
+    -foo << " ) " 
+    %h4= foo
+    %div
+      %b Prediction Status 
+    -if Date.today < t.start_date
+      .progress#progress-bar
+        .bar{:style => "width: #{get_prediction_percentage(@predicted_teams,t)};"}
+          = get_prediction_percentage(@predicted_teams,t)
+      Completed
+      %div{:style => 'clear:left;'}
+      = link_to "Predict Now", predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary" 
+      -days = (t.start_date - Date.today).to_i
+      = "Only " + days.to_s + " days left!!"
+    -else
+      %p Predictions are not allowed for this tournament anymore 
+      = link_to "View My Statistics", statistics_matches_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary"
+      = link_to "Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"

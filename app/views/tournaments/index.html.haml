@@ -1,0 +1,15 @@
+%table.table-bordered.table-striped#tournaments
+  %thead
+    %tr
+      %th Name
+      %th Sport
+      %th Start Date
+      %th End Date
+  %tbody
+    - @tournaments.each do |t|
+      %tr
+        %td= t.name
+        %td= t.sport
+        %td= t.start_date
+        %td= t.end_date
+= link_to "Back to home page", user_path(current_user)

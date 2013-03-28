@@ -1,0 +1,15 @@
+.well#user-profile
+  #profile-pic
+  %h5= @user.fullname 
+  = form_for @user, :method => :post, :action => :update, :html=> {:multipart => true } do |f|
+    = f.file_field "picture"
+    = f.submit "Submit"
+  %img(src="/assets/images/default.jpg")
+  #user-details
+    %h5 Number of Predictions:
+    %h5= @user.predictions.count
+    %h5 Points
+    -if @user.points.nil?
+      %h5 0
+    -else
+      %h5= @user.points

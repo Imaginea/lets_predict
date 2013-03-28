@@ -1,0 +1,19 @@
+%table.table-hover#users
+  %thead
+    %tr
+      %th User Id
+      %th Name
+      %th E-Mail id
+      %th Points
+  %tbody
+    - @users.each do |u|
+      %tr  
+        %td= u.id     
+        %td= u.fullname 
+        %td= u.email
+        -if u.points == nil
+          %td 0
+        - else
+          %td= u.points
+        %td= link_to "Visit User", user_path(u)
+= link_to "Back to home page", user_path(current_user)

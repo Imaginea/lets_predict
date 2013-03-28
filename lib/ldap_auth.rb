@@ -1,6 +1,6 @@
 require 'net/ldap'
 
-module Ldapauth
+module LdapAuth
 
   def ldap_authenticate(username, password)
     ldap = Net::LDAP.new
@@ -14,6 +14,7 @@ module Ldapauth
     ldap.host = "ldap.pramati.com"
     filter = Net::LDAP::Filter.eq("uid", username)
     treebase = "ou=Employees, dc=pramati, dc=com"
+
 
     entities = {}
     
