@@ -1,11 +1,11 @@
 .modal-backdrop.in
 #predictModal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"false"}
   .modal-header
-    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %button.confirm-close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
     %h3= tournament.name
     = form_tag(predictions_path, :method => :post) do
       .modal-body
-        %h4{:align => "center"} League Matches      
+        %legend League Matches      
         %table.table-striped#match
           %tbody
             - tournament.matches.league_matches.includes(:team, :opponent).each_with_index do |match, index|
@@ -17,16 +17,16 @@
                 %td.button-td
                   %span{:id => "team-button-#{index}", " data-team-id" => "#{match.team.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, match.id, match.team.name)}
                     = match.team.name
-                    %i{:id => "team-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.team.name)}
+                    %i{:id => "team-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.team.name), :style => 'padding-right:5px;'}
                 %td#vs-td vs
                 %td.button-td
                   %span{:id => "opponent-button-#{index}","data-team-id" => "#{match.opponent.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, match.id, match.opponent.name)}
                     = match.opponent.name
-                    %i{:id => "opponent-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.opponent.name)}
+                    %i{:id => "opponent-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.opponent.name), :style => 'padding-right:5px;'}
                 -foo = "at "
                 -foo << match.venue
                 %td#venue-td= foo
-        %h4{:align => "center"} Non League Matches
+        %legend Knockouts
         %table#non-league
           %tbody
           - tournament.matches.non_league_matches.includes(:team, :opponent).each_with_index do |match, index|
@@ -41,6 +41,6 @@
               -foo = "at "
               -foo << match.venue
               %td#non-league-venue= foo
-      .modal-footer
+      .modal-footer{:style => 'padding-top:5px;padding-bottom:5px;'}
         = submit_tag "Submit", :class => "btn btn-primary"
-        %a.btn.close-button{"data-dismiss"=> "modal", "aria-hidden" => "true"} Close
+        %a.btn.confirm-close-button{"data-dismiss"=> "modal", "aria-hidden" => "true"} Close

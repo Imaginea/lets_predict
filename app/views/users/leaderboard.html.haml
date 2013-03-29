@@ -1,16 +1,26 @@
+#modal-container.hide
 %h3= @current_tournament.name
-%table.table-striped#users
+%table.table.table-striped#users
   %thead
     %tr
-      %th Position
+      %th S.No
       %th Name
-      %th E-Mail id
-      %th Points
+      %th Email
+      %th Matches Predicted
+      %th Total Points
+      %th Position
   %tbody
+    - position, last_points = 0, -1
     -  @current_tournament.leaderboard_users.all.each_with_index do |u, i|
-      %tr  
+      - me = u.id == current_user.id
+      - position += 1 unless last_points == u.total_points
+      %tr{:style => me ? 'border:2px solid green' : ''}
         %td= i + 1
-        %td= link_to u.fullname, user_path(u) 
+        %td
+          = link_to u.fullname, statistics_matches_path(:tournament_id => @current_tournament.id, :user_id => u.id), :remote => true, :title => 'View My Results'
         %td= u.email
+        %td= u.matches_predicted
         %td= u.total_points.to_i
+        %td= position
+
 = link_to "Back", home_path

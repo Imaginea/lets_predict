@@ -22,13 +22,13 @@ class User < ActiveRecord::Base
   end
   
   def predicted_teams_by_match_id
-    ps = self.predictions.where('predicted_team_id is NOT NULL')
+    ps = self.predictions.where('predicted_team_id is NOT NULL').to_a
     team_ids = ps.collect(&:predicted_team_id)
     teams = Team.where(:id => team_ids).group_by(&:id)
 
     ps.inject({}) do |result, p|
       team = teams[p.predicted_team_id].first
-      result.update(p.match_id => [team.id, team.name])
+      result.update(p.match_id => [team.id, team.name, p.points])
     end
   end
 
@@ -37,8 +37,23 @@ class User < ActiveRecord::Base
     !match.predicted_team_id.nil?
   end 
 
-  def tournament_points(t_id)
+  def total_points_for(t_id)
     predictions.where(:tournament_id => t_id).sum(:points)
+  end
+
+  def rank_for(t_id)
+    ps = Prediction.where(:tournament_id => t_id).
+      group(:user_id).
+      select('user_id, sum(points) as total_points').
+      order('total_points DESC').to_a
+    rank = 1
+    ps_grouped = ps.group_by(&:total_points)
+
+    ps_grouped.each do |pts, ps_arr|
+      break if ps_arr.any? { |p| p.user_id == self.id }
+      rank += 1
+    end
+    rank
   end
 
   private

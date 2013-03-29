@@ -1,4 +1,5 @@
 class PredictionsController < ApplicationController
+  before_filter :restrict_to_closed_tournaments, :only => [:predict]
 
   def create
     predictions = params[:predictions].values + params[:non_league_predictions].values
@@ -17,7 +18,7 @@ class PredictionsController < ApplicationController
        #current_user.predictions.delete_all
       # flash[:error] = "Error while updating few records."
     #end
-    redirect_to current_user, :notice => 'Updated successfully.'
+    redirect_to home_url, :notice => 'Predictions updated successfully.'
   end
 
   def predict
@@ -25,7 +26,5 @@ class PredictionsController < ApplicationController
     @prediction = Prediction.new
     @predicted_teams = current_user.predicted_teams_by_match_id
     @teams = Team.all
-    @current_tournament =  Tournament.find(params[:tournament_id])
   end
-
 end

@@ -20,12 +20,14 @@ $(document).ready(function(){
     $(document).on("click","[id^='team-button-'], [id^='opponent-button-']", function() {
         changeButton($(this));
     });
-    $(document).on("click", "#modal-container .close-button", function(e) 
-    {
-        if (confirm("Are you sure you want to close?")) 
+    $(document).on("click", "#modal-container .confirm-close-button", function(e) {
+        if (confirm("Any changes will be lost. Are you sure?")) 
             $("#modal-container").hide();
         else
             e.preventDefault();
+    });
+    $(document).on("click", "#modal-container .close-button", function() {
+      $("#modal-container").hide();
     });
 });
 

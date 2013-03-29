@@ -1,9 +1,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :login_required
   
-protected
+  protected
+
   def current_user
-    @current_user ||= User.find(session[:user_id]) 
+    @current_user ||= User.find_by_id(session[:user_id]) 
   end
   helper_method :current_user
 
@@ -11,4 +13,24 @@ protected
     Time.zone.now
   end
   helper_method :current_time
+
+  def login_required
+    redirect_to root_path, :alert => 'Please login.' unless current_user
+  end
+
+  # used in users and matches controller
+  def restrict_to_open_tournaments
+    @current_tournament =  Tournament.find(params[:tournament_id])
+    access_denied unless @current_tournament.predictions_closed?
+  end
+
+  # used in predictions controller
+  def restrict_to_closed_tournaments
+    @current_tournament = Tournament.find(params[:tournament_id])
+    access_denied if @current_tournament.predictions_closed?
+  end
+
+  def access_denied
+    redirect_to home_path, :alert => 'Sorry! Access denied.'
+  end
 end

@@ -22,14 +22,28 @@ class Tournament < ActiveRecord::Base
 
   def self.current_tournaments
     today = Date.today
-    where("start_date < (?) AND end_date > (?)", today+30, today)
+    where("start_date < (?) AND end_date > (?)", today+30, today+2)
+  end
+
+  def predictions_closed?
+    self.start_date <= Date.today
+  end
+
+  def matches_count
+    @matches_cnt ||= self.matches.count
+  end
+
+  def completed_matches_count
+    match_time = 3.hours
+    self.matches.where('date < ?', Time.now.utc + match_time).count
   end
 
   def leaderboard_users
     @leaderboard_users ||= self.predictions.
       joins(:user).
+      where('predicted_team_id IS NOT NULL').
       group('users.id, fullname, email').
       order('sum(points) DESC').
-      select('users.id, fullname, email, sum(points) as total_points')
+      select('users.id, fullname, email, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
   end
 end

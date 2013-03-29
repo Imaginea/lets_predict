@@ -6,7 +6,7 @@ namespace :db do
     require 'csv'
 
     Match.transaction do
-      CSV.foreach("matches.csv") do |row|
+      CSV.foreach("db/matches.csv") do |row|
         row = row.first.split(';') if row.first.include?(';')
         match = Match.new(
           :date => Time.strptime(row[0], "%m/%d/%Y %H:%M").to_time,

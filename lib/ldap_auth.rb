@@ -3,6 +3,8 @@ require 'net/ldap'
 module LdapAuth
 
   def ldap_authenticate(username, password)
+    return true if ldap_disabled?
+
     ldap = Net::LDAP.new
     ldap.host = "ldap.pramati.com"
     ldap.authenticate("uid=#{username}, ou=Employees, dc=pramati, dc=com", password)
@@ -10,6 +12,8 @@ module LdapAuth
   end
 
   def get_ldap_entities(username)
+    return {:fullname => 'TestUser', :email => 'testuser@test.com'} if ldap_disabled?
+
     ldap = Net::LDAP.new
     ldap.host = "ldap.pramati.com"
     filter = Net::LDAP::Filter.eq("uid", username)
@@ -23,5 +27,9 @@ module LdapAuth
       entities[:email] = entry[:mail].first
     end
     entities
+  end
+
+  def ldap_disabled?
+    ENV['LDAP'] == 'false'
   end
 end

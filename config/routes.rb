@@ -1,7 +1,7 @@
 LetsPredict::Application.routes.draw do
   
   resources :sessions 
-  resources :users do
+  resources :users, :only => [:show] do
     collection do
       get :leaderboard
     end

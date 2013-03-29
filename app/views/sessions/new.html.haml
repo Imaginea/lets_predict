@@ -1,5 +1,45 @@
-%h1 Login Form
-= form_tag sessions_path, :method => :post do
-  = text_field_tag "user[login]", "" 
-  = password_field_tag "user[password]", ""
-  = submit_tag "Submit"
+%h1 Lets Predict
+= form_tag sessions_path, :method => :post, :class => 'form form-vertical' do
+  .control-group
+    = text_field_tag "user[login]", "", :placeholder => 'LDAP Username'
+  .control-group
+    = password_field_tag "user[password]", "", :placeholder => 'LDAP Password'
+  .actions
+    = submit_tag "Login", :class => 'btn btn-success'
+
+
+%hr
+%h3 How does it work!
+.pull-left{:style => 'width:550px;'}
+  %ul
+    %li Login to view the list of active tournaments, that starts in a month.
+    %li
+      Click 'Predict Now' and start predicting the winning teams for the listed matches.
+    %li
+      You can choose to predict only few matches at once, then click 'Submit' to save your predictions.
+      %br
+      May sure to come back again and complete your predictions.
+    %li 
+      %b Predictions for a tournament closes a day before the start of the tournament.
+
+.pull-left{:style => 'width:550px;'}
+  %ul
+    %li
+      Each <b>correct prediction is awarded with points</b> based on the match type:
+      %ul
+        %li League - 2 points
+        %li Semifinal/Eliminator/Qualifier - 4 points
+        %li Final - 8 points
+    %li No negative points for wrong predictions.
+    %li
+      Points for the completed matches will be updated on the next working day.
+      %br
+      You can use 'View Results' to see the results of your predictions.
+      %br
+      Also you can use 'Check Leaderboard' to see your position among other users.
+      %br
+      Clicking on the name of the user will display the results of his/her predictions.
+    %li
+      %b Top three winners will get an awesome prize.
+
+%div{:style => 'clear:left;'}

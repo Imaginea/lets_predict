@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130328112838) do
+ActiveRecord::Schema.define(:version => 20130329102800) do
 
   create_table "matches", :force => true do |t|
     t.integer  "tournament_id"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(:version => 20130328112838) do
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "matches", ["tournament_id", "match_type"], :name => "index_matches_on_tournament_id_and_match_type"
+  add_index "matches", ["tournament_id"], :name => "index_matches_on_tournament_id"
+
   create_table "predictions", :force => true do |t|
     t.integer  "user_id"
     t.integer  "team_id"
@@ -35,6 +38,12 @@ ActiveRecord::Schema.define(:version => 20130328112838) do
     t.datetime "updated_at",                       :null => false
     t.integer  "points",            :default => 0
   end
+
+  add_index "predictions", ["match_id", "predicted_team_id"], :name => "index_predictions_on_match_id_and_predicted_team_id"
+  add_index "predictions", ["match_id"], :name => "index_predictions_on_match_id"
+  add_index "predictions", ["tournament_id", "predicted_team_id"], :name => "index_predictions_on_tournament_id_and_predicted_team_id"
+  add_index "predictions", ["tournament_id"], :name => "index_predictions_on_tournament_id"
+  add_index "predictions", ["user_id"], :name => "index_predictions_on_user_id"
 
   create_table "teams", :force => true do |t|
     t.string   "name"
@@ -51,6 +60,8 @@ ActiveRecord::Schema.define(:version => 20130328112838) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "tournaments", ["start_date"], :name => "index_tournaments_on_start_date"
+
   create_table "users", :force => true do |t|
     t.string   "login"
     t.string   "fullname"
@@ -59,5 +70,7 @@ ActiveRecord::Schema.define(:version => 20130328112838) do
     t.string   "email"
     t.string   "picture"
   end
+
+  add_index "users", ["login"], :name => "index_users_on_login"
 
 end
