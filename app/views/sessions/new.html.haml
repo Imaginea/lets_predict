@@ -1,14 +1,16 @@
-%h1 Lets Predict
-= form_tag sessions_path, :method => :post, :class => 'form form-vertical' do
-  .control-group
-    = text_field_tag "user[login]", "", :placeholder => 'LDAP Username'
-  .control-group
-    = password_field_tag "user[password]", "", :placeholder => 'LDAP Password'
+%h1
+  LETS PREDICT
+  %span{:style => 'font-size:16px;'} Fantasy Leagues, Simplified.
+
+= form_tag sessions_path, :method => :post, :class => 'well', :style => 'width:350px;' do
+  %legend Login
+  .controls
+    = text_field_tag "user[login]", "", :placeholder => 'LDAP Username', :class => 'input-large'
+  .controls
+    = password_field_tag "user[password]", "", :placeholder => 'LDAP Password', :class => 'input-large'
   .actions
-    = submit_tag "Login", :class => 'btn btn-success'
+    = submit_tag "Go", :class => 'btn btn-success'
 
-
-%hr
 %h3 How does it work!
 .pull-left{:style => 'width:550px;'}
   %ul
