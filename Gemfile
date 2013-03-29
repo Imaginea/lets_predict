@@ -8,7 +8,6 @@ gem 'rails', '3.2.11'
 #gem 'sqlite3'
 gem 'mysql2'
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -18,7 +17,6 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'libv8', '~> 3.11.8'
   gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -28,7 +26,6 @@ gem 'jquery-rails'
 gem "haml-rails"
 gem 'carrierwave'
 #gem 'fastercsv'
-
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -40,7 +37,9 @@ gem 'carrierwave'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
+gem 'rvm-capistrano'
+#gem 'airbrake'
 
 # To use debugger
 # gem 'debugger'
