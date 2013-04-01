@@ -13,7 +13,7 @@ class Match < ActiveRecord::Base
   validates :team_id, :opponent_id, :presence => true , :if => :league_match?
 
   scope :league_matches, where(:match_type => "league")
-  scope :non_league_matches, where(:match_type => VALID_MATCH_TYPES - ['league'])
+  scope :non_league_matches, where(:match_type => VALID_MATCH_TYPES - ['league']).order('id')
 
   def success_points
     case self.match_type.to_sym
