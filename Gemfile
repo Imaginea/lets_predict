@@ -37,8 +37,10 @@ gem 'carrierwave'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
-gem 'rvm-capistrano'
+group :development do
+  gem 'capistrano'
+  gem 'rvm-capistrano'
+end
 #gem 'airbrake'
 
 # To use debugger

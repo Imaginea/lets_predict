@@ -24,6 +24,7 @@ role :web, "192.168.6.44"                          # Your HTTP server, Apache/et
 role :app, "192.168.6.44"                          # This may be the same as your `Web` server
 role :db,  "192.168.6.44", :primary => true # This is where Rails migrations will run
 
+before 'deploy:setup', 'rvm:create_gemset'
 after 'bundle:install', 'deploy:migrate'
 after "deploy:restart", "deploy:cleanup"
 
