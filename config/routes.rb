@@ -9,6 +9,7 @@ LetsPredict::Application.routes.draw do
   resources :predictions do 
     collection do 
       get :predict
+      get :users_playing
     end
   end
   resources :tournaments do

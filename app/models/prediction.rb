@@ -9,3 +9,6 @@ class Prediction < ActiveRecord::Base
   validates :user_id, :match_id, :tournament_id, :presence => true
   validates :match_id, :uniqueness => { :scope => :user_id }
 end
+
+
+

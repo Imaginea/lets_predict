@@ -1,8 +1,6 @@
-%h1
-  LETS PREDICT
-  %span{:style => 'font-size:16px;'} Fantasy Leagues, Simplified.
-
-= form_tag sessions_path, :method => :post, :class => 'well', :style => 'width:350px;' do
+.span5
+  %img#logo{:src => "logo_cropped.png"}
+= form_tag sessions_path, :method => :post, :class => 'well', :style => 'width:350px;margin:50px;float:left;' do
   %legend Login
   .controls
     = text_field_tag "user[login]", "", :placeholder => 'LDAP Username', :class => 'input-large'
@@ -10,7 +8,7 @@
     = password_field_tag "user[password]", "", :placeholder => 'LDAP Password', :class => 'input-large'
   .actions
     = submit_tag "Go", :class => 'btn btn-success'
-
+%div{:style => 'clear:left;'}
 %h3 How does it work!
 .pull-left{:style => 'width:550px;'}
   %ul

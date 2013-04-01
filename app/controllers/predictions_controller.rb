@@ -27,4 +27,8 @@ class PredictionsController < ApplicationController
     @predicted_teams = current_user.predicted_teams_by_match_id
     @teams = Team.all
   end
+
+  def users_playing
+    @current_tournament =  Tournament.find(params[:tournament_id])
+  end 
 end

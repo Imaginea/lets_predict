@@ -46,4 +46,8 @@ class Tournament < ActiveRecord::Base
       order('sum(points) DESC').
       select('users.id, fullname, email, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
   end
+
+  def total_predictors
+   self.predictions.select("user_id").uniq
+  end
 end

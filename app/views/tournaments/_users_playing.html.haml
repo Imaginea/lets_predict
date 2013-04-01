@@ -1,0 +1,18 @@
+.modal-backdrop.in
+#usersModal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"true"}
+  .modal-header
+    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %h3= tournament.name
+  .modal-body
+    %table.table.table-bordered.table-striped
+      %thead
+        %tr
+          %th Fullname
+          %th Number of predictions
+      %tbody
+        = tournament.total_predictors.includes(:user).order("updated_at DESC").each do |t|
+          %tr
+            %td= t.user.fullname
+            %td= t.user.matches_predicted(tournament.id)
+  .modal-footer
+.modal-backdrop.in
