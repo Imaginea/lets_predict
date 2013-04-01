@@ -25,6 +25,7 @@ role :app, "192.168.6.44"                          # This may be the same as you
 role :db,  "192.168.6.44", :primary => true # This is where Rails migrations will run
 
 before 'deploy:setup', 'rvm:create_gemset'
+before 'deploy:migrate', 'deploy:setup_database_yml'
 after 'bundle:install', 'deploy:migrate'
 after "deploy:restart", "deploy:cleanup"
 
@@ -37,6 +38,10 @@ namespace :deploy do
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+
+  task :setup_database_yml do
+    run "ln -nfs #{shared_path}/database.yml #{release_path}/config/database.yml"
   end
 end
 
