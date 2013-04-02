@@ -25,7 +25,7 @@ module LdapAuth
     ldap.search(:base => treebase, :filter => filter) do |entry|
       entities[:fullname] = entry[:cn].first
       entities[:email] = entry[:mail].first
-      entities[:location] = entry[:baselocation].first.match(/l=([a-zA-Z\-0-9_]*),.*/).captures.first rescue ''
+      entities[:location] = entry[:baselocation].first.match(/l=([a-zA-Z\s\-0-9_]*),.*/).captures.first rescue ''
     end
     entities
   end
