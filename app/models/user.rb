@@ -56,10 +56,6 @@ class User < ActiveRecord::Base
     rank
   end
 
-  def matches_predicted(t_id)
-    self.predictions.where('predicted_team_id is NOT NULL', :tournament_id => t_id).pluck("match_id").uniq.count
-  end
-
   private
   
   def get_ldap_params

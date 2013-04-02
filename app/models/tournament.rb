@@ -48,6 +48,14 @@ class Tournament < ActiveRecord::Base
   end
 
   def total_predictors
-   self.predictions.select("user_id").uniq
+   self.predictions.count("distinct(user_id)")
+  end
+
+  def predictors
+    @predictors ||= self.predictions.
+      joins(:user).
+      where('predicted_team_id IS NOT NULL').
+      group('fullname').
+      select('fullname, count(predicted_team_id) as matches_predicted').to_a
   end
 end

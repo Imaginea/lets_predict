@@ -4,15 +4,14 @@
     %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
     %h3= tournament.name
   .modal-body
-    %table.table.table-bordered.table-striped
+    %table.table.table-striped.table-condensed
       %thead
         %tr
-          %th Fullname
-          %th Number of predictions
+          %th Name
+          %th Matches Predicted
       %tbody
-        = tournament.total_predictors.includes(:user).order("updated_at DESC").each do |t|
+        - tournament.predictors.each do |u|
           %tr
-            %td= t.user.fullname
-            %td= t.user.matches_predicted(tournament.id)
+            %td= u.fullname
+            %td= u.matches_predicted
   .modal-footer
-.modal-backdrop.in

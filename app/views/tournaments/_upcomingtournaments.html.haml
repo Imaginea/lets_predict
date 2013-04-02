@@ -5,14 +5,15 @@
       = t.name
       %span.label.label-info{:style => 'margin-left:10px;'}
         = "#{t.start_date.label} - #{t.end_date.label}"
-    %h5= "Users Playing: " + "#{t.total_predictors.length}"
-    = link_to "Look who has predicted", users_playing_predictions_path(:tournament_id => t.id), :remote => true
     %div{:style => 'clear:both; margin-top:20px;'}
       - unless t.predictions_closed?
+        %p
+          %span{:style => 'display:inline-block; width:95px;'} Users Playing:
+          = link_to t.total_predictors, users_playing_predictions_path(:tournament_id => t.id), :remote => true, :style => 'font-weight:bold; text-decoration:underline;'
         - prediction_percent = get_prediction_percentage(@predicted_teams, t)
         - if @predicted_teams.any?
-          %p{:style => 'font-weight:bold;'}
-            Prediction Status
+          %p
+            %span Your Prediction Status:
           .progress#progress-bar{:style => 'margin-right:10px;'}
             .bar{:style => "width: #{prediction_percent}; color:black;"}
               = prediction_percent

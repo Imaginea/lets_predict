@@ -1,7 +1,8 @@
-/ %h2.pull-left
-/   %a{:href => "/home", :style => "text-decoration:none;"} LETS PREDICT
-/   %span{:style => 'font-size:14px;'} Fantasy Leagues, Simplified
-.pull-right{:style => "padding-top:10px;"}
+%h2.pull-left
+  %a{:href => "/home", :style => "text-decoration:none;"} LET'S PREDICT
+  %span{:style => 'font-size:14px;'} PRAMATI FANTASY LEAGUE
+  /=image_tag('predict_sm.xcf')
+.pull-right{:style => "padding-top:20px;"}
   %span{:style => 'font-size:18px;'}= "Hi " + current_user.fullname + " | "
   = link_to 'Sign Out', signout_path
 %div{:style => 'clear:both;'}
