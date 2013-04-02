@@ -3,7 +3,7 @@ require 'ldap_auth'
 class User < ActiveRecord::Base
   extend LdapAuth
   
-  attr_accessible :fullname, :login, :points, :email, :picture
+  attr_accessible :fullname, :login, :points, :email, :picture, :location
 
   mount_uploader :picture, PictureUploader
 

@@ -28,7 +28,6 @@ class Match < ActiveRecord::Base
   end
 
   def can_predict?
-    return false
     self.date > Time.now.utc
   end
 

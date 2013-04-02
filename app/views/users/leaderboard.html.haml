@@ -13,7 +13,7 @@
     - position, last_points = 0, -1
     -  @current_tournament.leaderboard_users.all.each_with_index do |u, i|
       - me = u.id == current_user.id
-      - position += 1 unless last_points == u.total_points
+      - position += 1 unless last_points == u.total_points.to_i
       %tr{:style => me ? 'border:2px solid green' : ''}
         %td= i + 1
         %td
@@ -22,5 +22,6 @@
         %td= u.matches_predicted
         %td= u.total_points.to_i
         %td= position
+        - last_points = u.total_points.to_i
 
 = link_to "Back", home_path

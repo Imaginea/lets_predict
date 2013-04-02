@@ -18,7 +18,7 @@
         - unless prediction_percent == '100%'
           - m = t.first_unpredicted_match(current_user.id)
           - alert_color = (m.date - Time.now.utc) > 36.hours ? 'green' : 'red'
-          %p.alert.alert-warning{:style => 'float:left;'}
+          %p.alert.alert-warning{:style => 'float:left;margin-left:-14px;'}
             Next unpredicted match starts in
             %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
 
@@ -42,7 +42,7 @@
       %div{:style => 'clear:left;'}
       - tournament_percent = ((t.completed_matches_count/t.matches_count.to_f) * 100).round.to_s + '%'
       %span.pull-left{:style => 'display:inline-block; margin-top:10px;'} Tournament Progress:
-      .progress.progress-bar{:style => 'width:110px;margin:10px 0 0 10px;'}
+      .progress.progress-bar{:style => 'margin:10px 0 0 10px;'}
         .bar{:style => "width: #{tournament_percent}; color:black;"}
           = tournament_percent
       %div{:style => 'clear:left;margin-bottom:20px;'}

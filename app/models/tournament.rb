@@ -50,9 +50,9 @@ class Tournament < ActiveRecord::Base
     @leaderboard_users ||= self.predictions.
       joins(:user).
       where('predicted_team_id IS NOT NULL').
-      group('users.id, fullname, email').
+      group('users.id, fullname, location').
       order('sum(points) DESC').
-      select('users.id, fullname, email, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
+      select('users.id, fullname, location, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
   end
 
   def total_predictors
@@ -63,14 +63,15 @@ class Tournament < ActiveRecord::Base
     @predictors ||= self.predictions.
       joins(:user).
       where('predicted_team_id IS NOT NULL').
-      group('fullname').
-      select('fullname, count(predicted_team_id) as matches_predicted').to_a
+      group('fullname,location').
+      select('fullname, location, count(predicted_team_id) as matches_predicted').to_a
   end
 
   def first_unpredicted_match(u_id)
-    self.matches.joins(:predictions).
+    m = self.matches.joins(:predictions).
       where("date > '#{Time.now.utc}'").
       where('predictions.user_id' => u_id).where('predictions.predicted_team_id IS NULL').
       order('date').first
+    m || self.matches.order('date').first
   end
 end
