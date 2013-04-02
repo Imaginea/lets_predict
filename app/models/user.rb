@@ -60,6 +60,13 @@ class User < ActiveRecord::Base
     rank
   end
 
+  def predicted_teams_sorted(t_id)
+    self.predictions.joins(:predicted_team).
+      where(:tournament_id => t_id).where('predicted_team_id IS NOT NULL').
+      group('teams.id,teams.name').order('count(predictions.id) DESC').
+      select('teams.id,teams.name,count(predictions.id) as count')
+  end
+
   private
   
   def get_ldap_params
