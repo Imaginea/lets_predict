@@ -27,8 +27,9 @@
                 -foo = "at "
                 -foo << match.venue
                 %td#venue-td= foo
-        - unless tournament.started?
-          %legend Knockouts
+
+        %legend Knockouts
+        - unless tournament.non_leagues_started?
           %table#non-league
             %tbody
             - tournament.matches.non_leagues.each_with_index do |match, index|
@@ -43,6 +44,8 @@
                 -foo = "at "
                 -foo << match.venue
                 %td#non-league-venue= foo
+        - else
+          %p.alert.alert-warning Predictions are closed. Use <b>View Results</b> to see your predictions.
 
       .modal-footer{:style => 'padding-top:5px;padding-bottom:5px;'}
         = submit_tag "Submit", :class => "btn btn-primary"
