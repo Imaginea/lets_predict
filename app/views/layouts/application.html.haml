@@ -12,7 +12,7 @@
     = yield(:head)
   %body
     %header.navbar.navbar-inverse
-      - if session[:user_id] != nil  
+      - if current_user  
         %nav.navbar-inner
           .container
             = render 'layouts/navigation'

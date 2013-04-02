@@ -22,15 +22,23 @@ class Tournament < ActiveRecord::Base
 
   def self.current_tournaments
     today = Date.today
-    where("start_date < (?) AND end_date > (?)", today+30, today+2)
+    where("start_date < (?) AND end_date > (?)", today+30, today+2).to_a
+  end
+
+  def last_league_match
+    @last_league_match ||= self.matches.leagues.order('date DESC').limit(1).first
   end
 
   def predictions_closed?
-    self.start_date <= Date.today
+    last_league_match.date < Time.now.utc
   end
 
   def matches_count
     @matches_cnt ||= self.matches.count
+  end
+
+  def started?
+    self.start_date < Date.today
   end
 
   def completed_matches_count
@@ -57,5 +65,12 @@ class Tournament < ActiveRecord::Base
       where('predicted_team_id IS NOT NULL').
       group('fullname').
       select('fullname, count(predicted_team_id) as matches_predicted').to_a
+  end
+
+  def first_unpredicted_match(u_id)
+    self.matches.joins(:predictions).
+      where("date > '#{Time.now.utc}'").
+      where('predictions.user_id' => u_id).where('predictions.predicted_team_id IS NULL').
+      order('date').first
   end
 end

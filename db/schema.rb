@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329102800) do
+ActiveRecord::Schema.define(:version => 20130402111155) do
 
   create_table "matches", :force => true do |t|
     t.integer  "tournament_id"
@@ -69,8 +69,10 @@ ActiveRecord::Schema.define(:version => 20130329102800) do
     t.datetime "updated_at", :null => false
     t.string   "email"
     t.string   "picture"
+    t.string   "location"
   end
 
+  add_index "users", ["location"], :name => "index_users_on_location"
   add_index "users", ["login"], :name => "index_users_on_login"
 
 end

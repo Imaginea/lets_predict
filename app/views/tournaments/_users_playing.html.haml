@@ -9,9 +9,11 @@
         %tr
           %th Name
           %th Matches Predicted
+          %th Location
       %tbody
         - tournament.predictors.each do |u|
           %tr
             %td= u.fullname
             %td= u.matches_predicted
+            %td= u.location
   .modal-footer

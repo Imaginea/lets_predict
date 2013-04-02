@@ -1,6 +1,8 @@
 module UsersHelper
 
-  def get_btn_class(predicted_teams, match_id, team_name)
+  def get_btn_class(predicted_teams, match, team_name)
+    return '' unless match.can_predict?
+    match_id = match.id
     return "btn btn-primary btn-block" if predicted_teams[match_id].blank?
     return "btn btn-success btn-block disabled" if predicted_teams[match_id].second == team_name
     "btn btn-block"

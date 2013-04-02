@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   # used in users and matches controller
   def restrict_to_open_tournaments
     @current_tournament =  Tournament.find(params[:tournament_id])
-    access_denied unless @current_tournament.predictions_closed?
+    access_denied unless @current_tournament.started?
   end
 
   # used in predictions controller

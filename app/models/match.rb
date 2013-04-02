@@ -5,6 +5,7 @@ class Match < ActiveRecord::Base
   belongs_to :team
   belongs_to :opponent, :class_name => 'Team'
   belongs_to :winner, :class_name => 'Team'
+  has_many :predictions
 
   VALID_MATCH_TYPES = %w(league semifinal final qualifier eliminator)
 
@@ -12,8 +13,8 @@ class Match < ActiveRecord::Base
   validates :match_type, :inclusion => { :in => VALID_MATCH_TYPES, :message => "Not a valid match type" }
   validates :team_id, :opponent_id, :presence => true , :if => :league_match?
 
-  scope :league_matches, where(:match_type => "league")
-  scope :non_league_matches, where(:match_type => VALID_MATCH_TYPES - ['league']).order('id')
+  scope :leagues, where(:match_type => "league")
+  scope :non_leagues, where(:match_type => VALID_MATCH_TYPES - ['league']).order('id')
 
   def success_points
     case self.match_type.to_sym
@@ -26,9 +27,14 @@ class Match < ActiveRecord::Base
     end
   end
 
+  def can_predict?
+    return false
+    self.date > Time.now.utc
+  end
+
   private 
 
   def league_match? 
     match_type == "league"
-  end  
+  end
 end

@@ -4,9 +4,6 @@ class UsersController < ApplicationController
 
   def show
     @new_tournament = Tournament.current_tournaments
-    @prediction = Prediction.new
-    @predicted_teams = current_user.predicted_teams_by_match_id
-    @teams = Team.all
   end
   
   def leaderboard

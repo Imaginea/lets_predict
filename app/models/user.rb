@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     predictions.where(:tournament_id => t_id).sum(:points)
   end
 
+  def predictions_count(t_id)
+    self.predictions.where(:tournament_id => t_id).where('predicted_team_id IS NOT NULL').count
+  end
+
   def rank_for(t_id)
     ps = Prediction.where(:tournament_id => t_id).
       group(:user_id).
