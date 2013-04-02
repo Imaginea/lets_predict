@@ -37,8 +37,20 @@ class Tournament < ActiveRecord::Base
     @matches_cnt ||= self.matches.count
   end
 
+  def first_match
+    self.matches.order('date').first
+  end
+
+  def first_non_league_match
+    self.matches.non_leagues.order('date').first
+  end
+
   def started?
-    self.start_date < Date.today
+    self.first_match.date <= Time.now.utc
+  end
+
+  def non_leagues_started?
+    self.first_non_league_match.date <= Time.now.utc
   end
 
   def completed_matches_count
