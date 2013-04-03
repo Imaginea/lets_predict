@@ -198,38 +198,31 @@ padding: 5px 0;
 #predict-pull-left {
   margin: 4px 0 0 0;
 }
-
 #total-points-span {
   display: inline-block;
   margin-right: 2px;
 }
-
 #position-span {
   display: inline-block; 
   margin: 0 2px 0 15px;
 }
-
 #upcoming-right-pull-left {
   margin: 30px 0 0 25px;
 } 
-
 #users-playing-span {
   display: inline-block;
 }
-
 #users_playing_number
 {
   font-weight: bold; 
   text-decoration: underline;
   margin-left: 2px;
 }
-
 #tournament-progress {
   margin-top :10px;
 }
-
-
 #tournament-progress-span {
   display: inline-block; 
   margin-top: 10px;
 } 
+.cant-predict { display:inline-block; padding:5px 0; width:100%; text-align:center; color:gray; }
