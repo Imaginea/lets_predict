@@ -18,7 +18,8 @@
           %th Opponent
           %th Points
       %tbody
-        - tournament.matches.includes(:team, :opponent).each do |m|
+        - matches = @user.id == current_user.id ? tournament.matches : tournament.matches.past
+        - matches.past.includes(:team, :opponent).each do |m|
           - predicted_team_id = @predicted_teams[m.id].try(:first)
           - team, opponent = m.try(:team), m.try(:opponent)
           %tr

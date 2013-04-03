@@ -15,6 +15,7 @@ class Match < ActiveRecord::Base
 
   scope :leagues, where(:match_type => "league")
   scope :non_leagues, where(:match_type => VALID_MATCH_TYPES - ['league']).order('id')
+  scope :past, lambda { where('date < ?', Time.now.utc) }
 
   def success_points
     case self.match_type.to_sym
