@@ -11,11 +11,12 @@
     = csrf_meta_tags
     = yield(:head)
   %body
-    %header.navbar.navbar-inverse
+    %header.navbar
       - if current_user  
-        %nav.navbar-inner
-          .container
-            = render 'layouts/navigation'
+        .container
+        #logo-inner=image_tag('logo_sm.png')
+        %nav#navigation-main
+          = render 'layouts/navigation'
     #main{:role => "main"}
       .container
         .row

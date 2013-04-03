@@ -1,10 +1,9 @@
-%h2.pull-left
-  %a{:href => "/home", :style => "text-decoration:none;"} LET'S PREDICT
-  %span{:style => 'font-size:14px;'} PRAMATI FANTASY LEAGUE
+/ %h2.pull-left
+/   %a{:href => "/home", :style => "text-decoration:none;"} LET'S PREDICT
+/   %span{:style => 'font-size:14px;'} PRAMATI FANTASY LEAGUE
 .pull-right#nav-pull-right
-  %span{:style => 'font-size:18px;'}= current_user.fullname + " | "
-  %a{:href => '#how_it_works', 'data-toggle' => 'modal'} Help
-  %span{:style => 'font-size:18px;'}= "|"
+  %span{:style => 'font-size:18px;color:#D7D7D7;'}= current_user.fullname + " | " 
+  %a{:href => '#how_it_works', 'data-toggle' => 'modal'}= image_tag('help-transparent.png')
   = link_to 'Sign Out', signout_path
 %div{:style => 'clear:both;'}
 

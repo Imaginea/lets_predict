@@ -46,7 +46,6 @@ class Tournament < ActiveRecord::Base
   end
 
   def started?
-    return true
     self.first_match.date <= Time.now.utc
   end
 
