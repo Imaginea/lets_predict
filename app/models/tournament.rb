@@ -55,7 +55,7 @@ class Tournament < ActiveRecord::Base
 
   def completed_matches_count
     match_time = 3.hours
-    self.matches.where('date < ?', Time.now.utc + match_time).count
+    self.matches.where('date < ?', Time.now.utc - match_time).count
   end
 
   def leaderboard_users
