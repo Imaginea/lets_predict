@@ -11,8 +11,8 @@
     = csrf_meta_tags
     = yield(:head)
   %body
-    %header.navbar
-      - if current_user  
+    - if current_user  
+      %header.navbar
         .container
         #logo-inner=image_tag('logo.png')
         %nav#navigation-main
