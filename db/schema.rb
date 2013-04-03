@@ -25,17 +25,17 @@ ActiveRecord::Schema.define(:version => 20130402111155) do
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "matches", ["tournament_id", "date"], :name => "index_matches_on_tournament_id_and_date"
   add_index "matches", ["tournament_id", "match_type"], :name => "index_matches_on_tournament_id_and_match_type"
   add_index "matches", ["tournament_id"], :name => "index_matches_on_tournament_id"
 
   create_table "predictions", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "team_id"
     t.integer  "match_id"
-    t.integer  "tournament_id"
+    t.integer  "user_id"
     t.integer  "predicted_team_id"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
+    t.string   "tournament_id"
     t.integer  "points",            :default => 0
   end
 
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(:version => 20130402111155) do
     t.datetime "updated_at", :null => false
   end
 
-  add_index "tournaments", ["start_date"], :name => "index_tournaments_on_start_date"
+  add_index "tournaments", ["start_date", "end_date"], :name => "index_tournaments_on_start_date_and_end_date"
 
   create_table "users", :force => true do |t|
     t.string   "login"
