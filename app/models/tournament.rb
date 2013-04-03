@@ -76,6 +76,7 @@ class Tournament < ActiveRecord::Base
       joins(:user).
       where('predicted_team_id IS NOT NULL').
       group('fullname,location').
+      order('fullname').
       select('fullname, location, count(predicted_team_id) as matches_predicted').to_a
   end
 
