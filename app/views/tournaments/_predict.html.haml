@@ -18,12 +18,12 @@
                 %td.button-td
                   %span{:id => "team-button-#{index}", " data-team-id" => "#{match.team.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, match, match.team.name)}
                     = match.team.name
-                    %i{:id => "team-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.team.name), :style => 'padding-right:5px;'}
+                    %i{:id => "team-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.team.name)}
                 %td#vs-td vs
                 %td.button-td
                   %span{:id => "opponent-button-#{index}","data-team-id" => "#{match.opponent.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, match, match.opponent.name)}
                     = match.opponent.name
-                    %i{:id => "opponent-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.opponent.name), :style => 'padding-right:5px;'}
+                    %i{:id => "opponent-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.opponent.name)}
                 -foo = "at "
                 -foo << match.venue
                 %td#venue-td= foo
@@ -47,6 +47,6 @@
         - else
           %p.alert.alert-warning Predictions are closed. Use <b>View Results</b> to see your predictions.
 
-      .modal-footer{:style => 'padding-top:5px;padding-bottom:5px;'}
+      .modal-footer#predict-footer
         = submit_tag "Submit", :class => "btn btn-primary"
         %a.btn.confirm-close-button{"data-dismiss"=> "modal", "aria-hidden" => "true"} Close

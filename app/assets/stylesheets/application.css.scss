@@ -24,97 +24,186 @@
   box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 
-.navbar-inverse
-{
+.navbar-inverse {
   margin-top: -60px;
 }
-#tournaments
-{
-  width :100%;
-  text-align :center
+
+#tournaments {
+  width: 100%;
+  text-align: center;
 }
-#matches
-{
-  width :100%;
-  text-align:center;
-  display:none;
+
+#match, #non-league {
+  width: 100%;
 }
-#match, #non-league
-{
-  width:100%;
+
+#predictModal {
+  width: 70%;
+  margin-left: -35%;
+  background-color: #D9D9D9;
 }
-#predictModal
-{
-  width:70%;
-  margin-left:-35%;
-  background-color:#D9D9D9
+
+#statisticsModal {
+  width: 70%;
+  margin-left: -35%;
+  background-color: #EEE;
 }
-#statisticsModal
-{
-  width:70%;
-  margin-left:-35%;
-  background-color: #EEE
+
+#buttons {
+  float: right;
 }
-#buttons
-{
-  float:right
+
+#vs-td {
+  width: 1em;
+  text-align: center;
+  padding: 0 10px;
 }
-#vs-td
-{
-  width:1em;
-  text-align:center;
-  padding-left:10px;
-  padding-right: 10px
+
+#venue-td {
+  padding: 0 10px;
 }
-#venue-td
-{
-  padding-left:10px;
-  padding-right: 10px
+
+.teams-td {
+  padding: 10px 0px;
 }
-.teams-td
-{
-  padding-top : 10px;
-  padding-bottom: 10px;
-  
+
+#users {
+  width: 100%;
+  text-align: center;
+  background-color: #E4E4E4;
 }
-#users
-{
-  width :100%;
-  text-align:center;
-  background-color :#E4E4E4
+
+#non-league { 
+  background-color: transparent;  
 }
-#profile-pic
-{
-  float:left;
-}
-#non-league
-{ 
-  background-color:transparent;  
-}
-#non-league-venue
-{
+
+#non-league-venue {
 padding-right: 197px;
 }
-.button-td
-{
-  width:265px;
+
+.button-td {
+  width: 265px;
 }
-.progress-bar
-{
-  width:150px;
-  float:left;
+
+.button-td i {
+  padding-right: 5px;
+}
+
+.progress-bar {
+  width: 150px;
+  float: left;
   border: 1px dotted #82CAFF;
+  margin: 0 0 0 10px;
 }
-#logo
-{
-  height:250px;
+
+#logo {
+  height: 250px;
+  float: left;
+  padding-top:15px 0 0 55px;
+}
+
+#how_it_works {
+  width: 600px;
+  color: #000;
+}
+
+#nav-pull-right {
+  padding-top: 20px; 
+  font-size: 16px;
+}
+
+.how_it_works {
+  width: 550px;
+}
+
+#predict-footer {
+padding: 5px 0;
+}
+
+#correct #wrong #unknown {
+  margin-left:10px;
+}
+
+#correct {
+  color: green;
+}
+
+#wrong {
+  color: red;
+}
+
+#unknown {
+  color: blue;
+}
+
+#upcoming-left-pull-left {
+  clear: both; 
+  margin-top: 25px; 
+  padding-right: 25px; 
+  border-right: 1px solid #000;
+}
+
+#progress {
+  display:inline-block; 
   float:left;
-  padding-top:15px;
-  padding-left:55px;
 }
-#logo-home
+
+#upcoming-left-div {
+  margin-bottom: 5px;
+}
+
+#upcoming-right-div {
+  margin-bottom: 20px;
+}
+
+.clear-left-div {
+  clear:left;
+}
+
+#name-pull-left {
+  margin: 0 10px;
+}
+
+#upcoming-alert {
+  float: left;
+  margin-left: -14px;
+}
+
+#predict-pull-left {
+  margin: 4px 0 0 5px;
+}
+
+#total-points-span {
+  display: inline-block;
+  margin-right: 2px;
+}
+
+#position-span {
+  display: inline-block; 
+  margin: 0 2px 0 15px;
+}
+
+#upcoming-right-pull-left {
+  margin: 30px 0 0 25px;
+} 
+
+#users-playing-span {
+  display: inline-block;
+}
+
+#users_playing_number
 {
-  height:165px;
-  margin-top:-50px; 
-  float:left;
+  font-weight: bold; 
+  text-decoration: underline;
+  margin-left: 2px;
 }
+
+#tournament-progress {
+  margin-top :10px;
+}
+
+
+#tournament-progress-span {
+  display: inline-block; 
+  margin-top: 10px;
+} 

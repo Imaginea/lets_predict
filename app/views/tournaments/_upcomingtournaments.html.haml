@@ -1,52 +1,49 @@
 #modal-container.hide
 - @new_tournament.each do |t|
   .well
-    %h4.pull-left{:style => 'margin:0px 10px 0 0;'}
+    %h4.pull-left#name-pull-left
       = t.name
     %span.label.label-info
       = "#{t.start_date.label} - #{t.end_date.label}"
-
-    .pull-left{:style => 'clear:both; margin-top:25px; padding-right:25px; border-right:1px solid #000;'}
+    .pull-left#upcoming-left-pull-left
       - unless t.predictions_closed?
         - prediction_percent = ((current_user.predictions_count(t.id) / t.matches_count.to_f) * 100).round.to_s + '%'
-        %span{:style => 'display:inline-block; float:left;'} Prediction Progress:
-        .progress.progress-bar{:style => 'margin-left:10px;margin-bottom:0;'}
+        %span#progress Prediction Progress:
+        .progress.progress-bar
           .bar{:style => "width: #{prediction_percent}; color:black;"}
             = prediction_percent
-        %div{:style => 'clear:left; margin-bottom:5px;'}
-
+        .clear-left-div#upcoming-left-div
         - unless prediction_percent == '100%'
           - m = t.first_unpredicted_match(current_user.id)
           - alert_color = (m.date - Time.now.utc) > 36.hours ? 'green' : 'red'
-          %p.alert.alert-warning{:style => 'float:left;margin-left:-14px;'}
+          %p.alert.alert-warning#upcoming-alert
             Next unpredicted match starts in
             %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
 
-        .pull-left{:style => 'margin:4px 0 0 5px;'}
+        .pull-left#predict-pull-left
           - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
           = link_to link_text, predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-success" 
-        %div{:style => 'clear:left;'}
+        .clear-left-div
 
       - if t.started?
         %p.pull-left
-          %span{:style => 'display:inline-block; margin-right:2px'} Your Total points:
+          %span#total-points-span Your Total points:
           %span.label.label-success= current_user.total_points_for(t.id)
         %p.pull-left
-          %span{:style => 'display:inline-block; margin:0 2px 0 15px;'} Your Position:
+          %span#position-span Your Position:
           %span.label.label-success= current_user.rank_for(t.id)
-        %div{:style => 'clear:left;'}
-
-    .pull-left{:style => 'margin:30px 0 0 25px;'}
-      %span{:style => 'display:inline-block;'} Users Playing:
+        .clear-left-div
+    .pull-left#upcoming-right-pull-left
+      %span#users-playing-span Users Playing:
       = link_to t.total_predictors, users_playing_predictions_path(:tournament_id => t.id), :remote => true, :style => 'font-weight:bold; text-decoration:underline; margin-left:2px;'
-      %div{:style => 'clear:left;'}
+      .clear-left-div
       - tournament_percent = ((t.completed_matches_count/t.matches_count.to_f) * 100).round.to_s + '%'
-      %span.pull-left{:style => 'display:inline-block; margin-top:10px;'} Tournament Progress:
-      .progress.progress-bar{:style => 'margin:10px 0 0 10px;'}
+      %span.pull-left#tournament-progress-span Tournament Progress:
+      .progress.progress-bar#tournament-progress
         .bar{:style => "width: #{tournament_percent}; color:black;"}
           = tournament_percent
-      %div{:style => 'clear:left;margin-bottom:20px;'}
+      .clear-left-div#upcoming-right-div
       - if t.started?
         = link_to "View Results", statistics_matches_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary"
         = link_to "Check Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"
-    %div{:style => 'clear:left;'}
+    .clear-left-div

@@ -12,11 +12,7 @@ LetsPredict::Application.routes.draw do
       get :users_playing
     end
   end
-  resources :tournaments do
-    member do
-      get :find_tournament
-    end
-  end
+  resources :tournaments
   resources :matches do
     collection  do
       get :statistics
