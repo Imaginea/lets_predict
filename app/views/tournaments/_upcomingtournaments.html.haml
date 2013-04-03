@@ -21,11 +21,6 @@
             %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
 
         .pull-left#predict-pull-left
-          %p.alert.alert-warning{:style => 'float:left;margin-left:-14px;margin-right:5px;'}
-            Next unpredicted match starts in
-            %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
-
-        .pull-left{:style => 'margin:4px 0 0 0;'}
           - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
           = link_to link_text, predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-success" 
         .clear-left-div
