@@ -23,7 +23,7 @@
         .pull-left#predict-pull-left
           - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
           = link_to link_text, predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-success" 
-        .clear-left-div{:style => 'margin-bottom:10px;'}
+        .clear-left-div{:style => 'margin-bottom:20px;'}
 
       - if t.started?
         %p.pull-left
