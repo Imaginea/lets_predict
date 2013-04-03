@@ -3,11 +3,11 @@
   .modal-header
     %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
     %h3= tournament.name
-    .legends
+    .legends{:style => 'margin-top:5px;'}
       %b Legends:
-      %span#correct Correct Prediction
-      %span#wrong Wrong Prediction
-      %span#unknown Prediction Result Unknown
+      %span#correct{:style => 'margin-left:10px;'} Correct Prediction
+      %span#wrong{:style => 'margin-left:10px;'} Wrong Prediction
+      %span#unknown{:style => 'margin-left:10px;'} Prediction Result Unknown
   .modal-body
     %table.table.table-bordered.table-striped#match
       %thead
