@@ -7,8 +7,21 @@ Uses LDAP credentials to authenticate users. Sign up is not required!
 == Features
 * Contains match schedules of all upcoming tournaments
 * One-step prediction of winner for a match
-* Predicting the top four teams in a tournament
-* Prediction can be done for any sport (Cricket, Football, Hockey and so on ...)
+* Prediction for a match can be done till the start of that match
+* Prediction for knockouts/deciders should be done  before the start of that round
+* Prediction can be done for any number of matches at a single time.Saved predictions can be editted till the closure date
+* Can be used for any tournament and for any sport
+* Enables the user to see  predictions leaderboard of a tournament and the predictions of other users
 
 == Scoring
-Scoring is based on the actual winner of the match in real time and the stage of the match played (league/semi final/final)
+Scoring is based on the actual winner of the match in real time and the stage of the match played (League/Deciders)
+
+== What next?
+* Triggering emails once in every week, with the updates and the top players in leaderboard
+* Sending notification email whenever a new tournament is available for prediction
+* Show the result of the recently played match, along with the user's point for that match
+* Filtering leaderboard based on the user's location
+* Migrate the matches and predictions for the completed tournament into a separate table
+* Pagination for leaderboard and users playing
+* Auto-creation of CSV files for teams and matches from downloaded schedule of a tournament
+* Auto-import of created csv files into the DB
