@@ -11,7 +11,7 @@
             - tournament.matches.leagues.includes(:team, :opponent).each_with_index do |match, index|
               - if match.can_predict?
                 = hidden_field_tag "predictions[#{index}][match_id]", match.id
-                = hidden_field_tag "predictions[#{index}][tournament_id]", match.tournament.id
+                = hidden_field_tag "predictions[#{index}][tournament_id]", match.tournament_id
                 = hidden_field_tag "predictions[#{index}][predicted_team_id]", @predicted_teams[match.id].try(:first)
               %tr
                 %td= match.date.label
@@ -32,9 +32,9 @@
         - unless tournament.non_leagues_started?
           %table#non-league
             %tbody
-            - tournament.matches.non_leagues.includes(:team, :opponent).each_with_index do |match, index|
+            - tournament.matches.non_leagues.each_with_index do |match, index|
               = hidden_field_tag "non_league_predictions[#{index}][match_id]", match.id
-              = hidden_field_tag "non_league_predictions[#{index}][tournament_id]", match.tournament.id
+              = hidden_field_tag "non_league_predictions[#{index}][tournament_id]", match.tournament_id
 
               %tr
                 %td= match.date.label
