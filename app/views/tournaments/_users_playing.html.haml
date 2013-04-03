@@ -1,5 +1,5 @@
 .modal-backdrop.in
-#usersModal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"true"}
+#usersModal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"true", :style => 'width:675px;'}
   .modal-header
     %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
     %h3= tournament.name
@@ -8,7 +8,7 @@
       %thead
         %tr
           %th Name
-          %th Matches Predicted
+          %th Predictions
           %th Location
       %tbody
         - tournament.predictors.each do |u|
