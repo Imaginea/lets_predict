@@ -8,9 +8,11 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  *= require_tree .
+ *= require_self
  */
+
+body { padding-top:50px; }
 
 .content {
   background-color: #eee;
@@ -30,14 +32,13 @@
 }
 
 .navbar {
-  height: 165px;
-  margin-top: -3%;
+  margin-bottom: 60px;
 }
 
 #navigation-main {
-  margin-top:  3%;
+  margin-top: 0px;
   background-color: #003366;  
-  height: 46px;
+  height: 50px;
 }
 
 #navbar {
@@ -119,8 +120,8 @@ padding-right: 197px;
 
 #logo-inner {
   position: absolute;
-  top: 2px;
-
+  top: 23px;
+  img { height:130px; width:198px; margin-top:-12px; margin-left:25px; }
 }
 #how_it_works {
   width: 600px;
@@ -129,8 +130,11 @@ padding-right: 197px;
 
 #nav-pull-right {
   padding-top: 15px; 
-  font-size: 16px;
-  padding-right: 1%; 
+  font-size: 15px;
+  font-weight:bold;
+  padding-right: 30px;
+  .help { margin-left: 10px; color: #D7D7D7; }
+  .signout { @extend .help }
 }
 
 .how_it_works {
