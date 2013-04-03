@@ -14,7 +14,7 @@
     - if current_user  
       %header.navbar
         .container
-        #logo-inner=image_tag('logo.png')
+        #logo-inner=link_to image_tag('logo.png'), home_path
         %nav#navigation-main
           = render 'layouts/navigation'
     #main{:role => "main"}

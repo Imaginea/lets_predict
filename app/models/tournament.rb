@@ -63,7 +63,7 @@ class Tournament < ActiveRecord::Base
       joins(:user).
       where('predicted_team_id IS NOT NULL').
       group('users.id, fullname, location').
-      order('sum(points) DESC').
+      order('sum(points) DESC,fullname').
       select('users.id, fullname, location, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
   end
 

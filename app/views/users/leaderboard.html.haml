@@ -1,5 +1,9 @@
-#modal-container.hide
-%h3= @current_tournament.name
+%h3.pull-left
+  = @current_tournament.name
+  Leaderboard
+= link_to 'Back to Home', home_path, :class => 'pull-right', :style => 'margin-top:20px;'
+%div{:style => 'clear:both;'}
+
 %table.table.table-striped#users
   %thead
     %tr
