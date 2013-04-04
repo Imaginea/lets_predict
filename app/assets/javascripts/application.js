@@ -33,6 +33,7 @@ $(document).ready(function(){
 
 
 function changeButton(input) {
+    if(input.hasClass('cant-predict')) return false;
 
     var current_index = input.attr("data-index");
     var selected_team_id = input.attr("data-team-id");
