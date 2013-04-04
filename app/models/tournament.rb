@@ -68,7 +68,7 @@ class Tournament < ActiveRecord::Base
   end
 
   def total_predictors
-   self.predictions.count("distinct(user_id)")
+   self.predictions.where('predicted_team_id IS NOT NULL').count("distinct(user_id)")
   end
 
   def predictors

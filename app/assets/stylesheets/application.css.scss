@@ -191,8 +191,7 @@ padding: 5px 0;
 
 #upcoming-alert {
   float: left;
-  margin-left: -14px;
-  margin-right: 5px;
+  margin: 0 5px 0 -14px;
 }
 
 #predict-pull-left {
@@ -219,10 +218,12 @@ padding: 5px 0;
   margin-left: 2px;
 }
 #tournament-progress {
-  margin-top :10px;
+  margin-top: 10px;
 }
 #tournament-progress-span {
   display: inline-block; 
   margin-top: 10px;
 } 
 .cant-predict { display:inline-block; padding:5px 0; width:100%; text-align:center; color:gray; }
+td.center, th.center, div.center, p.center, span.center, ul.center  { text-align: center; }
+td.middle, th.middle, img.middle, div.middle { vertical-align: middle; }

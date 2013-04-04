@@ -12,6 +12,7 @@
     %table.table.table-bordered.table-striped#match
       %thead
         %tr
+          %th Match #
           %th Date
           %th Venue
           %th Team
@@ -19,10 +20,11 @@
           %th Points
       %tbody
         - matches = @user.id == current_user.id ? tournament.matches : tournament.matches.past
-        - matches.past.includes(:team, :opponent).each do |m|
+        - matches.includes(:team, :opponent).each_with_index do |m, i|
           - predicted_team_id = @predicted_teams[m.id].try(:first)
           - team, opponent = m.try(:team), m.try(:opponent)
           %tr
+            %td= i + 1
             %td= m.date.label
             %td= m.venue
             %td{:style => "color:#{prediction_status_color(predicted_team_id, team, m.winner_id)}"}
