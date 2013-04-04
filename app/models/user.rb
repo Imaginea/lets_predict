@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
     end
   end
   
+  def location_default?
+    self.location == "default"
+  end
+
   def predicted_teams_by_match_id
     ps = self.predictions.where('predicted_team_id is NOT NULL').to_a
     team_ids = ps.collect(&:predicted_team_id)
@@ -59,7 +63,7 @@ class User < ActiveRecord::Base
     end
     rank
   end
-
+  
   def predicted_teams_sorted(t_id)
     self.predictions.joins(:predicted_team).
       where(:tournament_id => t_id).where('predicted_team_id IS NOT NULL').

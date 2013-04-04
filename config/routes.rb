@@ -1,9 +1,10 @@
 LetsPredict::Application.routes.draw do
   
   resources :sessions 
-  resources :users, :only => [:show] do
+  resources :users, :only => [:show,:update] do
     collection do
       get :leaderboard
+      get :location_change
     end
   end
   resources :predictions do 
