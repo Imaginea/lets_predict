@@ -12,11 +12,9 @@
     = yield(:head)
   %body
     - if current_user  
-      %header.navbar
-        .container
-        #logo-inner=link_to image_tag('logo.png'), home_path
-        %nav#navigation-main
-          = render 'layouts/navigation'
+      .container
+      %nav#navigation-main
+        = render 'layouts/navigation'
     #main{:role => "main"}
       .container
         .row

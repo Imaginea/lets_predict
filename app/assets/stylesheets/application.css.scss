@@ -27,7 +27,7 @@ body { padding-top:50px; }
 }
 
 #current-tournaments-div {
-  margin-left: 15%;
+  margin-left: 210px;
   float:left;
 }
 
@@ -36,9 +36,10 @@ body { padding-top:50px; }
 }
 
 #navigation-main {
-  margin-top: 0px;
-  background-color: #003366;  
-  height: 50px;
+  margin: 0px 50px;
+  border-radius: 8px;
+  background-color: rgb(2,45,79);  
+  height: 55px;
 }
 
 #navbar {
@@ -120,21 +121,30 @@ padding-right: 197px;
 
 #logo-inner {
   position: absolute;
-  top: 23px;
-  img { height:130px; width:198px; margin-top:-4px; margin-left:25px; }
+  top: 31px;
+  img { margin-top:-16px; margin-left:25px; }
 }
 #how_it_works {
   width: 600px;
   color: #000;
 }
-
+#main {
+  margin-top:60px;
+}
 #nav-pull-right {
   padding-top: 15px; 
   font-size: 15px;
-  font-weight:bold;
   padding-right: 30px;
   .help { margin-left: 10px; color: #D7D7D7; }
   .signout { @extend .help }
+}
+
+#help-image:hover {
+   background: url(help-hover.png);
+}
+
+#signout-image:hover {
+   background: url(signout-hover.png);
 }
 
 .how_it_works {
@@ -178,7 +188,7 @@ padding: 5px 0;
 }
 
 #upcoming-right-div {
-  margin-bottom: 20px;
+  height: 20px;
 }
 
 .clear-left-div {
@@ -226,4 +236,4 @@ padding: 5px 0;
 } 
 .cant-predict { display:inline-block; padding:5px 0; width:100%; text-align:center; color:gray; }
 td.center, th.center, div.center, p.center, span.center, ul.center  { text-align: center; }
-td.middle, th.middle, img.middle, div.middle { vertical-align: middle; }
+td.middle, th.middle, img.middle, div.middle span.middle { vertical-align: middle; }
