@@ -14,15 +14,23 @@ class User < ActiveRecord::Base
   
   after_create :get_ldap_params
 
+  INVALID_LOCATIONS = ['', 'default', 'Begumpet']
+
   def self.authenticate(params)
     if ldap_authenticate(params[:login], params[:password])
       attrs = { :login => params[:login] }
       user = User.find_or_create_by_login(attrs)
     end
   end
+
+  def self.valid_locations
+    all_locs = self.select('distinct(location)').collect { |u| u.location.to_s } 
+    all_locs - INVALID_LOCATIONS
+  end
   
-  def location_default?
-    self.location == "default"
+  def location_invalid?
+    loc = self.location.to_s.strip
+    INVALID_LOCATIONS.include?(loc)
   end
 
   def predicted_teams_by_match_id

@@ -1,9 +1,10 @@
 .modal-backdrop.in
 #location_modal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"false"}
-  %button.confirm-close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+  .modal-header
+    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %h3 Select your work location
   .modal-body
-    %h4= "Select " +  "Location:"
-    = form_tag(user_path(current_user), :method => :put) do
-      =select_tag :location, options_from_collection_for_select(@locations, "location", "location")
-      = submit_tag "Update", :class => "btn btn-primary"
+    = form_tag(user_path(current_user), :method => :put, :class => 'form-inline') do
+      = select_tag :location, options_for_select(@locations)
+      = submit_tag "Update", :class => "btn btn-primary", :style => 'margin-left:10px;'
   .modal-footer

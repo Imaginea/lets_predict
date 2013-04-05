@@ -1,6 +1,8 @@
 .span9#current-tournaments-div
-  -if current_user.location_default?
-    =link_to "We are unable to find your exact location.Please update your location by clicking here", location_change_users_path, :remote => true, :class => "alert.alert-danger"
+  -if current_user.location_invalid?
+    %p.alert.alert-danger.strong
+      Hey! We couldn't find your exact work location from LDAP. So please
+      = link_to 'Update it now', location_change_users_path, :remote => true
   %h3 Current Tournaments
   = render :partial => "tournaments/upcomingtournaments"
 
