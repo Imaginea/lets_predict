@@ -15,7 +15,7 @@
       .container
       %nav#navigation-main
         = render 'layouts/navigation'
-    #main{:role => "main"}
+    #main{:role => "main", :class => params[:controller].to_s}
       .container
         .row
           .span12
