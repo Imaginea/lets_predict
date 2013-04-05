@@ -41,6 +41,19 @@ class Tournament < ActiveRecord::Base
     self.matches.order('date').first
   end
 
+  def recently_completed_match
+    self.matches.includes(:team, :opponent).where('date < ?', Time.now.utc).last
+  end
+
+  def recently_completed_match_winner
+    self.recently_completed_match.winner.name
+  end 
+
+  def abbreviated_team_names
+    match = self.recently_completed_match
+    [match.team, match.opponent].map { |t| t.name.split(" ").map {|name| name[0]}.join }
+  end
+
   def first_non_league_match
     self.matches.non_leagues.order('date').first
   end
