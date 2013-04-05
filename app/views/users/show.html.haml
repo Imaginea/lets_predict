@@ -1,3 +1,7 @@
 .span9#current-tournaments-div
+  -if current_user.location_default?
+    =link_to "We are unable to find your exact location.Please update your location by clicking here", location_change_users_path, :remote => true, :class => "alert.alert-danger"
   %h3 Current Tournaments
   = render :partial => "tournaments/upcomingtournaments"
+
+

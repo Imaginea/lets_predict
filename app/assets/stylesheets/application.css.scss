@@ -26,6 +26,9 @@ body { padding-top:50px; }
   box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 
+.msgspan {
+  margin-left:239px;
+}
 #current-tournaments-div {
   margin-left: 210px;
   float:left;
@@ -136,7 +139,7 @@ padding-right: 197px;
   padding-top: 15px; 
   font-size: 15px;
   padding-right: 30px;
-  .help { margin-left: 10px; color: #D7D7D7; }
+  .help { margin-left: 10px; text-decoration:none; }
   .signout { @extend .help }
 }
 

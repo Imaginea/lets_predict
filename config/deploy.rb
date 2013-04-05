@@ -7,7 +7,7 @@ set :rvm_type, :system
 require "bundler/capistrano"
 set :bundle_without, [:development, :test]
 
-ssh_options[:keys] = %w(/home/sathish/.ssh/id_rsa)
+ssh_options[:keys] = %w(/home/suprajas/.ssh/id_rsa)
 set :ssh_options, { :forward_agent => true }
 default_run_options[:pty] = true
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
