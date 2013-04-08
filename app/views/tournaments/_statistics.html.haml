@@ -20,7 +20,7 @@
           %th Points
       %tbody
         - matches = @user.id == current_user.id ? tournament.matches : tournament.matches.past
-        - matches.includes(:team, :opponent).each_with_index do |m, i|
+        - matches.includes(:team, :opponent).order("date").each_with_index do |m, i|
           - predicted_team_id = @predicted_teams[m.id].try(:first)
           - team, opponent = m.try(:team), m.try(:opponent)
           %tr
