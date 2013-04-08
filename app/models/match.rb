@@ -32,6 +32,10 @@ class Match < ActiveRecord::Base
     self.date > Time.now.utc
   end
 
+  def abbrev_team_names
+    [self.team.abbrev, self.opponent.abbrev]
+  end
+
   private 
 
   def league_match? 

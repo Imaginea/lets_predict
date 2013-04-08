@@ -4,7 +4,7 @@
     %h4.pull-left#name-pull-left
       = t.name
     .pull-right 
-      -if (current_user.login == "suprajas")
+      -if current_user.admin?
         = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)
     %span.label.label-info
       = "#{t.start_date.label} - #{t.end_date.label}"
@@ -29,10 +29,6 @@
 
         .clear-left-div{:style => 'height:20px;'}
 
-        %b Last Match Status: 
-        %p= t.recently_completed_match_winner + " has won the match between " +t.abbreviated_team_names.first + " and " + t.abbreviated_team_names.last
-        %p= "You have Predicted" + ""
-
       - if t.started?
         %p.pull-left
           %span#total-points-span Your Total points:
@@ -41,6 +37,15 @@
           %span#position-span Your Position:
           %span.label.label-success= current_user.rank_for(t.id)
         .clear-left-div
+        - if m = t.last_updated_match
+          - abbrevs = m.abbrev_team_names
+          - p = current_user.prediction_for(m)
+          %b Last Updated Match
+          %p.alert.alert-info{:style => 'margin-left:-14px;'}
+            = m.date.label + ' - ' + abbrevs.first + " vs " + abbrevs.last + " - " + "You got"
+            %strong
+              == #{p.points} points
+
     .pull-left#upcoming-right-pull-left
       %span#users-playing-span Users Playing:
       = link_to t.total_predictors, users_playing_predictions_path(:tournament_id => t.id), :remote => true, :style => 'font-weight:bold; text-decoration:underline; margin-left:2px;'
@@ -52,6 +57,7 @@
           = tournament_percent
       .clear-left-div#upcoming-right-div
       - if t.started?
-        = link_to "View Results", statistics_matches_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary"
-        = link_to "Check Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"
+        = link_to "View Your Prediction Results", statistics_matches_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary"
+        .clear-left-div{:style => 'height:8px;'}
+        = link_to "Check Tournament Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"
     .clear-left-div

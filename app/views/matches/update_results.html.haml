@@ -1,25 +1,25 @@
 %h4 Update Match Results
-.pull-right= link_to "Home", home_path
-%table.table-striped.table-condensed#updateresults
+%table.table.table-striped.table-condensed#updateresults
   %thead
     %tr
-      %th Match Number
+      %th Date
       %th Team
       %th Opponent
       %th Winner
-      %th
+      %th Actions
   %tbody
-    %legend Leagues
-    - @tournament.matches.leagues.order("date").includes(:team,:opponent).each_with_index do |m, i|
-      = hidden_field_tag "match_id", m.id
-      = hidden_field_tag "tournament_id", m.tournament_id
-      %tr
-        %td.center= i + 1
-        %td.center= m.team.name
-        %td.center= m.opponent.name
-        %td.center
-          = form_tag(match_path(m), :method => :put) do
+    - @matches.each do |m|
+      = form_tag(match_path(m), :method => :put) do
+        = hidden_field_tag "match_id", m.id
+        = hidden_field_tag "tournament_id", m.tournament_id
+        %tr
+          %td= m.date.label
+          %td= m.team.name
+          %td= m.opponent.name
+          %td
             = select_tag :winner_id, options_for_select([[m.team.name, m.team.id],[m.opponent.name, m.opponent.id]])
-            = submit_tag "Update", :class => "btn btn-primary", :style => 'margin-left:10px;'
+          %td
+            = submit_tag "Update", :class => "btn btn-primary"
 
 = link_to "Home", home_path
+%br

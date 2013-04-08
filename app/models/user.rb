@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   after_create :get_ldap_params
 
   INVALID_LOCATIONS = ['', 'default', 'Begumpet']
+  ADMINS = ['suprajas', 'sathishn']
 
   def self.authenticate(params)
     if ldap_authenticate(params[:login], params[:password])
@@ -47,7 +48,11 @@ class User < ActiveRecord::Base
   def has_predicted?(match_id)   
     match = self.predictions.find_by_match_id(match_id)
     !match.predicted_team_id.nil?
-  end 
+  end
+
+  def prediction_for(match)
+    self.predictions.where(:match_id => match.id).first
+  end
 
   def total_points_for(t_id)
     predictions.where(:tournament_id => t_id).sum(:points)
@@ -77,6 +82,10 @@ class User < ActiveRecord::Base
       where(:tournament_id => t_id).where('predicted_team_id IS NOT NULL').
       group('teams.id,teams.name').order('count(predictions.id) DESC').
       select('teams.id,teams.name,count(predictions.id) as count')
+  end
+
+  def admin?
+    ADMINS.include? self.login
   end
 
   private

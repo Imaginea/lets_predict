@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
     access_denied if @current_tournament.predictions_closed?
   end
 
+  def restrict_to_admins
+    access_denied unless current_user.admin?
+  end
+
   def access_denied
     redirect_to home_path, :alert => 'Sorry! Access denied.'
   end

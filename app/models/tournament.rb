@@ -45,14 +45,11 @@ class Tournament < ActiveRecord::Base
     self.matches.includes(:team, :opponent).where('date < ?', Time.now.utc).last
   end
 
-  def recently_completed_match_winner
-    self.recently_completed_match.winner.name
+  def last_updated_match
+    self.matches.includes(:team, :opponent).
+      where('date < ? AND winner_id is NOT NULL', Time.now.utc).
+      order('date DESC').first
   end 
-
-  def abbreviated_team_names
-    match = self.recently_completed_match
-    [match.team, match.opponent].map { |t| t.name.split(" ").map {|name| name[0]}.join }
-  end
 
   def first_non_league_match
     self.matches.non_leagues.order('date').first
@@ -69,6 +66,10 @@ class Tournament < ActiveRecord::Base
   def completed_matches_count
     match_time = 3.hours
     self.matches.where('date < ?', Time.now.utc - match_time).count
+  end
+
+  def matches_to_update
+    self.matches.past.where('winner_id IS NULL').order("date").includes(:team,:opponent)
   end
 
   def leaderboard_users

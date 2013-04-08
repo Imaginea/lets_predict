@@ -3,4 +3,7 @@ class Team < ActiveRecord::Base
 
   has_many :matches
 
+  def abbrev
+    self.name.split(' ').collect { |word| word.first }.join
+  end
 end
