@@ -3,6 +3,9 @@
   .well
     %h4.pull-left#name-pull-left
       = t.name
+    .pull-right 
+      -if (current_user.login == "suprajas")
+        = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)
     %span.label.label-info
       = "#{t.start_date.label} - #{t.end_date.label}"
     .pull-left#upcoming-left-pull-left
@@ -27,7 +30,7 @@
         .clear-left-div{:style => 'height:20px;'}
 
         %b Last Match Status: 
-        %p= t.recently_completed_match_winner + " as won the match between " +t.abbreviated_team_names.first + " and " + t.abbreviated_team_names.last
+        %p= t.recently_completed_match_winner + " has won the match between " +t.abbreviated_team_names.first + " and " + t.abbreviated_team_names.last
         %p= "You have Predicted" + ""
 
       - if t.started?
