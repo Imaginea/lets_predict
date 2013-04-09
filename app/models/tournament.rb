@@ -20,6 +20,11 @@ class Tournament < ActiveRecord::Base
        self.start_date > Date.today
   end
 
+  def self.upcoming_tournaments
+    today = Date.today
+    where("start_date < (?) AND start_date > (?)", today+30, today)
+  end
+
   def self.current_tournaments
     today = Date.today
     where("start_date < (?) AND end_date > (?)", today+30, today+2).to_a
