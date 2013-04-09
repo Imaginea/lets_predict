@@ -44,7 +44,7 @@
           %p.alert.alert-info{:style => 'margin-left:-14px;'}
             = m.date.label + ' - ' + abbrevs.first + " vs " + abbrevs.last + " - " + "You got"
             %strong
-              == #{p.points} points
+              == #{p.try(:points) || '0'} points
 
     .pull-left#upcoming-right-pull-left
       %span#users-playing-span Users Playing:
