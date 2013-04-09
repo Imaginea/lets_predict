@@ -8,15 +8,12 @@
 %table.table.table-striped#users
   %thead
     %tr
-      %th.middle{:rowspan => 2} S.No
-      %th.middle{:rowspan => 2} Name
-      %th.middle{:rowspan => 2} Location
-      %th.center{:colspan => 2} Matches Count
-      %th.middle.center{:rowspan => 2} Total Points
-      %th.middle.center{:rowspan => 2} Position
-    %tr
-      %th.center Predicted
-      %th.center Completed
+      %th S.No
+      %th Name
+      %th Location
+      %th.center Predicted Matches
+      %th.center Total Points
+      %th.center Position
 
   %tbody
     - position, last_points = 0, -1
@@ -29,7 +26,6 @@
           = link_to u.fullname, statistics_matches_path(:tournament_id => @current_tournament.id, :user_id => u.id), :remote => true, :title => 'View My Results'
         %td= u.location
         %td.center= u.matches_predicted
-        %td.center= @current_tournament.completed_matches_count
         %td.center= u.total_points.to_i
         %td.center= position
         - last_points = u.total_points.to_i
