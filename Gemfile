@@ -41,7 +41,7 @@ group :development do
   gem 'capistrano'
   gem 'rvm-capistrano'
 end
-#gem 'airbrake'
+gem 'airbrake'
 
 # To use debugger
 # gem 'debugger'

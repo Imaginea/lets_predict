@@ -1,0 +1,5 @@
+-@tournaments.each do |t|
+
+  %h4= "Predictions for " + t.name + " are open."
+  %p= "Tournament starts on " + t.start_date.label.to_s + " and ends on " + t.end_date.label.to_s
+%p= "Why wait?? Go ahead,log on to " + @url + ". Predict and have fun!! Good luck."

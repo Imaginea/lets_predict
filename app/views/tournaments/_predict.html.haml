@@ -7,7 +7,7 @@
       .modal-body
         %legend League Matches      
         %table.table-striped#match
-          %tbody
+          %tbody{:style => "display:block;"}
             - tournament.matches.leagues.order("date").includes(:team, :opponent).each_with_index do |match, index|
               - if match.can_predict?
                 = hidden_field_tag "predictions[#{index}][match_id]", match.id
