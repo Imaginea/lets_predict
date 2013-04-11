@@ -5,9 +5,10 @@ class MatchesController < ApplicationController
   def update
     match = Match.find(params[:id])
     match.update_attribute(:winner_id, params[:winner_id])
-    p_ids = Prediction.where(:match_id  => match.id, :predicted_team_id => match.winner_id).to_a.collect{|x| x.id} 
-    Prediction.where(:id => p_ids).update_all(:points => match.success_points)
-    redirect_to :back, :notice => "Updated #{p_ids.count} correct predictions with #{match.success_points} points"
+
+    pred_scope = Prediction.where(:match_id  => match.id, :predicted_team_id => match.winner_id)
+    res = pred_scope.update_all(:points => match.success_points)
+    redirect_to :back, :notice => "Updated #{res} correct predictions with #{match.success_points} points"
   end
 
   def update_results
