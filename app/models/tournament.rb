@@ -79,11 +79,6 @@ class Tournament < ActiveRecord::Base
     self.matches.past.where('winner_id IS NULL').order("date").includes(:team,:opponent)
   end
 
-  def send_update
-    tournaments = self.active_tournaments.to_a
-    UserMailer.tournament_update_email(tournaments).deliver
-  end
-  
   def leaderboard_users
     @leaderboard_users ||= self.predictions.
       joins(:user).
@@ -93,8 +88,21 @@ class Tournament < ActiveRecord::Base
       select('users.id, fullname, location, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
   end
 
+  def toppers
+    max = self.predictions.group('user_id').
+      order('sum(points) DESC').select('sum(points) as max_points').limit(1)
+    max = max.first.max_points
+
+    self.predictions.joins(:user).
+      where('predicted_team_id IS NOT NULL').
+      group('users.id, fullname, location').
+      having("sum(points) = #{max}").
+      order('sum(points) DESC,fullname').
+      select('fullname, location, sum(points) as total_points')
+  end
+
   def total_predictors
-   self.predictions.where('predicted_team_id IS NOT NULL').count("distinct(user_id)")
+    self.predictions.where('predicted_team_id IS NOT NULL').count("distinct(user_id)")
   end
 
   def predictors

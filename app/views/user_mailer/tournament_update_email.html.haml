@@ -1,5 +1,5 @@
+Wanna know who holds the top position?
 -@tournaments.each do |t|
-
-  %h4= t.name
-  %p=  "Users Playing " + t.total_predictors.to_s
-  %p=  "Congratulations to the current topper " + t.leaderboard_users.first.fullname
+  %h4= t.name + ":"
+  %p= t.toppers.collect {|x| x.fullname}.join(",")
+%p Congratulations toppers!
