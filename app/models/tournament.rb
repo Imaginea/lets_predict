@@ -10,6 +10,8 @@ class Tournament < ActiveRecord::Base
   validate :start_date_before_end_date
   validates :name, :uniqueness => true
 
+  scope :in_range, lambda { |start, end| where('start_date < ? AND end_date > ?', start, end) }
+
   def start_date_before_end_date
     errors.add(:start_date, "must be before end date") unless
        self.start_date < self.end_date
@@ -20,18 +22,14 @@ class Tournament < ActiveRecord::Base
        self.start_date > Date.today
   end
 
-  # def self.upcoming_tournaments
-  #   today = Date.today
-  #   where("start_date < (?) AND start_date > (?)", today+30, today)
-  # end
-
   def self.current_tournaments
     today = Date.today
-    where("start_date < (?) AND end_date > (?)", today+30, today-2)
+    self.in_range(today+5, today-2)
   end
 
   def self.active_tournaments
-    where("start_date < (?) AND end_date > (?)", Time.now, Time.now).to_a
+    today = Date.today
+    self.in_range(today, today)
   end
 
   def last_league_match
@@ -82,7 +80,7 @@ class Tournament < ActiveRecord::Base
   end
 
   def send_update
-    tournaments = self.active_tournaments
+    tournaments = self.active_tournaments.to_a
     UserMailer.tournament_update_email(tournaments).deliver
   end
   

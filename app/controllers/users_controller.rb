@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_filter :restrict_to_open_tournaments, :only => [:leaderboard]
 
   def show
-    @new_tournament = Tournament.current_tournaments
+    @new_tournament = Tournament.current_tournaments.to_a
   end
   
   def leaderboard   
