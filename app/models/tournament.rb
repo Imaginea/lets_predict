@@ -10,7 +10,7 @@ class Tournament < ActiveRecord::Base
   validate :start_date_before_end_date
   validates :name, :uniqueness => true
 
-  scope :in_range, lambda { |start, end| where('start_date < ? AND end_date > ?', start, end) }
+  scope :in_range, lambda { |from, to|  where('start_date < ? AND end_date > ?', from, to) }
 
   def start_date_before_end_date
     errors.add(:start_date, "must be before end date") unless
