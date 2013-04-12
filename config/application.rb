@@ -8,6 +8,7 @@ if defined?(Bundler)
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
+SECURE_TREE = YAML.load_file '/var/local/config/predict.yml'
 
 module LetsPredict
   class Application < Rails::Application
@@ -66,7 +67,7 @@ module LetsPredict
         :domain               => 'pramati.com',
         :authentication       => 'plain',
         :user_name            => 'supraja.s@imaginea.com',
-        :password             => 'suprajas1991', #Have to create SECURE_TREE 
+        :password             => SECURE_TREE['mail_pwd'],
         :openssl_verify_mode  => 'none',
         :enable_starttls_auto => true  
     }

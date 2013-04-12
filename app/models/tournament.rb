@@ -1,5 +1,5 @@
 class Tournament < ActiveRecord::Base
-  attr_accessible :end_date, :name, :sport, :start_date
+  attr_accessible :end_date, :name, :sport, :start_date, :notified
 
   has_many :matches, :dependent => :destroy
   has_many :predictions
@@ -20,14 +20,18 @@ class Tournament < ActiveRecord::Base
        self.start_date > Date.today
   end
 
-  def self.upcoming_tournaments
-    today = Date.today
-    where("start_date < (?) AND start_date > (?)", today+30, today)
-  end
+  # def self.upcoming_tournaments
+  #   today = Date.today
+  #   where("start_date < (?) AND start_date > (?)", today+30, today)
+  # end
 
   def self.current_tournaments
     today = Date.today
-    where("start_date < (?) AND end_date > (?)", today+30, today+2).to_a
+    where("start_date < (?) AND end_date > (?)", today+30, today-2)
+  end
+
+  def self.active_tournaments
+    where("start_date < (?) AND end_date > (?)", Time.now, Time.now).to_a
   end
 
   def last_league_match
@@ -77,6 +81,11 @@ class Tournament < ActiveRecord::Base
     self.matches.past.where('winner_id IS NULL').order("date").includes(:team,:opponent)
   end
 
+  def send_update
+    tournaments = self.active_tournaments
+    UserMailer.tournament_update_email(tournaments).deliver
+  end
+  
   def leaderboard_users
     @leaderboard_users ||= self.predictions.
       joins(:user).

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402111155) do
+ActiveRecord::Schema.define(:version => 20130410041450) do
 
   create_table "matches", :force => true do |t|
     t.integer  "tournament_id"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20130402111155) do
     t.date     "end_date"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.boolean  "notified"
   end
 
   add_index "tournaments", ["start_date", "end_date"], :name => "index_tournaments_on_start_date_and_end_date"
