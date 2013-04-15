@@ -3,4 +3,4 @@ Wanna know who holds the top position?
   %h4= t.name + ":"
   %p= t.toppers.collect {|x| x.fullname}.join(",")
 %p Congratulations toppers!
-%p= "To know more, log on to " + @url
+%p= "To know more, log on to " + root_url
