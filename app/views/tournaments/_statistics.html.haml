@@ -14,15 +14,15 @@
         .accordion-heading
           %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#completedMatches"}Completed Matches
         #completedMatches.accordion-body.collapse
-          = render :partial => "tournaments/statistics_old", :locals => {:t =>tournament, :c => count}
+          = render :partial => "tournaments/statistics_old", :locals => {:t =>tournament}
       - if @user.id == current_user.id            
         .accordion-group
           .accordion-heading
             %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#recentMatches"}Recent Matches
           #recentMatches.accordion-body.collapse.in
-            = render :partial => "tournaments/statistics_recent", :locals => {:t =>tournament, :c => count}
+            = render :partial => "tournaments/statistics_recent", :locals => {:t =>tournament}
         .accordion-group
           .accordion-heading
             %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#futureMatches"}Upcoming Matches
           #futureMatches.accordion-body.collapse
-            = render :partial => "tournaments/statistics_upcoming", :locals => {:t =>tournament, :c => count}
+            = render :partial => "tournaments/statistics_upcoming", :locals => {:t =>tournament}
