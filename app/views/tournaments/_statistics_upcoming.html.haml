@@ -1,0 +1,23 @@
+.accordion-inner
+  %table.table#match
+    %thead
+      %tr
+        %th Date
+        %th Venue
+        %th Team
+        %th Opponent
+        %th Points
+    %tbody
+      / - matches = @user.id == current_user.id ? tournament.matches : tournament.matches.past
+      - matches = t.remaining_matches
+      - matches.includes(:team, :opponent).order("date").each_with_index do |m, i|
+        - predicted_team_id = @predicted_teams[m.id].try(:first)
+        - team, opponent = m.try(:team), m.try(:opponent)
+        %tr
+          %td= m.date.label
+          %td= m.venue
+          %td{:style => "color:#{prediction_status_color(predicted_team_id, team, m.winner_id)}"}
+            = team.try(:name)
+          %td{:style => "color:#{prediction_status_color(predicted_team_id, opponent, m.winner_id)}"}
+            = opponent.try(:name)
+          %td= predicted_team_id ? (m.winner_id ? @predicted_teams[m.id].try(:third) : '-') : 'N/A'

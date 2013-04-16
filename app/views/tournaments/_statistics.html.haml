@@ -9,27 +9,20 @@
       %span#wrong{:style => 'margin-left:10px;'} Wrong Prediction
       %span#unknown{:style => 'margin-left:10px;'} Prediction Result Unknown
   .modal-body
-    %table.table.table-bordered.table-striped#match
-      %thead
-        %tr
-          %th Match #
-          %th Date
-          %th Venue
-          %th Team
-          %th Opponent
-          %th Points
-      %tbody
-        - matches = @user.id == current_user.id ? tournament.matches : tournament.matches.past
-        - matches.includes(:team, :opponent).order("date").each_with_index do |m, i|
-          - predicted_team_id = @predicted_teams[m.id].try(:first)
-          - team, opponent = m.try(:team), m.try(:opponent)
-          %tr
-            %td= i + 1
-            %td= m.date.label
-            %td= m.venue
-            %td{:style => "color:#{prediction_status_color(predicted_team_id, team, m.winner_id)}"}
-              = team.try(:name)
-            %td{:style => "color:#{prediction_status_color(predicted_team_id, opponent, m.winner_id)}"}
-              = opponent.try(:name)
-            %td= predicted_team_id ? (m.winner_id ? @predicted_teams[m.id].try(:third) : '-') : 'N/A'
-  .modal-footer
+    #statistics-accordion.accordion
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#completedMatches"}Completed Matches
+        #completedMatches.accordion-body.collapse
+          = render :partial => "tournaments/statistics_old", :locals => {:t =>tournament, :c => count}
+      - if @user.id == current_user.id            
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#recentMatches"}Recent Matches
+          #recentMatches.accordion-body.collapse.in
+            = render :partial => "tournaments/statistics_recent", :locals => {:t =>tournament, :c => count}
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#futureMatches"}Upcoming Matches
+          #futureMatches.accordion-body.collapse
+            = render :partial => "tournaments/statistics_upcoming", :locals => {:t =>tournament, :c => count}

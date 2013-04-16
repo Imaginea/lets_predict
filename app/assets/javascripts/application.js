@@ -28,7 +28,9 @@ $(document).ready(function(){
     });
     $(document).on("click", "#modal-container .close-button", function() {
       $("#modal-container").hide();
-    });
+    });  
+
+    $(".collapse").collapse()
 });
 
 
