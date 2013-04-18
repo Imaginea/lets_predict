@@ -3,49 +3,36 @@
   .modal-header
     %button.confirm-close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
     %h3= tournament.name
+    - i = 1 
     = form_tag(predictions_path, :method => :post) do
       .modal-body
         %legend League Matches      
         %table.table-striped#match
           %tbody{:style => "display:block;"}
-            - tournament.matches.leagues.order("date").includes(:team, :opponent).each_with_index do |match, index|
+            - tournament.matches.leagues.order("date").includes(:team, :opponent).each_with_index do |match|
               - if match.can_predict?
-                = hidden_field_tag "predictions[#{index}][match_id]", match.id
-                = hidden_field_tag "predictions[#{index}][tournament_id]", match.tournament_id
-                = hidden_field_tag "predictions[#{index}][predicted_team_id]", @predicted_teams[match.id].try(:first)
+                = hidden_field_tag "predictions[#{i}][match_id]", match.id
+                = hidden_field_tag "predictions[#{i}][tournament_id]", match.tournament_id
+                = hidden_field_tag "predictions[#{i}][predicted_team_id]", @predicted_teams[match.id].try(:first)
               %tr
                 %td= match.date.label
                 %td.button-td
-                  %span{:id => "team-button-#{index}", " data-team-id" => "#{match.team.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, match, match.team.name)}
+                  %span{:id => "team-button-#{i}", " data-team-id" => "#{match.team.id}", "data-index" => "#{i}", :class => get_btn_class(@predicted_teams, match, match.team.name)}
                     = match.team.name
-                    %i{:id => "team-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.team.name)}
+                    %i{:id => "team-icon-#{i}","data-index" => "#{i}", :class => get_icon_class(@predicted_teams, match.id, match.team.name)}
                 %td#vs-td vs
                 %td.button-td
-                  %span{:id => "opponent-button-#{index}","data-team-id" => "#{match.opponent.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, match, match.opponent.name)}
+                  %span{:id => "opponent-button-#{i}","data-team-id" => "#{match.opponent.id}", "data-index" => "#{i}", :class => get_btn_class(@predicted_teams, match, match.opponent.name)}
                     = match.opponent.name
-                    %i{:id => "opponent-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, match.id, match.opponent.name)}
+                    %i{:id => "opponent-icon-#{i}","data-index" => "#{i}", :class => get_icon_class(@predicted_teams, match.id, match.opponent.name)}
                 -foo = "at "
                 -foo << match.venue
                 %td#venue-td= foo
+                - i +=1
 
         %legend Knockouts
         - unless tournament.non_leagues_started?
-          %table#non-league
-            %tbody
-            - tournament.matches.non_leagues.each_with_index do |match, index|
-              = hidden_field_tag "non_league_predictions[#{index}][match_id]", match.id
-              = hidden_field_tag "non_league_predictions[#{index}][tournament_id]", match.tournament_id
-
-              %tr
-                %td= match.date.label
-                %td= match.match_type.capitalize
-                %td 
-                  =select_tag "non_league_predictions[#{index}][predicted_team_id]", options_from_collection_for_select(@teams, "id", "name", :selected => @predicted_teams[match.id].try(:first)), :include_blank => 'Select Tag'
-                -foo = "at "
-                -foo << match.venue
-                %td#non-league-venue= foo
-        - else
-          %p.alert.alert-warning Predictions are closed. Use <b>View Results</b> to see your predictions.
+          = render :partial => "tournaments/knockout_table", :locals => {:t =>tournament}
 
       .modal-footer#predict-footer
         = submit_tag "Submit", :class => "btn btn-primary"

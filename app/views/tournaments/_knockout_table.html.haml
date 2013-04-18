@@ -1,0 +1,14 @@
+%table#non-league
+  %tbody
+  - t.matches.non_leagues.each_with_index do |match, index|
+    = hidden_field_tag "non_league_predictions[#{index}][match_id]", match.id
+    = hidden_field_tag "non_league_predictions[#{index}][tournament_id]", match.tournament_id
+
+    %tr
+      %td= match.date.label
+      %td= match.match_type.capitalize
+      %td 
+        =select_tag "non_league_predictions[#{index}][predicted_team_id]", options_from_collection_for_select(@teams, "id", "name", :selected => @predicted_teams[match.id].try(:first)), :include_blank => 'Select Tag'
+      -foo = "at "
+      -foo << match.venue
+      %td#non-league-venue= foo

@@ -8,9 +8,7 @@
         %th Opponent
         %th Points
     %tbody
-      / - matches = @user.id == current_user.id ? tournament.matches : tournament.matches.past
-      - matches = t.recent_matches
-      - matches.includes(:team, :opponent).order("date").each_with_index do |m, i|
+      - matches.each do |m|
         - predicted_team_id = @predicted_teams[m.id].try(:first)
         - team, opponent = m.try(:team), m.try(:opponent)
         %tr
@@ -20,4 +18,4 @@
             = team.try(:name)
           %td{:style => "color:#{prediction_status_color(predicted_team_id, opponent, m.winner_id)}"}
             = opponent.try(:name)
-          %td= predicted_team_id ? (m.winner_id ? @predicted_teams[m.id].try(:third) : '-') : 'N/A'
+          %td= predicted_team_id ? (m.winner_id ? @predicted_teams[m.id].try(:third) : '-') : 'N/A' 

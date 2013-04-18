@@ -1,1 +1,5 @@
-$('#modal-container').html("<%= escape_javascript(render :partial => 'tournaments/predict', :locals => {:tournament => @current_tournament}) %>").show();
+<% if @current_tournament.started?  %>
+  $('#modal-container').html("<%= escape_javascript(render :partial => 'tournaments/predict_started', :locals => {:tournament => @current_tournament}) %>").show();  
+<% else %>
+  $('#modal-container').html("<%= escape_javascript(render :partial => 'tournaments/predict', :locals => {:tournament => @current_tournament}) %>").show();
+<% end %>

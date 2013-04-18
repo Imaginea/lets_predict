@@ -1,0 +1,18 @@
+- unless m.can_predict?  
+  = hidden_field_tag "predictions[#{index}][match_id]", m.id
+  = hidden_field_tag "predictions[#{index}][tournament_id]", m.tournament_id
+  = hidden_field_tag "predictions[#{index}][predicted_team_id]", @predicted_teams[m.id].try(:first)
+%tr
+  %td= m.date.label
+  %td.button-td
+    %span{:id => "team-button-#{index}", " data-team-id" => "#{m.team.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, m, m.team.name)}
+      = m.team.name
+      %i{:id => "team-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, m.id, m.team.name)}
+  %td#vs-td vs
+  %td.button-td
+    %span{:id => "opponent-button-#{index}","data-team-id" => "#{m.opponent.id}", "data-index" => "#{index}", :class => get_btn_class(@predicted_teams, m, m.opponent.name)}
+      = m.opponent.name
+      %i{:id => "opponent-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, m.id, m.opponent.name)}
+  -foo = "at "
+  -foo << m.venue
+  %td#venue-td= foo

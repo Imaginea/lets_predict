@@ -12,17 +12,23 @@
     #statistics-accordion.accordion
       .accordion-group
         .accordion-heading
-          %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#completedMatches"}Completed Matches
+          %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#completedMatches"}
+            Completed Matches
+            == (#{tournament.older_matches.length})
         #completedMatches.accordion-body.collapse
-          = render :partial => "tournaments/statistics_old", :locals => {:t =>tournament}
-      - if @user.id == current_user.id            
+          = render :partial => "tournaments/statistics_part", :locals => {:matches => tournament.older_matches}          
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#recentMatches"}
+            Recent Matches
+            == (#{tournament.recent_matches.length})
+        #recentMatches.accordion-body.collapse.in
+          = render :partial => "tournaments/statistics_part", :locals => {:matches => tournament.recent_matches}
+      - if @user.id == current_user.id  
         .accordion-group
           .accordion-heading
-            %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#recentMatches"}Recent Matches
-          #recentMatches.accordion-body.collapse.in
-            = render :partial => "tournaments/statistics_recent", :locals => {:t =>tournament}
-        .accordion-group
-          .accordion-heading
-            %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#futureMatches"}Upcoming Matches
+            %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#futureMatches"}
+              Upcoming Matches
+              == (#{tournament.remaining_matches.length})
           #futureMatches.accordion-body.collapse
-            = render :partial => "tournaments/statistics_upcoming", :locals => {:t =>tournament}
+            = render :partial => "tournaments/statistics_part", :locals => {:matches => tournament.remaining_matches}

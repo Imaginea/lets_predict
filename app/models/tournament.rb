@@ -79,30 +79,29 @@ class Tournament < ActiveRecord::Base
     self.matches.past.where('winner_id IS NULL').order("date").includes(:team,:opponent)
   end
 
+  def all_matches
+    @matches ||= self.matches.includes(:team, :opponent).order('date').to_a
+  end
+
   def older_matches
-    self.matches.where('date < ? ', Time.now.utc-3.days )
+    all_matches.select {|m| m["date"] < Time.now.utc - 2.days}
   end
 
   def recent_matches
-    self.matches.where('date > ? AND date < ?', Time.now.utc-3.days , Time.now.utc )    
+    all_matches.select {|m| m["date"] > Time.now.utc-2.days && m["date"] < Time.now.utc}
   end
 
   def remaining_matches
-    self.matches.where('date > ?', Time.now)
+    all_matches.select{|m| m["date"] > Time.now.utc}
   end
 
-  def old_matches
-    self.matches.where('date < ? ', Time.now-1.days)
+  def past_matches
+    all_matches.select{|m| m["date"] < Time.now.utc}
   end
 
   def today_matches
-    self.matches.where('date > ? AND date < ?', Time.now.utc-1.days , Time.now.utc+1.days )    
+    all_matches.select{|m| m["date"].strftime('%Y-%m-%d') == Date.today.to_s}
   end
-
-  def future_matches
-    self.matches.where('date > ?', Time.now.utc+1.days )
-  end
-
 
   def leaderboard_users
     @leaderboard_users ||= self.predictions.
