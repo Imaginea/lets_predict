@@ -83,24 +83,38 @@ class Tournament < ActiveRecord::Base
     @matches ||= self.matches.includes(:team, :opponent).order('date').to_a
   end
 
-  def older_matches
-    all_matches.select {|m| m["date"] < Time.now.utc - 2.days}
+  def categorize_matches_for_statistics
+    older, recent, remaining = [[],[],[]]
+    today = Time.now.utc.to_date
+
+    all_matches.each do |m|
+      match_day = m.date.to_date
+      if match_day < today - 2.days
+        older << m
+      elsif match_day <= today && m.date <= Time.now.utc
+        recent << m
+      else
+        remaining << m
+      end
+    end
+    [older, recent, remaining]
   end
 
-  def recent_matches
-    all_matches.select {|m| m["date"] > Time.now.utc-2.days && m["date"] < Time.now.utc}
-  end
+  def categorize_matches_for_predict
+    old, todays, remaining = [[],[],[]]
+    today = Time.now.utc.to_date
 
-  def remaining_matches
-    all_matches.select{|m| m["date"] > Time.now.utc}
-  end
-
-  def past_matches
-    all_matches.select{|m| m["date"] < Time.now.utc}
-  end
-
-  def today_matches
-    all_matches.select{|m| m["date"].strftime('%Y-%m-%d') == Date.today.to_s}
+    all_matches.each do |m|
+      match_day = m.date.to_date
+      if match_day < today
+        old << m
+      elsif match_day == today
+        todays << m
+      else
+        remaining << m
+      end
+    end
+    [old, todays, remaining]
   end
 
   def leaderboard_users

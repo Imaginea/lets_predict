@@ -8,27 +8,28 @@
       %span#correct{:style => 'margin-left:10px;'} Correct Prediction
       %span#wrong{:style => 'margin-left:10px;'} Wrong Prediction
       %span#unknown{:style => 'margin-left:10px;'} Prediction Result Unknown
+  - older, recent, remaining = tournament.categorize_matches_for_statistics
   .modal-body
     #statistics-accordion.accordion
       .accordion-group
         .accordion-heading
           %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#completedMatches"}
             Completed Matches
-            == (#{tournament.older_matches.length})
+            == (#{older.length})
         #completedMatches.accordion-body.collapse
-          = render :partial => "tournaments/statistics_part", :locals => {:matches => tournament.older_matches}          
+          = render :partial => "tournaments/statistics_part", :locals => {:matches => older}
       .accordion-group
         .accordion-heading
           %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#recentMatches"}
             Recent Matches
-            == (#{tournament.recent_matches.length})
+            == (#{recent.length})
         #recentMatches.accordion-body.collapse.in
-          = render :partial => "tournaments/statistics_part", :locals => {:matches => tournament.recent_matches}
+          = render :partial => "tournaments/statistics_part", :locals => {:matches => recent}
       - if @user.id == current_user.id  
         .accordion-group
           .accordion-heading
             %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#futureMatches"}
               Upcoming Matches
-              == (#{tournament.remaining_matches.length})
+              == (#{remaining.length})
           #futureMatches.accordion-body.collapse
-            = render :partial => "tournaments/statistics_part", :locals => {:matches => tournament.remaining_matches}
+            = render :partial => "tournaments/statistics_part", :locals => {:matches => remaining}

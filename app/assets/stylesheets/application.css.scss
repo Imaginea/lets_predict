@@ -254,3 +254,4 @@ padding: 5px;
 td.center, th.center, div.center, p.center, span.center, ul.center  { text-align: center; }
 td.middle, th.middle, img.middle, div.middle, span.middle { vertical-align: middle; }
 .strong { font-weight: bold; }
+.accordion-body { max-height:255px; overflow-y:auto; }

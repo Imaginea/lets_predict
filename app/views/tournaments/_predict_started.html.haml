@@ -4,7 +4,7 @@
     %button.confirm-close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
     %h3= tournament.name
     - i = 1
-    - all_matches = tournament.all_matches
+    - old, today, remaining = tournament.categorize_matches_for_predict
     = form_tag(predictions_path, :method => :post) do
       .modal-body
         #predict-accordion.accordion
@@ -12,11 +12,11 @@
             .accordion-heading
               %a.accordion-toggle{"data-parent" => "#predict-accordion", "data-toggle"=>"collapse", :href=>"#completedMatches"}
                 Completed Matches
-                == (#{tournament.past_matches.length})
+                == (#{old.length})
             #completedMatches.accordion-body.collapse
               %table.table-striped.match
                 %tbody
-                  - tournament.past_matches.each do |match|
+                  - old.each do |match|
                     = render :partial => "tournaments/prediction_table", :locals => {:m =>match, :index => i}
                     -i +=1
           - unless tournament.completed_matches_count == tournament.matches.leagues.count
@@ -24,22 +24,22 @@
               .accordion-heading
                 %a.accordion-toggle{"data-parent" => "#predict-accordion", "data-toggle"=>"collapse", :href=>"#todayMatches"}
                   Today's Matches
-                  == (#{tournament.today_matches.length})
+                  == (#{today.length})
               #todayMatches.accordion-body.collapse.in
                 %table.table.table-condensed.table-striped.match{:style => 'margin-bottom:0px;'}
                   %tbody
-                    - tournament.today_matches.each do |match|
+                    - today.each do |match|
                       = render :partial => "tournaments/prediction_table", :locals => {:m =>match, :index => i}
                       -i += 1
           .accordion-group
             .accordion-heading
               %a.accordion-toggle{"data-parent" => "#predict-accordion", "data-toggle"=>"collapse", :href=>"#futureMatches"}
                 Upcoming Matches
-                == (#{tournament.remaining_matches.length})
+                == (#{remaining.length})
             #futureMatches.accordion-body.collapse
               %table.table.table-condensed.table-striped.match
                 %tbody
-                  - tournament.remaining_matches.select{ |m| m["match_type"] == "league" }.each do |match|
+                  - remaining.select{ |m| m["match_type"] == "league" }.each do |match|
                     = render :partial => "tournaments/prediction_table", :locals => {:m =>match, :index => i}
                     -i += 1
               %legend Knockouts
