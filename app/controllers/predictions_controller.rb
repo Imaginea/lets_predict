@@ -27,4 +27,5 @@ class PredictionsController < ApplicationController
   def users_playing
     @current_tournament =  Tournament.find(params[:tournament_id])
   end 
+
 end

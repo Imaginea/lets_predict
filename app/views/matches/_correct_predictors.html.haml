@@ -1,0 +1,16 @@
+.modal-backdrop.in
+#predictorsModal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"true", :style => 'width:675px;'}
+  .modal-header
+    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %h3= match.date.label
+  .modal-body
+    %table.table.table-striped.table-condensed#correct_predictors
+      %thead
+        %tr
+          %th.center Name
+          %th.center Location
+      %tbody
+        - match.correct_predictions.each do |p|
+          %tr
+            %td.center= p.fullname
+            %td.center= p.location

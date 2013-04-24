@@ -1,0 +1,1 @@
+$('#modal-container').html("<%= escape_javascript(render :partial => 'matches/correct_predictors', :locals => {:tournament => @current_tournament, :match => @match}) %>").show();

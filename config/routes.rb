@@ -18,6 +18,7 @@ LetsPredict::Application.routes.draw do
     collection  do
       get :statistics
       get :update_results
+      get :correct_predictors
     end
   end
 

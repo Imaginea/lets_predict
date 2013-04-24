@@ -45,6 +45,9 @@
             = m.date.label + ' - ' + abbrevs.first + " vs " + abbrevs.last + " - " + "You got"
             %strong
               == #{p.try(:points) || '0'} points
+            %br
+            %span Correct Predictors:
+            = link_to m.correct_predictions.count, correct_predictors_matches_path(:tournament_id => t.id, :match_id => m.id), :remote => true, :style => 'font-weight:bold; text-decoration:underline; margin-left:2px;'  
 
     .pull-left#upcoming-right-pull-left
       %span#users-playing-span Users Playing:

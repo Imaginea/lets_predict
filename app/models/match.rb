@@ -36,9 +36,14 @@ class Match < ActiveRecord::Base
     [self.team.abbrev, self.opponent.abbrev]
   end
 
+  def correct_predictions
+    @predictions ||= self.predictions.joins(:user).where(:points => self.success_points).select('fullname,location')
+  end
+
   private 
 
   def league_match? 
     match_type == "league"
   end
 end
+
