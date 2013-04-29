@@ -29,8 +29,8 @@
         %td= u.location
         %td.center= u.matches_predicted
         %td.center= u.total_points.to_i
-        - accuracy_obj = accuracy_map[u.id].first
-        - accuracy = accuracy_obj.correct_predictions.to_f / accuracy_obj.predicted 
+        - accuracy_obj = accuracy_map[u.id].try(:first)
+        - accuracy = accuracy_obj ? accuracy_obj.correct_predictions.to_f / accuracy_obj.predicted : 0
         %td.center{:style => "color:#{prediction_accuracy_color(accuracy)}"}== #{(accuracy * 100).round}%
         %td.center= position
         - last_points = u.total_points.to_i
