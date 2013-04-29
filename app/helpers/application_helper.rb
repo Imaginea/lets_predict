@@ -5,4 +5,9 @@ module ApplicationHelper
     return 'blue' if predicted_team_id && winner_id.nil?
     predicted_team_id == winner_id ? 'green' : 'red'
   end
+
+  def prediction_accuracy_color(accuracy_percent)
+    return 'red' if (accuracy_percent*100) < 50
+  end 
+  
 end
