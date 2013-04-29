@@ -13,10 +13,12 @@
       %th Location
       %th.center Predicted Matches
       %th.center Total Points
+      %th.center Prediction Accuracy
       %th.center Position
 
   %tbody
     - position, last_points = 0, -1
+    - accuracy_map = @current_tournament.prediction_accuracy_by_user
     -  @current_tournament.leaderboard_users.all.each_with_index do |u, i|
       - me = u.id == current_user.id
       - position += 1 unless last_points == u.total_points.to_i
@@ -27,6 +29,9 @@
         %td= u.location
         %td.center= u.matches_predicted
         %td.center= u.total_points.to_i
+        - accuracy_obj = accuracy_map[u.id].first
+        - accuracy = accuracy_obj.correct_predictions.to_f / accuracy_obj.predicted 
+        %td.center== #{(accuracy * 100).round}%
         %td.center= position
         - last_points = u.total_points.to_i
 

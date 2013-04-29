@@ -126,6 +126,15 @@ class Tournament < ActiveRecord::Base
       select('users.id, fullname, location, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
   end
 
+  def prediction_accuracy_by_user
+    @correct_predictions ||= self.predictions.joins(:match).
+      where('predicted_team_id IS NOT NULL').
+      where('matches.winner_id IS NOT NULL').
+      group('user_id').
+      select('COUNT(CASE WHEN predicted_team_id = winner_id THEN 1 ELSE NULL END) AS correct_predictions, COUNT(*) AS predicted, user_id').
+      group_by(&:user_id)
+  end
+
   def toppers
     max = self.predictions.group('user_id').
       order('sum(points) DESC').select('sum(points) as max_points').limit(1)
