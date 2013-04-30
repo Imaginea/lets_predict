@@ -58,6 +58,12 @@ class Tournament < ActiveRecord::Base
       order('date DESC').first
   end 
 
+  def next_match
+    self.matches.includes(:team, :opponent).
+      where('date > ?',Time.now.utc).
+      order('date').first
+  end 
+
   def first_non_league_match
     self.matches.non_leagues.order('date').first
   end
@@ -159,6 +165,13 @@ class Tournament < ActiveRecord::Base
       group('fullname,location').
       order('fullname').
       select('fullname, location, count(predicted_team_id) as matches_predicted').to_a
+  end
+
+
+  def inactive_users
+    date_range = (Date.today-5.days .. Date.today)
+    inactive_predictions = self.matches.joins(:predictions).where(:date => date_range).where('predicted_team_id IS NULL').select('user_id').uniq
+    inactive_user_ids = inactive_predictions.collect{|p| p.user_id}
   end
 
   def first_unpredicted_match(u_id)

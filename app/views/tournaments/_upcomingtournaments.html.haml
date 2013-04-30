@@ -26,25 +26,19 @@
         .pull-left#predict-pull-left
           - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
           = link_to link_text, predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-success" 
-
-        .clear-left-div{:style => 'height:20px;'}
+        .clear-left-div{:style => 'height:12px;'}
 
       - if t.started?
-        %p.pull-left
-          %span#total-points-span Your Total points:
-          %span.label.label-success= current_user.total_points_for(t.id)
-        %p.pull-left
-          %span#position-span Your Position:
-          %span.label.label-success= current_user.rank_for(t.id)
-        .clear-left-div
         - if m = t.last_updated_match
           - abbrevs = m.abbrev_team_names
           - p = current_user.prediction_for(m)
           %b Last Updated Match
-          %p.alert.alert-info{:style => 'margin-left:-14px;'}
+          %p.alert.alert-info{:style => 'margin-left:-14px;margin-bottom:10px;margin-top:5px;'}
             = m.date.label + ' - ' + abbrevs.first + " vs " + abbrevs.last + " - " + "You got"
             %strong
-              == #{p.try(:points) || '0'} points  
+              == #{p.try(:points) || '0'} points 
+        = link_to "View Your Prediction Results", statistics_matches_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary"
+        .clear-left-div{:style => 'height:8px;'} 
 
     .pull-left#upcoming-right-pull-left
       %span#users-playing-span Users Playing:
@@ -55,9 +49,35 @@
       .progress.progress-bar#tournament-progress
         .bar{:style => "width: #{tournament_percent}; color:black;"}
           = tournament_percent
+
       .clear-left-div#upcoming-right-div
       - if t.started?
-        = link_to "View Your Prediction Results", statistics_matches_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary"
-        .clear-left-div{:style => 'height:8px;'}
+        - if m_next = t.next_match
+          - teams = m_next.abbrev_team_names
+          %p{:style => 'margin-bottom:5px;'}
+            %b Next Match:
+            = teams.first + " vs " + teams.last + " in " 
+            %span#counter.strong
+            hours
+          :javascript
+            var t = #{countdown_time_json(m_next.date)};
+        .alert.alert-info{:style=> 'margin-left:-14px;margin-bottom:10px'}
+          %p.pull-left{:style => 'margin-bottom:0;'}
+            %span#total-points-span Your Total points:
+            %span.label.label-info{:style => 'font-size:15px;'}= current_user.total_points_for(t.id)
+          %p.pull-left{:style => 'margin-bottom:0;'}
+            %span#position-span Your Position:
+            %span.label.label-info{:style => 'font-size:15px;'}= current_user.rank_for(t.id)
+          .clear-left-div
         = link_to "Check Tournament Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"
     .clear-left-div
+
+:javascript
+  $(document).ready(function(){
+    var month = t['month'] - 1;
+    $('#counter').countdown({
+      until: $.countdown.UTCDate(+0, t['year'], t['month'], t['day'], t['hours'], t['minutes'], t['seconds']),
+      format: 'HMS',
+      compact: true
+    });
+  });

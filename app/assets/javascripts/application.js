@@ -15,7 +15,6 @@
 //= require bootstrap
 //= require_tree .
 
-
 $(document).ready(function(){
     $(document).on("click","[id^='team-button-'], [id^='opponent-button-']", function() {
         changeButton($(this));
@@ -28,8 +27,7 @@ $(document).ready(function(){
     });
     $(document).on("click", "#modal-container .close-button", function() {
       $("#modal-container").hide();
-    });  
-
+    });
     $(".collapse").collapse()
 });
 

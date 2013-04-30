@@ -33,7 +33,8 @@ class Match < ActiveRecord::Base
   end
 
   def abbrev_team_names
-    [self.team.abbrev, self.opponent.abbrev]
+    abbrvs = [self.team, self.opponent].compact.collect(&:abbrev)
+    abbrvs.empty? ? ['TBD'] * 2 : abbrvs
   end
 
   def correct_predictions
