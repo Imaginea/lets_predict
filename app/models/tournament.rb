@@ -37,7 +37,7 @@ class Tournament < ActiveRecord::Base
   end
 
   def predictions_closed?
-    last_league_match.date < Time.now.utc
+    first_non_league_match.date < Time.now.utc
   end
 
   def matches_count
