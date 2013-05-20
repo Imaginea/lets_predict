@@ -2,7 +2,7 @@ class PredictionsController < ApplicationController
   before_filter :restrict_to_closed_tournaments, :only => [:predict]
 
   def create
-    predictions = params[:predictions].values + params[:non_league_predictions].values
+    predictions = (params[:predictions] || {}).values + params[:non_league_predictions].values
     t_id = predictions.first[:tournament_id].to_i
     matches = Match.where(:tournament_id => t_id).to_a.group_by(&:id)
     user_predictions = current_user.predictions.where(:tournament_id => t_id).group_by(&:match_id)
