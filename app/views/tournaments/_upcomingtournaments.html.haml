@@ -1,5 +1,5 @@
 #modal-container.hide
-- @new_tournament.each do |t|
+- @new_tournaments.each do |t|
   .well
     %h4.pull-left#name-pull-left
       = t.name
@@ -16,11 +16,17 @@
           .bar{:style => "width: #{prediction_percent}; color:black;"}
             = prediction_percent
         .clear-left-div#upcoming-left-div
-        - unless prediction_percent == '100%'
+        - msg = alert_color = nil
+        - if t.waiting_for_non_leagues?
+          - m, alert_color = t.first_non_league_match, 'red'
+          - msg = 'Predictions for ALL play-offs ends in'
+        - elsif prediction_percent != '100%'
           - m = t.first_unpredicted_match(current_user.id)
           - alert_color = (m.date - Time.now.utc) > 36.hours ? 'green' : 'red'
+          - msg = 'Next unpredicted match starts in'
+        - if msg && alert_color
           %p.alert.alert-warning#upcoming-alert
-            Next unpredicted match starts in
+            = msg
             %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
 
         .pull-left#predict-pull-left

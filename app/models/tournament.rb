@@ -40,6 +40,10 @@ class Tournament < ActiveRecord::Base
     first_non_league_match.date < Time.now.utc
   end
 
+  def waiting_for_non_leagues?
+    last_league_match.date <= Time.now.utc && first_non_league_match.date > Time.now.utc
+  end
+
   def matches_count
     @matches_cnt ||= self.matches.count
   end
