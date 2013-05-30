@@ -20,12 +20,16 @@ class Match < ActiveRecord::Base
   def success_points
     case self.match_type.to_sym
     when :league
-      2
+      3
     when :semifinal, :qualifier, :eliminator
-      4
+      6
     when :final
-      8
+      9
     end
+  end
+
+  def failure_points
+    -(self.success_points/3)
   end
 
   def can_predict?

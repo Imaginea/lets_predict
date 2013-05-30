@@ -35,6 +35,13 @@ $(document).ready(function(){
 function changeButton(input) {
     if(input.hasClass('cant-predict')) return false;
 
+    if(input.hasClass('btn-success')) { // trying to unpredict
+      input.find('i').hide();
+      input.removeClass('btn-success');
+      $("#predictions_"+ input.attr("data-index") + "_predicted_team_id").val('');
+      return true;
+    }
+
     var current_index = input.attr("data-index");
     var selected_team_id = input.attr("data-team-id");
     var team_button =  "#team-button-" + current_index;
@@ -42,7 +49,6 @@ function changeButton(input) {
     var icon_team = "#team-icon-" + current_index;
     var icon_opponent = "#opponent-icon-" + current_index;
 
-    input.attr("disabled", "true");
     input.attr("class", "btn btn-success btn-block");
 
     if(input.attr('id').match(/team-button-/))
@@ -50,14 +56,12 @@ function changeButton(input) {
         $(icon_team).show();
         $(icon_opponent).hide();
         $(opponent_button).attr("class","btn btn-block");
-        $(opponent_button).removeAttr("disabled");
     }
     else
     {
         $(icon_opponent).show();
         $(icon_team).hide();
         $(team_button).attr("class","btn btn-block")
-        $(team_button).removeAttr("disabled");
     }
     $("#predictions_"+ current_index + "_predicted_team_id").val(selected_team_id);
 };
