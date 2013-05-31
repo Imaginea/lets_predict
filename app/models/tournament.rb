@@ -24,7 +24,7 @@ class Tournament < ActiveRecord::Base
 
   def self.current_tournaments
     today = Date.today
-    self.in_range(today+5, today-2)
+    self.in_range(today+7, today-2)
   end
 
   def self.active_tournaments
