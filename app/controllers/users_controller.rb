@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @new_tournaments = Tournament.current_tournaments.to_a
+    @past_tournaments = Tournament.past_tournaments
   end
   
   def leaderboard   

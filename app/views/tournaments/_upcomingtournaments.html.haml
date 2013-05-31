@@ -1,82 +1,86 @@
 #modal-container.hide
-- @new_tournaments.each do |t|
-  .well
-    %h4.pull-left#name-pull-left
-      = t.name
-    .pull-right 
-      -if current_user.admin?
-        = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)
-    %span.label.label-info
-      = "#{t.start_date.label} - #{t.end_date.label}"
-    .pull-left#upcoming-left-pull-left
-      - unless t.predictions_closed?
-        - prediction_percent = ((current_user.predictions_count(t.id) / t.matches_count.to_f) * 100).round.to_s + '%'
-        %span#progress Prediction Progress:
-        .progress.progress-bar
-          .bar{:style => "width: #{prediction_percent}; color:black;"}
-            = prediction_percent
-        .clear-left-div#upcoming-left-div
-        - msg = alert_color = nil
-        - if t.waiting_for_non_leagues?
-          - m, alert_color = t.first_non_league_match, 'red'
-          - msg = 'Predictions for ALL play-offs ends in'
-        - elsif prediction_percent != '100%'
-          - m = t.first_unpredicted_match(current_user.id)
-          - alert_color = (m.date - Time.now.utc) > 36.hours ? 'green' : 'red'
-          - msg = 'Next unpredicted match starts in'
-        - if msg && alert_color
-          %p.alert.alert-warning#upcoming-alert
-            = msg
-            %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
+- if @new_tournaments.any?
+  - @new_tournaments.each do |t|
+    .well
+      %h4.pull-left#name-pull-left
+        = t.name
+      .pull-right 
+        -if current_user.admin?
+          = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)
+      %span.label.label-info
+        = "#{t.start_date.label} - #{t.end_date.label}"
+      .pull-left#upcoming-left-pull-left
+        - unless t.predictions_closed?
+          - prediction_percent = ((current_user.predictions_count(t.id) / t.matches_count.to_f) * 100).round.to_s + '%'
+          %span#progress Prediction Progress:
+          .progress.progress-bar
+            .bar{:style => "width: #{prediction_percent}; color:black;"}
+              = prediction_percent
+          .clear-left-div#upcoming-left-div
+          - msg = alert_color = nil
+          - if t.waiting_for_non_leagues?
+            - m, alert_color = t.first_non_league_match, 'red'
+            - msg = 'Predictions for ALL play-offs ends in'
+          - elsif prediction_percent != '100%'
+            - m = t.first_unpredicted_match(current_user.id)
+            - alert_color = (m.date - Time.now.utc) > 36.hours ? 'green' : 'red'
+            - msg = 'Next unpredicted match starts in'
+          - if msg && alert_color
+            %p.alert.alert-warning#upcoming-alert
+              = msg
+              %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
 
-        .pull-left#predict-pull-left
-          - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
-          = link_to link_text, predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-success" 
-        .clear-left-div{:style => 'height:12px;'}
+          .pull-left#predict-pull-left
+            - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
+            = link_to link_text, predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-success" 
+          .clear-left-div{:style => 'height:12px;'}
 
-      - if t.started?
-        - if m = t.last_updated_match
-          - abbrevs = m.abbrev_team_names
-          - p = current_user.prediction_for(m)
-          %b Last Updated Match
-          %p.alert.alert-info{:style => 'margin-left:-14px;margin-bottom:10px;margin-top:5px;'}
-            = m.date.label + ' - ' + abbrevs.first + " vs " + abbrevs.last + " - " + "You got"
-            %strong
-              == #{p.try(:points) || '0'} points 
-        = link_to "View Your Prediction Results", statistics_matches_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary"
-        .clear-left-div{:style => 'height:8px;'} 
+        - if t.started?
+          - if m = t.last_updated_match
+            - abbrevs = m.abbrev_team_names
+            - p = current_user.prediction_for(m)
+            %b Last Updated Match
+            %p.alert.alert-info{:style => 'margin-left:-14px;margin-bottom:10px;margin-top:5px;'}
+              = m.date.label + ' - ' + abbrevs.first + " vs " + abbrevs.last + " - " + "You got"
+              %strong
+                == #{p.try(:points) || '0'} points 
+          = link_to "View Your Prediction Results", statistics_matches_path(:tournament_id => t.id), :remote => true, :class => "btn btn-primary"
+          .clear-left-div{:style => 'height:8px;'} 
 
-    .pull-left#upcoming-right-pull-left
-      %span#users-playing-span Users Playing:
-      = link_to t.total_predictors, users_playing_predictions_path(:tournament_id => t.id), :remote => true, :style => 'font-weight:bold; text-decoration:underline; margin-left:2px;'
+      .pull-left#upcoming-right-pull-left
+        %span#users-playing-span Users Playing:
+        = link_to t.total_predictors, users_playing_predictions_path(:tournament_id => t.id), :remote => true, :style => 'font-weight:bold; text-decoration:underline; margin-left:2px;'
+        .clear-left-div
+        - tournament_percent = ((t.completed_matches_count/t.matches_count.to_f) * 100).round.to_s + '%'
+        %span.pull-left#tournament-progress-span Tournament Progress:
+        .progress.progress-bar#tournament-progress
+          .bar{:style => "width: #{tournament_percent}; color:black;"}
+            = tournament_percent
+
+        .clear-left-div#upcoming-right-div
+        - if t.started?
+          - if m_next = t.next_match
+            - teams = m_next.abbrev_team_names
+            %p{:style => 'margin-bottom:5px;'}
+              %b Next Match:
+              = teams.first + " vs " + teams.last + " in " 
+              %span#counter.strong
+              hours
+            :javascript
+              var t = #{countdown_time_json(m_next.date)};
+          .alert.alert-info{:style=> 'margin-left:-14px;margin-bottom:10px'}
+            %p.pull-left{:style => 'margin-bottom:0;'}
+              %span#total-points-span Your Total points:
+              %span.label.label-info{:style => 'font-size:15px;'}= current_user.total_points_for(t.id)
+            %p.pull-left{:style => 'margin-bottom:0;'}
+              %span#position-span Your Position:
+              %span.label.label-info{:style => 'font-size:15px;'}= current_user.rank_for(t.id)
+            .clear-left-div
+          = link_to "Check Tournament Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"
       .clear-left-div
-      - tournament_percent = ((t.completed_matches_count/t.matches_count.to_f) * 100).round.to_s + '%'
-      %span.pull-left#tournament-progress-span Tournament Progress:
-      .progress.progress-bar#tournament-progress
-        .bar{:style => "width: #{tournament_percent}; color:black;"}
-          = tournament_percent
-
-      .clear-left-div#upcoming-right-div
-      - if t.started?
-        - if m_next = t.next_match
-          - teams = m_next.abbrev_team_names
-          %p{:style => 'margin-bottom:5px;'}
-            %b Next Match:
-            = teams.first + " vs " + teams.last + " in " 
-            %span#counter.strong
-            hours
-          :javascript
-            var t = #{countdown_time_json(m_next.date)};
-        .alert.alert-info{:style=> 'margin-left:-14px;margin-bottom:10px'}
-          %p.pull-left{:style => 'margin-bottom:0;'}
-            %span#total-points-span Your Total points:
-            %span.label.label-info{:style => 'font-size:15px;'}= current_user.total_points_for(t.id)
-          %p.pull-left{:style => 'margin-bottom:0;'}
-            %span#position-span Your Position:
-            %span.label.label-info{:style => 'font-size:15px;'}= current_user.rank_for(t.id)
-          .clear-left-div
-        = link_to "Check Tournament Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"
-    .clear-left-div
+- else
+  .well
+    %h5 There are no Active Tournaments
 
 :javascript
   $(document).ready(function(){

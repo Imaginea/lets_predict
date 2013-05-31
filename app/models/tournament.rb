@@ -32,6 +32,11 @@ class Tournament < ActiveRecord::Base
     self.in_range(today, today)
   end
 
+  def self.past_tournaments
+    today = Date.today
+    self.where("end_date < ?", today-3).order('end_date DESC')
+  end
+
   def last_league_match
     @last_league_match ||= self.matches.leagues.order('date DESC').limit(1).first
   end
@@ -81,7 +86,7 @@ class Tournament < ActiveRecord::Base
   end
 
   def completed_matches_count
-    match_time = 3.hours
+    match_time = 5.hours
     self.matches.where('date < ?', Time.now.utc - match_time).count
   end
 
@@ -171,7 +176,6 @@ class Tournament < ActiveRecord::Base
       select('fullname, location, count(predicted_team_id) as matches_predicted').to_a
   end
 
-
   def inactive_users
     date_range = (Date.today-5.days .. Date.today)
     inactive_predictions = self.matches.joins(:predictions).where(:date => date_range).where('predicted_team_id IS NULL').select('user_id').uniq
@@ -184,5 +188,10 @@ class Tournament < ActiveRecord::Base
       where('predictions.user_id' => u_id).where('predictions.predicted_team_id IS NULL').
       order('date').first
     m || self.matches.order('date').first
+  end
+
+  def teams
+    team_ids = self.matches.leagues.collect{|m| [m.team_id,m.opponent_id]}.flatten.uniq
+    teams = Team.where(:id => team_ids)
   end
 end
