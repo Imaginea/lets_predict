@@ -5,6 +5,7 @@ namespace :db do
   task :import_matches => :environment do
     require 'csv'
 
+    imported_count = 0
     Match.transaction do
       CSV.foreach("db/matches.csv") do |row|
         row = row.first.split(';') if row.first.include?(';')
@@ -20,6 +21,7 @@ namespace :db do
 
         if match.valid?
           match.save
+          imported_count += 1
         else
           puts "Validation failed while importing row: #{row.inspect}"
           puts "Match object: #{match.attributes.inspect}"
@@ -27,6 +29,6 @@ namespace :db do
         end
       end # foreach
     end # transaction
-    puts "Done. #{Match.count} matches imported."
+    puts "Done. #{imported_count} matches imported."
   end
 end
