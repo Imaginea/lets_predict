@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def location_change
-    @locations = User.valid_locations
+    @locations = User::VALID_LOCATIONS
   end 
 
   def update

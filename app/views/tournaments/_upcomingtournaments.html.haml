@@ -32,8 +32,14 @@
               %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
 
           .pull-left#predict-pull-left
-            - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
-            = link_to link_text, predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-success" 
+            - if current_user.location_invalid?
+              %p.alert.alert-warning.strong#location-change 
+                In order to predict,please
+                = link_to 'update your location', location_change_users_path, :remote => true
+                first
+            - else
+              - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
+              = link_to link_text, predict_predictions_path(:tournament_id => t.id), :remote => true, :class => "btn btn-success" 
           .clear-left-div{:style => 'height:12px;'}
 
         - if t.started?

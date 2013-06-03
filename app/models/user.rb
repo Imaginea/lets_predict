@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   
   after_create :get_ldap_params
 
-  INVALID_LOCATIONS = ['', 'default', 'Begumpet']
+  VALID_LOCATIONS = ['Chennai', 'Bangalore', 'Hyderabad']
   ADMINS = ['suprajas', 'sathishn']
 
   def self.authenticate(params)
@@ -24,14 +24,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.valid_locations
-    all_locs = self.select('distinct(location)').collect { |u| u.location.to_s } 
-    all_locs - INVALID_LOCATIONS
-  end
-  
   def location_invalid?
     loc = self.location.to_s.strip
-    INVALID_LOCATIONS.include?(loc)
+    !VALID_LOCATIONS.include?(loc)
   end
 
   def predicted_teams_by_match_id
