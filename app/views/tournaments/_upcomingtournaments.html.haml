@@ -9,6 +9,7 @@
           = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)
       %span.label.label-info
         = "#{t.start_date.label} - #{t.end_date.label}"
+      %div{:style => 'clear:both;'}
       .pull-left#upcoming-left-pull-left
         - unless t.predictions_closed?
           - prediction_percent = ((current_user.predictions_count(t.id) / t.matches_count.to_f) * 100).round.to_s + '%'
@@ -84,10 +85,12 @@
 
 :javascript
   $(document).ready(function(){
+    if(typeof(t)!= 'undefined') {
     var month = t['month'] - 1;
     $('#counter').countdown({
       until: $.countdown.UTCDate(+0, t['year'], t['month'], t['day'], t['hours'], t['minutes'], t['seconds']),
       format: 'HMS',
       compact: true
     });
+    }
   });

@@ -8,6 +8,7 @@
         = link_to 'Update Results', update_results_matches_path(:tournament_id => @tournament.id)
     %span.label.label-info
       = "#{@tournament.start_date.label} - #{@tournament.end_date.label}"
+    %div{:style => 'clear:both;'}
     .pull-left#upcoming-left-pull-left
       / - unless @tournament.predictions_closed?
       /   - prediction_percent = ((current_user.predictions_count(@tournament.id) / @tournament.matches_count.to_f) * 100).round.to_s + '%'
