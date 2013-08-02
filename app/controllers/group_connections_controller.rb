@@ -6,8 +6,10 @@ class GroupConnectionsController < ApplicationController
     if current_user.group_connections.requested_groups.count == 3
       flash[:alert] = "Oops! You can send max upto three requests. To send more, disconnect or revoke from the existing ones."
     else
-      GroupConnection.create!(:custom_group_id => params[:group_id].to_i, 
+      @new_gc = GroupConnection.create!(:custom_group_id => params[:group_id].to_i, 
        :user_id => current_user.id, :status => "pending")
+      @owner = User.find_by_id(@new_gc.custom_group.user_id)
+      UserMailer.new_request_notification(@owner).deliver
       flash[:notice] = "Your request to join the group #{@custom_group.group_name} is sent successfully."
     end
     redirect_to :back

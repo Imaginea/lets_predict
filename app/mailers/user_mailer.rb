@@ -25,12 +25,14 @@ class UserMailer < ActionMailer::Base
 
   end
 
-  def new_request_notification
-
+  def new_request_notification(grpowner)
+    @user = grpowner 
+    @email = @user.email
+    mail(:to => @email, :subject => "Lets-Predict - New Request Notification")
   end
 
   def request_acceptance_notification
-    
+
   end
 
 end
