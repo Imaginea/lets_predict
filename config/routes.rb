@@ -1,19 +1,22 @@
 LetsPredict::Application.routes.draw do
-  
-  resources :sessions 
+
+  resources :sessions
   resources :users, :only => [:show,:update] do
     collection do
       get :leaderboard
       get :location_change
     end
   end
-  resources :predictions do 
-    collection do 
+
+  resources :predictions do
+    collection do
       get :predict
       get :users_playing
     end
   end
-  resources :tournaments 
+
+  resources :tournaments
+
   resources :matches do
     collection  do
       get :statistics
@@ -22,6 +25,26 @@ LetsPredict::Application.routes.draw do
     end
   end
 
+  resources :custom_groups do
+    collection do
+      get :new
+      get :delete_group
+      get :groups_list
+      get :new_groups
+    end
+  end
+  
+  resources :group_connections do
+    collection do
+      get :join_req
+      get :user_disconnect
+      get :accept_invitation
+      get :ignore_invitation
+      get :owner_reminder
+    end
+  end
+  
+  match '/invitations' => "users#invitations", :as => :user_invitations
   match '/home' => 'users#show'
   get "signout" => "sessions#destroy", :as => "signout"
 
@@ -76,9 +99,9 @@ LetsPredict::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => 'sessions#new'
 
-  # See how all your routes lay out with "rake routes"
+# See how all your routes lay out with "rake routes"
 
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+# This is a legacy wild controller route that's not recommended for RESTful applications.
+# Note: This route will make all actions in every controller accessible via GET requests.
+# match ':controller(/:action(/:id))(.:format)'
 end

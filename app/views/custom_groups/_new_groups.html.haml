@@ -1,0 +1,48 @@
+.modal-backdrop.in
+#newGroupsModal.modal{:style => "max-height:500px;"}
+  .modal-header
+    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %h3 New Groups
+  .modal-body
+    #modal-container.hide
+    %div{:style => 'clear:both;'}
+
+    %table.table.table-striped
+      %thead.header
+        %tr
+          %th S.No
+          %th Group Name
+          %th Owner 
+          %th Location 
+      
+      %tbody
+        - @arr_ng.each_with_index do |g, i|
+          - connected_users_arr = g.total_connected_members_arr
+          - final_con = @current_tournament.connected_users(connected_users_arr)
+          %tr
+            %td= i + 1
+            %td 
+              = link_to g.group_name, "javascript:;", :data => { :target => "grpco-#{g.id}" }
+              == (#{g.total_members})
+            %td= g.user.fullname
+            %td= g.user.location
+            %td
+              - if g.members_count == 10
+                = link_to "No Vacancy", "javascript:;", :class => "btn button"
+              - else
+                = link_to "Join", join_req_group_connections_path(:group_id => g.id), :class => "btn btn-success"
+          %tr
+            %td{:colspan => 5, :style => "padding: 0;"}
+              %div{:style => 'clear:both;'}
+              .cutomGrp{:id => "grpco-#{g.id}", :style => "display:none; margin-top: -10px; margin-bottom: 0px;"}
+                = render :partial => "connected_members", :locals => {:cmembers => final_con, :grp_con_status => g.own_grp_connection_record.status}
+= link_to "Back", home_path
+    
+:javascript
+  $(document).ready(function() {
+    $("a[data-target]").click(function(){
+      val = $(this).attr("data-target");
+      $('[id*=grpco-]').hide();
+      $('#'+val).toggle();
+    });
+  });

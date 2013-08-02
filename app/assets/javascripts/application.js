@@ -65,3 +65,12 @@ function changeButton(input) {
     }
     $("#predictions_"+ current_index + "_predicted_team_id").val(selected_team_id);
 };
+
+$(document).ready(function() {
+  console.log('ready');
+    $("a[data-target]").click(function(){
+      console.log('click');
+      val = $(this).attr("data-target");
+      $('#'+val).toggle();
+    });
+});

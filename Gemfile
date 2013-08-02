@@ -6,7 +6,7 @@ gem 'rails', '3.2.11'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 #gem 'sqlite3'
-gem 'mysql2'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -25,6 +25,7 @@ gem "net-ldap", "~> 0.3.1"
 gem 'jquery-rails'
 gem "haml-rails"
 gem 'carrierwave'
+
 #gem 'fastercsv'
 
 # To use ActiveModel has_secure_password
@@ -38,6 +39,7 @@ gem 'carrierwave'
 
 # Deploy with Capistrano
 group :development do
+  gem 'mysql2' 
   gem 'capistrano'
   gem 'rvm-capistrano'
 end

@@ -1,0 +1,12 @@
+.modal-backdrop.in
+#newGroupModal.modal.custom-new-grp
+  .modal-header
+    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %h3 Create Your Own Group
+  .modal-body
+    #new-grp
+      = form_for @grp, :validate => true do |f|
+        = f.text_field :group_name, :maxlength => 25, :class => "input-large own-grp-txt-fd"
+        = submit_tag "Create", :class => "btn btn-primary", :style => 'margin-left:10px;'
+        %br/
+        %p Enter min 3 chars...

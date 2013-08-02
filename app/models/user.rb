@@ -3,11 +3,15 @@ require 'ldap_auth'
 class User < ActiveRecord::Base
   extend LdapAuth
   
-  attr_accessible :fullname, :login, :points, :email, :picture, :location
+  attr_accessible :name, :fullname, :login, :points, :email, :picture, :location
 
   mount_uploader :picture, PictureUploader
 
   has_many :predictions, :dependent => :destroy
+  
+  has_many :group_connections, :dependent => :destroy
+  
+  has_one :custom_group
 
   validates_presence_of :login
   validates_uniqueness_of :login
@@ -15,7 +19,7 @@ class User < ActiveRecord::Base
   after_create :get_ldap_params
 
   VALID_LOCATIONS = ['Chennai', 'Bangalore', 'Hyderabad']
-  ADMINS = ['suprajas', 'sathishn']
+  ADMINS = ['suprajas', 'sathishn', 'kalyanc']
 
   def self.authenticate(params)
     if ldap_authenticate(params[:login], params[:password])
@@ -81,6 +85,22 @@ class User < ActiveRecord::Base
 
   def admin?
     ADMINS.include? self.login
+  end
+
+  def connection_for_group(group_id)
+    self.group_connections.find_by_custom_group_id(group_id)
+  end
+
+  def connected_groups
+    self.group_connections.where('status =?', "connected")
+  end
+
+  def pending_group_connections
+    self.group_connections.where('status =?', "pending")
+  end
+
+  def members_connected
+    self.custom_group.group_connections.where(:status => ["connected", "own"])
   end
 
   private

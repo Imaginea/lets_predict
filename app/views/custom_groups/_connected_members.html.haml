@@ -1,0 +1,24 @@
+- if not cmembers.empty?
+  %table.table.table-bordered.table-condensed{:style => 'margin-top : 15px; margin-bottom: 10px;'}
+    %thead.header
+      %tr
+        %th User Name
+        %th Location
+        %th.center Points
+        %th.center Position
+
+    %tbody  
+      - position, last_points = 0, -1 
+      - cmembers.each do |c|
+        - position += 1 unless last_points == c.total_points.to_i
+        - me = c.id == current_user.id
+        %tr
+          %td{:style => me ? 'color:#008000;' : ''}
+            = link_to me ? 'You' : c.fullname, statistics_matches_path(:tournament_id => @current_tournament.id, :user_id => c.id), :remote => true, :title => 'View My Results'
+          %td
+            = c.location  
+          %td.center
+            = c.total_points || 0
+          %td.center
+            = position
+          - last_points = c.total_points.to_i

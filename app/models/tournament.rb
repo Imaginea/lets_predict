@@ -81,6 +81,14 @@ class Tournament < ActiveRecord::Base
     self.first_match.date <= Time.now.utc
   end
 
+  def last_match
+    self.matches.order('date').last
+  end
+
+  def finished?
+    self.last_match.date < Time.now.utc
+  end
+
   def non_leagues_started?
     self.first_non_league_match.date <= Time.now.utc
   end
@@ -108,13 +116,13 @@ class Tournament < ActiveRecord::Base
         older << m
       elsif match_day <= today && m.date <= Time.now.utc
         recent << m
-      else
+      else  
         remaining << m
       end
     end
     [older, recent, remaining]
   end
-
+                                                   
   def categorize_matches_for_predict
     old, todays, remaining = [[],[],[]]
     today = Time.now.utc.to_date
@@ -139,6 +147,14 @@ class Tournament < ActiveRecord::Base
       group('users.id, fullname, location').
       order('sum(points) DESC,fullname').
       select('users.id, fullname, location, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
+  end
+
+  def connected_users(uids)
+    User.joins("left outer join predictions on users.id = predictions.user_id AND predictions.tournament_id = #{self.id}").
+      where('users.id IN (?)', uids).
+      group('users.id, fullname').
+      order('sum(points) DESC,fullname').
+      select('users.id, fullname, location, sum(points) as total_points')
   end
 
   def prediction_accuracy_by_user

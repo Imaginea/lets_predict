@@ -12,7 +12,7 @@ module LdapAuth
   end
 
   def get_ldap_entities(username)
-    return {:fullname => 'TestUser', :email => 'testuser@test.com'} if ldap_disabled?
+    return {:full.name => 'TestUser', :email => 'testuser@test.com'} if ldap_disabled?
 
     ldap = Net::LDAP.new
     ldap.host = "ldap.pramati.com"

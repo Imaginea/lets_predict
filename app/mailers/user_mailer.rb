@@ -14,4 +14,23 @@ class UserMailer < ActionMailer::Base
     #mail(:to => USER_GROUP, :subject => "New Tournament available for prediction")
     mail(:to => "supraja.s@imaginea.com", :subject => "Lets-Predict - Tournament Update")
   end
+
+  def owner_reminder(requesteduser)
+    @user = requesteduser
+    @owner_email = requesteduser.email
+    mail(:to => @owner_email, :subject => "Lets-Predict - Request Accept Reminder")
+  end
+
+  def group_deletion_alert
+
+  end
+
+  def new_request_notification
+
+  end
+
+  def request_acceptance_notification
+    
+  end
+
 end
