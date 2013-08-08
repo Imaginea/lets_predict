@@ -38,13 +38,4 @@ class ApplicationController < ActionController::Base
     redirect_to home_path, :alert => 'Sorry! Access denied.'
   end
 
-  # def go_back
-
-  #   redirect_to :back
- 
-  #   #Catch exception and redirect to root
-  #   rescue ActionController::RedirectBackError
-  #     redirect_to root_path
-  #  end
-
 end

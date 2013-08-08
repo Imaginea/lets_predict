@@ -8,7 +8,7 @@ if defined?(Bundler)
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
-#SECURE_TREE = YAML.load_file '/var/local/config/predict.yml'
+SECURE_TREE = YAML.load_file '/var/local/config/predict.yml'
 
 module LetsPredict
   class Application < Rails::Application
@@ -66,15 +66,15 @@ module LetsPredict
         :port                 => 587,
         :domain               => 'pramati.com',
         :authentication       => 'plain',
-        :user_name            => 'markpredict1@gmail.com',
-        :password             => 'pramati123',
+        :user_name            => 'supraja.s@imaginea.com',
+        :password             => SECURE_TREE['mail_pwd'],
         :openssl_verify_mode  => 'none',
         :enable_starttls_auto => true  
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
 
-    config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+    config.action_mailer.default_url_options = { :host => 'predict.imaginea.com' }
     
     
   end

@@ -67,10 +67,8 @@ function changeButton(input) {
 };
 
 $(document).ready(function() {
-  console.log('ready');
-    $("a[data-target]").click(function(){
-      console.log('click');
-      val = $(this).attr("data-target");
-      $('#'+val).toggle();
-    });
+  $("a[data-target]").click(function(){
+    val = $(this).attr("data-target");
+    $('#'+val).toggle();
+  });
 });
