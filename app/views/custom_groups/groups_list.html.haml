@@ -22,10 +22,12 @@
       %div{:style => 'clear:both;'}
       = render :partial => "connected_members", :locals => {:cmembers => final_con}
     - else 
-      %b You haven't created your own Group for others to join.   
+      No groups yet.
+      = link_to 'Create one now', new_custom_group_path, :remote => true
+      and start <b>adding your friends</b> to compete with them.
       %br/
-      = link_to 'Create one', new_custom_group_path, :remote => true
-      %b and check your rank among the members of your group. However you can join other groups as well. Cheers!!
+      %br/
+      You can also skip this and just opt to join other's group.
 
 
   - if not @connected_groups.empty?
