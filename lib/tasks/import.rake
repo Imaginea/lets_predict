@@ -1,22 +1,42 @@
 namespace :db do
-
+  # accepts :tname -> tournament name and :sport -> sport name, defaulted to cricket
+  # Usage: 
+  # ======
+  # rake db:import_matches['Champions League 2013']
+  # rake db:import_matches['EPL 2013','Football']
+  #
   desc "Imports the match fixtures from CSV into matches table"
-
-  task :import_matches => :environment do
+  task :import_matches, [:tname, :sport] => :environment do |t, args|
     require 'csv'
+    tname = args.tname
+    sport = args.sport || 'Cricket'
+    raise "Tournament name is required to import matches" if tname.blank?
+
+    rows = CSV.read('db/matches.csv', :col_sep => ';')
+    first_match_time = Time.strptime(rows.first[0], "%m/%d/%Y %H:%M").to_time
+    last_match_time  = Time.strptime(rows.last[0], "%m/%d/%Y %H:%M").to_time
+    t = Tournament.create!(
+      :name => tname, :start_date => first_match_time,
+      :end_date => last_match_time, :sport => sport
+    )
 
     imported_count = 0
+    cached_teams = Team.all.group_by(&:name)
+    puts "Trying to import #{rows.length} matches..."
+
     Match.transaction do
-      CSV.foreach("db/matches.csv") do |row|
-        row = row.first.split(';') if row.first.include?(';')
+      rows.each do |row|
+        tname, oname = row[3], row[4] # team name, opponent name
+        team = tname && (cached_teams[tname] ||= [Team.create!(:name => tname)]).first
+        oppnt = oname && (cached_teams[oname] ||= [Team.create!(:name => oname)]).first
+
         match = Match.new(
           :date => Time.strptime(row[0], "%m/%d/%Y %H:%M").to_time,
-          :tournament_id => row[1],
-          :venue => row[2],
-          :match_type => row[3],
-          :team_id => row[4],
-          :opponent_id => row[5],
-          :winner_id => row[6]
+          :tournament_id => t.id,
+          :venue => row[1],
+          :match_type => row[2],
+          :team_id => team.try(:id),
+          :opponent_id => oppnt.try(:id)
         )
 
         if match.valid?

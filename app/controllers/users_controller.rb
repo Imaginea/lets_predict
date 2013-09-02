@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :restrict_params, :only => [:show]
   before_filter :restrict_to_my_account, :only => [:update]
   before_filter :restrict_to_open_tournaments, :only => [:leaderboard]
+
   def show
     @new_tournaments = Tournament.current_tournaments.to_a
     @past_tournaments = Tournament.past_tournaments
