@@ -1,73 +1,39 @@
 class CustomGroupsController < ApplicationController
+  before_filter :restrict_to_closed_tournaments
+  include CustomGroupsHelper
+
+  def index
+    @tournament_running = Tournament.any_running?
+    @own_group = current_user.custom_group
+    @connections = current_user.group_connections.includes(:custom_group).to_a
+    @groups_to_join = CustomGroup.to_join(current_user.id).count
+  end
 
   def new
     @grp = CustomGroup.new
-    @id = current_user.id
   end
 
   def create
-    @id = current_user.id
-    @name = params[:custom_group][:group_name]
-    @cg = CustomGroup.new(:group_name => @name, :user_id => @id, :total_members => 1)
-    if @cg.save
-      GroupConnection.create!(:custom_group_id => @cg.id, :user_id => current_user.id, :status => "own")
-      flash[:notice] = "Group Created Successfully."
+    name = params[:custom_group][:group_name]
+    if current_user.create_my_group(name)
+      flash[:notice] = "Group created successfully."
     else
-      flash[:alert] = "Unable to create the Group or Group Name has already been taken."
+      flash[:alert] = "Failed: Group name has already been taken or its too short. Please try again!"
     end
-    redirect_to :back
+    redirect_to custom_groups_url
   end
 
   def edit
-
   end
 
   def delete_group
-    @id = current_user.id
-    @group = CustomGroup.find_by_user_id(@id)
-    @group.destroy
-    redirect_to :back
+    status = current_user.delete_my_group
+    flash[:notice] = 'Your group has been deleted completely' if status
+    redirect_to custom_groups_url
   end
-
-  def groups_list
-    @id = current_user.id
-    @current_tournament = Tournament.find params[:tournament_id]
-    @all_tournaments = Tournament.all
-    @all_tournaments.each do |t|
-      unless t.finished?
-        @tournament_running = true
-      end
-    end
-    @groups = CustomGroup.all
-    #For checking current user group
-    @user_ids = CustomGroup.all.map{|c| c.user_id}
-    if @user_ids.include?(current_user.id)
-      @own_group = CustomGroup.find_by_user_id(current_user.id)
-      @members_connected = current_user.members_connected
-      @group_exist = true
-    else
-      @group_exist = false
-    end
-    #New queries for connected and pending requests
-    @connected_groups = current_user.connected_groups
-    @req_pending_groups = current_user.pending_group_connections
-    new_groups
-  end
-
 
   #For Joining to New Groups
-  def new_groups  
-    @current_tournament = Tournament.find params[:tournament_id].to_i
-    @id = current_user.id
-    @groups = CustomGroup.all
-    @old_connections = GroupConnection.where('user_id =? AND status is NOT NULL', @id)
-    @all_groups = @groups.map{|i| i.id }
-    @connections_ids = @old_connections.map{|i| i.custom_group_id}
-    @new_ids = @all_groups - @connections_ids
-    @arr_ng = []
-    @new_ids.each do |i|
-      @arr_ng << CustomGroup.find_by_id(i)
-    end
+  def new_groups
+    @groups = CustomGroup.to_join(current_user.id).includes(:user).all
   end
-
 end

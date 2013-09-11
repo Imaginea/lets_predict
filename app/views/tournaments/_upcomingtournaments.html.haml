@@ -5,7 +5,9 @@
       %h4.pull-left#name-pull-left
         = t.name
       .pull-right 
-        = link_to 'Groups', groups_list_custom_groups_path(:tournament_id => t.id), :class => "k_spec"
+        - groups_cnt = CustomGroup.count
+        - link_text = groups_cnt > 0 ? pluralize(groups_cnt, 'Group') : 'Groups'
+        = link_to link_text, custom_groups_path(:tournament_id => t.id), :class => "k_spec strong"
         .groupslnk{:style => current_user.admin? ? 'border-left:1px solid black; padding-left:5px; float : right' : ''}
           -if current_user.admin?
             = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)

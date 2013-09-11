@@ -16,9 +16,8 @@
           %th &nbsp;
       
       %tbody
-        - @arr_ng.each_with_index do |g, i|
-          - connected_users_arr = g.total_connected_members_arr
-          - final_con = @current_tournament.connected_users(connected_users_arr)
+        - @groups.each_with_index do |g, i|
+          - final_con = @current_tournament.connected_users_in_group(g)
           %tr
             %td 
               = g.group_name
@@ -26,7 +25,7 @@
             %td= g.user.fullname
             %td= g.user.location
             %td
-              - if g.members_count == 10
+              - unless g.can_join?
                 = link_to "No Vacancy", "javascript:;", :class => "btn button"
               - else
                 = link_to "Join", join_req_group_connections_path(:group_id => g.id), :class => "btn btn-success"

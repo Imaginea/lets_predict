@@ -37,6 +37,19 @@ class Tournament < ActiveRecord::Base
     self.where("end_date < ?", today-3).order('end_date DESC')
   end
 
+  # returns true if there's an active/ongoing tournament
+  def self.any_running?
+    matches_sql = <<-SQL
+      SELECT M.tournament_id, MAX(M.date) AS last_match_date, MIN(M.date) AS first_match_date
+      FROM matches M
+      GROUP BY M.tournament_id
+    SQL
+
+    self.joins("INNER JOIN (#{matches_sql}) M ON M.tournament_id = tournaments.id").
+      where("M.first_match_date >= ? AND M.last_match_date <= ?", Date.today, Date.today).
+      count > 0
+  end
+
   def last_league_match
     @last_league_match ||= self.matches.leagues.order('date DESC').limit(1).first
   end
@@ -149,7 +162,8 @@ class Tournament < ActiveRecord::Base
       select('users.id, fullname, location, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
   end
 
-  def connected_users(uids)
+  def connected_users_in_group(group)
+    uids = group.connected_members_ids
     User.joins("left outer join predictions on users.id = predictions.user_id AND predictions.tournament_id = #{self.id}").
       where('users.id IN (?)', uids).
       group('users.id, fullname').

@@ -25,18 +25,20 @@ LetsPredict::Application.routes.draw do
     end
   end
 
-  resources :custom_groups do
+  resources :custom_groups, :path => '/groups' do
     collection do
-      get :new
+      #get :new
       get :delete_group
-      get :groups_list
+      #get :groups_list
       get :new_groups
     end
   end
-  
+
   resources :group_connections do
     collection do
       get :join_req
+    end
+    member do
       get :user_disconnect
       get :accept_invitation
       get :ignore_invitation

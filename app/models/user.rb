@@ -4,14 +4,11 @@ class User < ActiveRecord::Base
   extend LdapAuth
   
   attr_accessible :name, :fullname, :login, :points, :email, :picture, :location
-
   mount_uploader :picture, PictureUploader
 
   has_many :predictions, :dependent => :destroy
-  
-  has_many :group_connections, :dependent => :destroy
-  
   has_one :custom_group
+  has_many :group_connections, :dependent => :destroy
 
   validates_presence_of :login
   validates_uniqueness_of :login
@@ -91,16 +88,23 @@ class User < ActiveRecord::Base
     self.group_connections.find_by_custom_group_id(group_id)
   end
 
-  def connected_groups
-    self.group_connections.where('status =?', "connected")
+  def reached_group_limit?
+    self.group_connections.requested.count >= 2
   end
 
-  def pending_group_connections
-    self.group_connections.where('status =?', "pending")
+  def create_my_group(name)
+    cg = self.build_custom_group(:group_name => name)
+    # connect to my own group
+    cg.group_connections.build(:user_id => self.id, :status => 'own')
+    cg.save
   end
 
-  def members_connected
-    self.custom_group.group_connections.where(:status => ["connected", "own"])
+  def delete_my_group
+    cg = self.custom_group
+    status = cg.try(:destroy)
+    has_members = cg.requested_members_count > 0
+    UserMailer.group_deletion(cg).deliver if status && has_members
+    status
   end
 
   private
@@ -110,4 +114,3 @@ class User < ActiveRecord::Base
     self.update_attributes(details)
   end
 end
-

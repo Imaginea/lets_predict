@@ -5,18 +5,56 @@ class GroupConnection < ActiveRecord::Base
   belongs_to :user
   belongs_to :custom_group
 
-  STATUS = %w(pending connected)
+  validates :user_id, :custom_group_id, :status, :presence => true
+  validates :user_id, :uniqueness => { :scope => :custom_group_id }
+
+  STATUS = %w(pending connected own)
          
-  scope :requested_groups, where(:status => STATUS)
-  scope :own_group, lambda { where('status =?', "own") }
-  scope :connected_members, where('status =?', "connected")
+  scope :requested, where(:status => ['pending', 'connected'])
+  scope :pending, where(:status => 'pending')
+  scope :own, where(:status => 'own')
+  scope :connected, where(:status => 'connected')
+  scope :active, where(:status => ['connected', 'own'])
+  
+  scope :recent, order('created_at DESC')
+  scope :group_ids_for, lambda { |usr_id| where(:user_id => usr_id).select(:custom_group_id) }
 
-  def connected_groups(usr_id)
-    @connected_groups = self.custom_group.includes(:custom_group_id, :status).where('user_id =?', usr_id)
+  # define pending?, connected? and own? methods
+  STATUS.each do |state|
+    define_method "#{state}?" do
+      self.status == state
+    end
   end
 
-  def specific_group_connected_users_arr
-    self.custom_group.total_connected_members_arr
+  def approve!
+    return true if self.connected?
+
+    status = self.update_attribute(:status, 'connected')
+    UserMailer.group_request_acceptance(self).deliver if status
+    status && self.custom_group.increment!(:total_members)
   end
 
+  def reject!
+    return false if self.connected?
+
+    status = self.destroy
+    UserMailer.group_request_rejection(self).deliver if status
+    status
+  end
+
+  def disconnect!
+    status = self.destroy
+    UserMailer.disconnected_from_group(self).deliver if status
+    return status if self.pending?
+    status && self.custom_group.decrement!(:total_members)
+  end
+
+  def remaind_owner!(owner = nil)
+    return true if self.owner_remind?
+    return false unless self.pending?
+
+    owner ||= self.custom_group.user
+    UserMailer.group_owner_reminder(owner).deliver
+    self.update_attribute(:owner_remind, true)
+  end
 end
