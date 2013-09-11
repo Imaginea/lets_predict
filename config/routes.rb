@@ -27,9 +27,7 @@ LetsPredict::Application.routes.draw do
 
   resources :custom_groups, :path => '/groups' do
     collection do
-      #get :new
       get :delete_group
-      #get :groups_list
       get :new_groups
     end
   end
