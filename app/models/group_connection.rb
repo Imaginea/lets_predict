@@ -5,8 +5,7 @@ class GroupConnection < ActiveRecord::Base
   belongs_to :user
   belongs_to :custom_group
 
-  validates :user_id, :custom_group_id, :status, :presence => true
-  validates :user_id, :uniqueness => { :scope => :custom_group_id }
+  validates :user_id, :status, :presence => true
 
   STATUS = %w(pending connected own)
          

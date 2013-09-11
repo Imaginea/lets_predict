@@ -20,8 +20,8 @@
           - final_con = @current_tournament.connected_users_in_group(g)
           %tr
             %td 
-              = g.group_name
-              == (#{link_to g.total_members, "javascript:;", :data => { :target => "grpco-#{g.id}" } })
+              = link_to g.group_name, "javascript:;", :data => { :target => "grpco-#{g.id}" }
+              == (#{g.total_members})
             %td= g.user.fullname
             %td= g.user.location
             %td
@@ -32,17 +32,26 @@
           %tr
             %td{:colspan => 4, :style => "padding: 0;"}
               %div{:style => 'clear:both;'}
-              .cutomGrp{:id => "grpco-#{g.id}", :style => "display:none;margin-top:10px;margin-bottom: 0px;"}
-                - final_con.each do |c|
-                  %p== #{c.fullname} (#{c.location || 'Unknown Location'})
+              .cutomGrp{:id => "grpco-#{g.id}", :style => "display:none;margin:10px 0 0 10px;"}
+                - final_con.in_groups(2, false).each do |users|
+                  .users
+                    %p.left
+                      - u1 = users.first.try(:fullname).try(:truncate, 26)
+                      - unless u1.blank?
+                        == #{u1} (#{users.first.location || 'Unknown Location'})
+                      - next if users.length == 1
+                    %p.right
+                      - u2 = users.last.try(:fullname).try(:truncate, 26)
+                      - unless u2.blank?
+                        == #{u2} (#{users.last.try(:location) || 'Unknown Location'})
 
-= link_to "Back", home_path
+
+    = link_to "Back to tournament", home_path
     
-:javascript
-  $(document).ready(function() {
-    $("a[data-target]").click(function(){
-      val = $(this).attr("data-target");
-      $('[id*=grpco-]').hide();
-      $('#'+val).toggle();
+  :javascript
+    $(document).ready(function() {
+      $("a[data-target]").click(function(){
+        val = $(this).attr("data-target");
+        $('#'+val).toggle();
+      });
     });
-  });
