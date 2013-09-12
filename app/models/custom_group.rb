@@ -35,7 +35,7 @@ class CustomGroup < ActiveRecord::Base
 
   def join!(usr_id)
     joined = self.group_connections.build(:user_id => usr_id).save
-    UserMailer.new_group_request(self.user).deliver if joined
+    UserMailer.delay.new_group_request(self.user_id) if joined
     joined
   end
 end

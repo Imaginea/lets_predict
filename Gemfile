@@ -25,6 +25,8 @@ gem "net-ldap", "~> 0.3.1"
 gem 'jquery-rails'
 gem "haml-rails"
 gem 'carrierwave'
+gem 'daemons'
+gem 'delayed_job_active_record'
 
 #gem 'fastercsv'
 

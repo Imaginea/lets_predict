@@ -29,7 +29,7 @@ class GroupConnection < ActiveRecord::Base
     return true if self.connected?
 
     status = self.update_attribute(:status, 'connected')
-    UserMailer.group_request_acceptance(self).deliver if status
+    UserMailer.delay.group_request_acceptance(self.id) if status
     status && self.custom_group.increment!(:total_members)
   end
 
@@ -37,23 +37,25 @@ class GroupConnection < ActiveRecord::Base
     return false if self.connected?
 
     status = self.destroy
-    UserMailer.group_request_rejection(self).deliver if status
+    args = [self.user.email, self.custom_group.group_name]
+    UserMailer.delay.group_request_rejection(*args) if status
     status
   end
 
   def disconnect!
     status = self.destroy
-    UserMailer.disconnected_from_group(self).deliver if status
+    args = [self.user_id, self.custom_group_id, self.pending?]
+    UserMailer.delay.disconnected_from_group(*args) if status
     return status if self.pending?
     status && self.custom_group.decrement!(:total_members)
   end
 
-  def remaind_owner!(owner = nil)
+  def remaind_owner!(owner_id = nil)
     return true if self.owner_remind?
     return false unless self.pending?
 
-    owner ||= self.custom_group.user
-    UserMailer.group_owner_reminder(owner).deliver
+    owner_id ||= self.custom_group.user_id
+    UserMailer.delay.group_owner_reminder(owner_id)
     self.update_attribute(:owner_remind, true)
   end
 end

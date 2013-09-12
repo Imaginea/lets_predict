@@ -1,4 +1,5 @@
 set :application, "lets_predict"
+set :rails_env, 'production'
 
 require "rvm/capistrano"
 set :rvm_ruby_string, "1.9.3-p385@#{application}"
@@ -27,7 +28,8 @@ role :db,  "192.168.6.44", :primary => true # This is where Rails migrations wil
 before 'deploy:setup', 'rvm:create_gemset'
 before 'deploy:migrate', 'deploy:setup_database_yml'
 after 'bundle:install', 'deploy:migrate'
-after "deploy:restart", "deploy:cleanup"
+after "deploy:restart", "delayed_job:restart"
+after "delayed_job:restart", "deploy:cleanup"
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts

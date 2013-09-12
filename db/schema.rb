@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130628064511) do
+ActiveRecord::Schema.define(:version => 20130912031118) do
 
   create_table "custom_groups", :force => true do |t|
     t.string   "group_name"
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(:version => 20130628064511) do
   end
 
   add_index "custom_groups", ["user_id"], :name => "index_custom_groups_on_user_id", :unique => true
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0, :null => false
+    t.integer  "attempts",   :default => 0, :null => false
+    t.text     "handler",                   :null => false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "group_connections", :force => true do |t|
     t.integer  "custom_group_id"

@@ -14,38 +14,38 @@ class UserMailer < ActionMailer::Base
     mail(:to => USER_GROUP, :subject => "#{subj_prefix}Tournament Update")
   end
 
-  def group_owner_reminder(owner)
-    @owner = owner
+  def group_owner_reminder(owner_id)
+    @owner = User.find(owner_id)
     @pending_users = owner.custom_group.members.pending.collect { |gc| gc.user.fullname }
     mail(:to => @owner.email, :subject => "#{subj_prefix}Reminder on pending group requests")
   end
 
-  def group_deletion(grp)
-    owner_name = grp.user.fullname
-    to_emails = grp.members.requested.collect { |gc| gc.user.email }
-    generic_mail(to_emails, 'Deleted group {group}', :group => grp.group_name)
+  def group_deletion(grp_name, to_emails)
+    generic_mail(to_emails, 'Deleted group {group}', :group => grp_name)
   end
 
-  def new_group_request(owner)
-    owner = owner
+  def new_group_request(owner_id)
+    owner = User.find(owner_id)
     user = owner.custom_group.members.pending.recent.first.user
     generic_mail(owner.email, '{user} wants to join your group', :user => user.fullname)
   end
 
-  def group_request_acceptance(gc)
-    group_connection_mail(gc, 'Approved for group {group}')
+  def group_request_acceptance(gc_id)
+    gc = GroupConnection.find(gc_id)
+    grp_name = gc.custom_group.group_name
+    generic_mail(gc.user.email, 'Approved for group {group}', :group => grp_name)
   end
 
-  def group_request_rejection(gc)
-    group_connection_mail(gc, 'Rejected for group {group}')
+  def group_request_rejection(to_email, grp_name)
+    generic_mail(to_email, 'Rejected for group {group}', :group => grp_name)
   end
 
-  def disconnected_from_group(gc)
-    user, group = gc.user, gc.custom_group
+  def disconnected_from_group(user_id, group_id, pending)
+    user, group = User.find(user_id), CustomGroup.find(group_id)
     to_emails = [group.user.email]
     tokens = { :user => user.fullname }
 
-    subj = if gc.pending?
+    subj = if pending
       '{user} disconnected from your group'
     else
       to_emails = group.members.collect { |gc| gc.user.email }
@@ -65,14 +65,6 @@ class UserMailer < ActionMailer::Base
     subject << ' <EOM>'
 
     mail(:to => to_emails, :subject => subject, :body => '')
-  end
-
-  # GroupConnection bodyless mails dont change only in subject
-  def group_connection_mail(gc, subject)
-    grp_name = gc.custom_group.group_name
-    subject = subj_prefix << subject.gsub(/{group}/, grp_name) << ' <EOM>'
-
-    mail(:to => gc.user.email, :subject => subject, :body => '')
   end
 
   def subj_prefix

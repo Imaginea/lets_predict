@@ -102,8 +102,8 @@ class User < ActiveRecord::Base
   def delete_my_group
     cg = self.custom_group
     status = cg.try(:destroy)
-    has_members = cg.requested_members_count > 0
-    UserMailer.group_deletion(cg).deliver if status && has_members
+    to_emails = cg.members.requested.collect { |gc| gc.user.email }
+    UserMailer.delay.group_deletion(cg.group_name, to_emails) if status && to_emails.any?
     status
   end
 

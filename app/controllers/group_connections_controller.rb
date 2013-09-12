@@ -31,7 +31,7 @@ class GroupConnectionsController < ApplicationController
 
   def owner_reminder
     owner = User.find_by_id(params[:owner_id].to_i)
-    flash[:notice] = "Remained #{owner.fullname} about your join request." if @gc.try(:remaind_owner!, owner)
+    flash[:notice] = "Remained #{owner.fullname} about your join request." if @gc.try(:remaind_owner!, owner.id)
     redirect_to :back
   end
 
