@@ -1,12 +1,13 @@
 namespace :db do
+
   # accepts :tname -> tournament name and :sport -> sport name, defaulted to cricket
   # Usage: 
   # ======
-  # rake db:import_matches['Champions League 2013']
-  # rake db:import_matches['EPL 2013','Football']
+  # rake db:import_tournament['Champions League 2013']
+  # rake db:import_tournament['EPL 2013','Football']
   #
-  desc "Imports the match fixtures from CSV into matches table"
-  task :import_matches, [:tname, :sport] => :environment do |t, args|
+  desc "Creates a tournament and imports the match fixtures from db/matches.csv"
+  task :import_tournament, [:tname, :sport] => :environment do |t, args|
     require 'csv'
     tname = args.tname
     sport = args.sport || 'Cricket'
