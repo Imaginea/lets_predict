@@ -1,23 +1,21 @@
 #modal-container.hide
-%h3.pull-left
-  Invitations
-= link_to 'Back to Home', home_path, :class => 'pull-right', :style => 'margin-top:20px;'
+%h3 Invitations
+
 %div{:style => 'clear:both;'}
 .invitationsModal
   %table.table.table-striped#users
-    %thead.header
+    - @invitations.each_with_index do |gc, i|
       %tr
-        %th S.No
-        %th Name
-        %th Location
-    %tbody
-      - @invitations.each_with_index do |gc, i|
-        %tr
-          %td= i + 1
-          %td= gc.user.fullname
-          %td= gc.user.location
-          %td
-            = link_to "Accept", accept_invitation_group_connection_path(gc), :class => "btn btn-success"
-            = link_to "Ignore", ignore_invitation_group_connection_path(gc), :class => "btn btn-primary"
+        %td
+          - if gc.invited?
+            - grp = gc.custom_group
+            - owner = grp.user
+            == <b>#{owner.fullname}</b>(#{owner.location}) has invited you to join group <b>#{grp.group_name}</b>(#{grp.total_members})
+          - elsif gc.pending?
+            - usr = gc.user
+            == <b>#{usr.fullname}</b>(#{usr.location}) wants to join your group
+        %td
+          = link_to "Accept", accept_invitation_group_connection_path(gc), :class => "btn btn-success"
+          = link_to "Ignore", ignore_invitation_group_connection_path(gc), :class => "btn"
           
-= link_to "Back", home_path
+= link_to "Back to Home", home_path

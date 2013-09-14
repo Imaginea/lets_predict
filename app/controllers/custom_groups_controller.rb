@@ -5,7 +5,8 @@ class CustomGroupsController < ApplicationController
   def index
     @tournament_running = Tournament.any_running?
     @own_group = current_user.custom_group
-    @connections = current_user.group_connections.includes(:custom_group).to_a
+    scope = @tournament_running ? :connected : :requested
+    @connections = current_user.group_connections.send(scope).includes(:custom_group).to_a
     @groups_to_join = CustomGroup.to_join(current_user.id).count
   end
 
@@ -35,5 +36,42 @@ class CustomGroupsController < ApplicationController
   #For Joining to New Groups
   def new_groups
     @groups = CustomGroup.to_join(current_user.id).includes(:user).all
+  end
+
+  def new_invite
+    exclude_ids = current_user.custom_group.try(:members_ids) || []
+    @invitees = User.where('id NOT IN (?)', exclude_ids).select([:id, :fullname]).to_a
+  end
+
+  def create_invite
+    @user = User.where(:fullname => params[:name]).first
+    if @user && current_user.custom_group.try(:invite!, @user)
+      flash[:notice] = "Successfully invited #{@user.fullname}"
+    else
+      flash[:error] = "Failed. User not found or user reached limit!"
+    end
+    redirect_to custom_groups_url
+  end
+
+  def cancel_invite
+    if current_user.custom_group.try(:cancel_invite!, params[:user_id].to_i)
+      flash[:notice] = 'Cancelled successfully'
+    else
+      flash[:error] = 'Failed. User not in group or already approved!'
+    end
+    redirect_to custom_groups_url
+  end
+
+  def accept_invite
+  end
+
+  def ignore_invite
+  end
+
+  def waiting_list
+    group = CustomGroup.find(params[:id])
+    @users = group.waiting_members.includes(:user).collect(&:user)
+    @invited_user_ids = group.invited_members_ids
+    @show_actions = group.user_id == current_user.id
   end
 end

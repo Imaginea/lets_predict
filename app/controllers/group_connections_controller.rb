@@ -20,12 +20,21 @@ class GroupConnectionsController < ApplicationController
   end
 
   def accept_invitation
-    flash[:notice] = "Successfully added #{@gc.user.fullname} to your group." if @gc.try(:approve!)
+    invited = @gc.invited?
+    if @gc.try(:approve!)
+      msg = invited ? "joined group #{@gc.custom_group.group_name}" : "added #{@gc.user.fullname} to your group"
+      flash[:notice] = 'Successfully ' + msg
+    end
     redirect_to :back
   end
 
   def ignore_invitation
-    flash[:notice] = "Ignored request from #{@gc.user.fullname}." if @gc.try(:reject!)
+    invited = @gc.invited?
+    if @gc.try(:reject!)
+      usr = invited ? @gc.custom_group.user : @gc.user
+      msg = invited ? 'invitation' : 'request'
+      flash[:notice] = "Ignored #{msg} from #{usr.fullname}."
+    end
     redirect_to :back
   end
 

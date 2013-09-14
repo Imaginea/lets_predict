@@ -21,7 +21,7 @@
           %tr
             %td 
               = link_to g.group_name, "javascript:;", :data => { :target => "grpco-#{g.id}" }
-              == (#{g.total_members})
+              = render_group_members(g, true)
             %td= g.user.fullname
             %td= g.user.location
             %td

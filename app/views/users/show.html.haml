@@ -1,8 +1,13 @@
 .span9#current-tournaments-div
-  -if current_user.location_invalid?
+  - if current_user.location_invalid?
     %p.alert.alert-danger.strong
       Hey! We couldn't find your exact work location from LDAP. So please
       = link_to 'Update it now', location_change_users_path, :remote => true
+  - if @invitations_cnt > 0
+    %p.alert.alert-notice.strong
+      You have
+      = link_to pluralize(@invitations_cnt, 'pending invitation'), user_invitations_path
+
   %h3 Current Tournaments
   = render :partial => "tournaments/upcomingtournaments"
 

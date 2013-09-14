@@ -107,6 +107,10 @@ class User < ActiveRecord::Base
     status
   end
 
+  def invitations
+    GroupConnection.pending_connections(self)
+  end
+
   private
   
   def get_ldap_params

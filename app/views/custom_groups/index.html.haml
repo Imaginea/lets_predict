@@ -1,38 +1,35 @@
 #modal-container.hide
 .grpList
-  %h3.pull-left
-    Manage Groups
+  %h2.pull-left
+    Groups
   %div{:style => 'clear:both;'}
 
-  %h4.pull-left
-    Your Group
-  .pull-right
-    = link_to 'Back to Home', home_path, :class => 'pull-right', :style => 'margin-top:8px; margin-right:333px;'
-  %div{:style => 'clear:both;'}
-  .well{:style => 'width:600px;'}
-    - if @own_group
+  %h4 Your Group
+  - if @own_group
+    .well{:style => 'width:600px;'}
       - final_con = @current_tournament.connected_users_in_group(@own_group)
       .pull-left
         = link_to @own_group.group_name, "javascript:;", :id => "own-grp"
-        %span.strong= "(#{@own_group.total_members})"
+        = render_group_members(@own_group)
       .pull-right
         - unless @tournament_running
+          - if @own_group.can_join?
+            = link_to "Invite Friends", new_invite_custom_groups_path, :class => 'btn btn-primary', :remote => true
           = link_to "Delete", delete_group_custom_groups_path, :confirm => "Are you sure you want to delete your group?", :class => "btn btn-danger"
       %div{:style => 'clear:both;'}
       = render :partial => "connected_members", :locals => {:cmembers => final_con}
-    - else 
-      No groups yet.
-      = link_to 'Create one now', new_custom_group_path, :remote => true
-      to let your <b>friends join</b> and start competing with you.
-      %br/
-      %br/
-      You can also skip this and just opt to join other's group, if available.
+  - else
+    %p.alert.alert-notice
+      No groups yet!
+      = link_to 'Create a group', new_custom_group_path, :remote => true
+      now
+    %p You can also <b>invite your friends</b> to start competing with them.
+    %p Optionally, you can join others group, if available.
+    %p &nbsp;
 
-  - connected_group_connections = @connections.select(&:connected?)
+  - connected_group_connections = @connections.select(&:connected?) * 2
   - unless connected_group_connections.empty?
-    %h4.pull-left
-      Groups you have connected
-    %div{:style => 'clear:both;'}
+    %h4 Groups you have connected
     .well{:style => 'width:600px;'}
       .connected-group-container
         - connected_group_connections.each_with_index do |gc,i|
@@ -40,7 +37,7 @@
           - final_con = @current_tournament.connected_users_in_group(group)
           .pull-left
             = link_to group.group_name, "javascript:;", :data => { :target => "grpcons-#{gc.id}" }
-            %span.strong= "(#{group.total_members})"
+            = render_group_members(group)
           .pull-right  
             - unless @tournament_running
               = link_to "Disconnect", user_disconnect_group_connection_path(gc), :confirm => "Are you sure you want to disconnect from this group?", :class => "btn"
@@ -50,11 +47,30 @@
             = render :partial => "connected_members", :locals => {:cmembers => final_con}, :style => 'margin-top : 45px;'
           %br/
 
+  - invited_group_connections = @connections.select(&:invited?)
+  - unless invited_group_connections.empty?
+    %h4 Groups you are invited
+    .well{:style => 'width:600px;'}
+      .invited-group-container
+        - invited_group_connections.each_with_index do |gc,i|
+          - group = gc.custom_group
+          - final_con = @current_tournament.connected_users_in_group(group)
+          .pull-left
+            = link_to group.group_name, "javascript:;", :data => { :target => "grpcons-#{gc.id}" }
+            = render_group_members(group)
+          .pull-right  
+            - unless @tournament_running
+              = link_to "Accept", accept_invitation_group_connection_path(gc), :class => "btn btn-success"
+              = link_to "Ignore", ignore_invitation_group_connection_path(gc), :confirm => "Are you sure?", :class => "btn"
+          %div{:style => 'clear:both;'}
+
+          .customGrp{:id => "grpcons-#{gc.id}", :style => "display:none;"}
+            = render :partial => "connected_members", :locals => {:cmembers => final_con}, :style => 'margin-top : 45px;'
+          %br/
+
   - pending_group_connections = @connections.select(&:pending?)
   - unless pending_group_connections.empty?
-    %h4.pull-left
-      Group requests waiting for approval
-    %div{:style => 'clear:both;'}
+    %h4 Groups pending approval
     .well{:style => 'width:600px;'}
       .pending-group-container
         - pending_group_connections.each_with_index do |gc,i|
@@ -62,7 +78,7 @@
           - final_con = @current_tournament.connected_users_in_group(group)
           .pull-left
             = link_to group.group_name, "javascript:;", :data => { :target => "grpcons-#{gc.id}" }
-            %span.strong= "(#{group.total_members})"
+            = render_group_members(group)
           .pull-right
             = link_to "Revoke", user_disconnect_group_connection_path(gc), :confirm => "Are you sure you want to disconnect from this group?", :class => "btn"
             - if gc.created_at < 2.days.ago && !gc.owner_remind?
@@ -75,4 +91,5 @@
   - if @groups_to_join > 0
     = link_to "Join #{@groups_to_join} New Group(s)", new_groups_custom_groups_path(:tournament_id => @current_tournament.id), :remote => true, :class => "btn btn-primary"
   - else
-    = link_to 'No New Groups To Join', "javascript:;", :class => "btn btn" 
+    = link_to 'No New Groups To Join', "javascript:;", :class => "btn btn"
+  = link_to 'Back to Home', home_path, :style => 'margin-left:5px;'

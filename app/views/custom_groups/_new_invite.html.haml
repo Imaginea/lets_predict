@@ -1,0 +1,16 @@
+.modal-backdrop.in
+.modal#new_invite_group
+  .modal-header
+    %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
+    %h3 Invite friends to join your group
+  .modal-body
+    = form_tag create_invite_custom_groups_path, :validate => true, :method => :post do
+      = text_field_tag :name, params[:name], 
+        :required => true, :class => "input-large", :autocomplete => 'off',
+        :placeholder => 'Enter name...', :list => 'invitees_list'
+      %p.help-text Choose one from the autocompleted list
+      %datalist#invitees_list
+        = @invitees.each do |user|
+          %option{ :label => user.fullname, :value => user.fullname }
+      .actions
+        = submit_tag "Invite", :class => "btn btn-primary"

@@ -30,10 +30,23 @@ class UserMailer < ActionMailer::Base
     generic_mail(owner.email, '{user} wants to join your group', :user => user.fullname)
   end
 
+  def new_group_invite(owner_id, invitee_id)
+    owner, invitee = User.find(owner_id), User.find(invitee_id)
+    grp_name = owner.custom_group.group_name
+    subj = '{user} has invited you to join group #{group}'
+    generic_mail(invitee.email, subj, :user => owner.fullname, :group => grp_name)
+  end
+
   def group_request_acceptance(gc_id)
     gc = GroupConnection.find(gc_id)
     grp_name = gc.custom_group.group_name
     generic_mail(gc.user.email, 'Approved for group {group}', :group => grp_name)
+  end
+
+  def group_invite_acceptance(gc_id)
+    gc = GroupConnection.find(gc_id)
+    owner, user = gc.custom_group.user, gc.user
+    generic_mail(owner.email, '{user} has joined your group', :user => user.fullname)
   end
 
   def group_request_rejection(to_email, grp_name)

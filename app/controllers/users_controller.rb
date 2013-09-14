@@ -6,21 +6,7 @@ class UsersController < ApplicationController
   def show
     @new_tournaments = Tournament.current_tournaments.to_a
     @past_tournaments = Tournament.past_tournaments
-    @user_ids = CustomGroup.all.map{|a| a.user_id }
-    #@group_exist = @user_ids.include?(current_user.id) ? true : false
-    unless current_user.custom_group.nil?
-      @new_invitations = GroupConnection.where('custom_group_id =? AND status =?', current_user.custom_group.id, "pending")
-      @count = @new_invitations.count
-      unless @new_invitations.empty?
-        if @count == 1
-          flash.now[:notice] = %Q[ <FONT COLOR="#0088CC"> #{@new_invitations.first.user.fullname} </FONT> wants to join your group <a href="/invitations">#{current_user.custom_group.group_name}.</a>].html_safe
-        elsif @count == 2
-          flash.now[:notice] = %Q[ <FONT COLOR="#0088CC"> #{@new_invitations.first.user.fullname}, #{@new_invitations.last.user.fullname} </FONT> wants to join your group <a href="/invitations">#{current_user.custom_group.group_name}.</a>].html_safe
-        elsif @count > 2
-          flash.now[:notice] = %Q[ <FONT COLOR="#0088CC"> #{@new_invitations.last.user.fullname} </FONT> and <FONT COLOR="#8B0000"> #{@count-1} others </FONT> wants to join your group <a href="/invitations">#{current_user.custom_group.group_name}.</a>].html_safe
-        end
-      end
-    end
+    @invitations_cnt = Tournament.any_running? ? 0 : current_user.invitations.count
   end
 
   def leaderboard
@@ -35,9 +21,9 @@ class UsersController < ApplicationController
     redirect_to home_path, :notice => 'Location updated.' # assume success always
   end
 
+  # invitations are turned off as soon as the tournament starts
   def invitations
-    @user = current_user
-    @invitations = GroupConnection.where('custom_group_id =? AND status =?', @user.custom_group.id, "pending")
+    @invitations = Tournament.any_running? ? [] : current_user.invitations.to_a
   end
 
   private
@@ -49,5 +35,4 @@ class UsersController < ApplicationController
   def restrict_to_my_account
     access_denied unless params[:id].to_i == current_user.id
   end
-
 end
