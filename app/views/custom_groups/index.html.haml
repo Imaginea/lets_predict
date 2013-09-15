@@ -27,7 +27,7 @@
     %p Optionally, you can join others group, if available.
     %p &nbsp;
 
-  - connected_group_connections = @connections.select(&:connected?) * 2
+  - connected_group_connections = @connections.select(&:connected?)
   - unless connected_group_connections.empty?
     %h4 Groups you have connected
     .well{:style => 'width:600px;'}

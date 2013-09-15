@@ -1,5 +1,5 @@
 - if not cmembers.empty?
-  %table.table.table-bordered.table-condensed{:style => 'margin-top : 15px; margin-bottom: 10px;'}
+  %table.table.table-striped.table-condensed{:style => 'margin-top : 15px; margin-bottom: 10px;'}
     %thead.header
       %tr
         %th User Name
@@ -18,7 +18,7 @@
           %td
             = c.location  
           %td.center
-            = c.total_points || 0
+            = c.total_points.to_i
           %td.center
             = position
           - last_points = c.total_points.to_i
