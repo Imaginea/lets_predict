@@ -1,8 +1,8 @@
 - if not cmembers.empty?
-  %table.table.table-striped.table-condensed{:style => 'margin-top : 15px; margin-bottom: 10px;'}
+  %table.table.table-striped.table-condensed{:style => 'margin-top:15px; margin-bottom:5px;background-color:#EAEAEA;'}
     %thead.header
       %tr
-        %th User Name
+        %th Member name
         %th Location
         %th.center Points
         %th.center Position
@@ -13,8 +13,8 @@
         - position += 1 unless last_points == c.total_points.to_i
         - me = c.id == current_user.id
         %tr
-          %td{:style => me ? 'color:#008000;' : ''}
-            = link_to me ? 'You' : c.fullname, statistics_matches_path(:tournament_id => @current_tournament.id, :user_id => c.id), :remote => true, :title => 'View My Results'
+          %td
+            = link_to me ? 'You' : c.fullname, statistics_matches_path(:tournament_id => @current_tournament.id, :user_id => c.id), :remote => true, :title => 'View My Results', :style => me ? 'color:#008000;' : ''
           %td
             = c.location  
           %td.center
