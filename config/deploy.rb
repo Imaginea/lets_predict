@@ -1,5 +1,6 @@
 set :application, "lets_predict"
 set :rails_env, 'production'
+require 'delayed/recipes'
 
 require "rvm/capistrano"
 set :rvm_ruby_string, "1.9.3-p385@#{application}"

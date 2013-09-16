@@ -11,6 +11,7 @@
         .groupslnk{:style => current_user.admin? ? 'border-left:1px solid black; padding-left:5px; float : right' : ''}
           -if current_user.admin?
             = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)
+        %div{:style => 'clear:both;'}
       %span.label.label-info
         = "#{t.start_date.label} - #{t.end_date.label}"
       %div{:style => 'clear:both;'}

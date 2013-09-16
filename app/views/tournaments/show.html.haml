@@ -3,38 +3,10 @@
   .well
     %h4.pull-left#name-pull-left
       = @tournament.name
-    .pull-right 
-      -if current_user.admin?
-        = link_to 'Update Results', update_results_matches_path(:tournament_id => @tournament.id)
-    %span.label.label-info
+    %span.label.label-warning
       = "#{@tournament.start_date.label} - #{@tournament.end_date.label}"
     %div{:style => 'clear:both;'}
     .pull-left#upcoming-left-pull-left
-      / - unless @tournament.predictions_closed?
-      /   - prediction_percent = ((current_user.predictions_count(@tournament.id) / @tournament.matches_count.to_f) * 100).round.to_s + '%'
-      /   %span#progress Prediction Progress:
-      /   .progress.progress-bar
-      /     .bar{:style => "width: #{prediction_percent}; color:black;"}
-      /       = prediction_percent
-      /   .clear-left-div#upcoming-left-div
-      /   - msg = alert_color = nil
-      /   - if @tournament.waiting_for_non_leagues?
-      /     - m, alert_color = @tournament.first_non_league_match, 'red'
-      /     - msg = 'Predictions for ALL play-offs ends in'
-      /   - elsif prediction_percent != '100%'
-      /     - m = @tournament.first_unpredicted_match(current_user.id)
-      /     - alert_color = (m.date - Time.now.utc) > 36.hours ? 'green' : 'red'
-      /     - msg = 'Next unpredicted match starts in'
-      /   - if msg && alert_color
-      /     %p.alert.alert-warning#upcoming-alert
-      /       = msg
-      /       %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
-
-      /   .pull-left#predict-pull-left
-      /     - link_text = prediction_percent == '100%' ? 'Update Now' : 'Predict Now'
-      /     = link_to link_text, predict_predictions_path(:tournament_id => @tournament.id), :remote => true, :class => "btn btn-success" 
-      /   .clear-left-div{:style => 'height:12px;'}
-
       - if @tournament.started?
         - if m = @tournament.last_updated_match
           - abbrevs = m.abbrev_team_names
@@ -48,7 +20,7 @@
         .clear-left-div{:style => 'height:8px;'} 
 
     .pull-left#upcoming-right-pull-left
-      %span#users-playing-span Users Playing:
+      %span#users-playing-span Users Played:
       = link_to @tournament.total_predictors, users_playing_predictions_path(:tournament_id => @tournament.id), :remote => true, :style => 'font-weight:bold; text-decoration:underline; margin-left:2px;'
       .clear-left-div
       - tournament_percent = ((@tournament.completed_matches_count/@tournament.matches_count.to_f) * 100).round.to_s + '%'
@@ -59,15 +31,6 @@
 
       .clear-left-div#upcoming-right-div
       - if @tournament.started?
-        - if m_next = @tournament.next_match
-          - teams = m_next.abbrev_team_names
-          %p{:style => 'margin-bottom:5px;'}
-            %b Next Match:
-            = teams.first + " vs " + teams.last + " in " 
-            %span#counter.strong
-            hours
-          :javascript
-            var @tournament = #{countdown_time_json(m_next.date)};
         .alert.alert-info{:style=> 'margin-left:-14px;margin-bottom:10px'}
           %p.pull-left{:style => 'margin-bottom:0;'}
             %span#total-points-span Your Total points:
@@ -78,14 +41,4 @@
           .clear-left-div
         = link_to "Check Tournament Leaderboard", leaderboard_users_path(:tournament_id => @tournament.id), :class => "btn btn-primary"
     .clear-left-div
-  = link_to "Back", home_path
-
-/ :javascript
-/ $(document).ready(function(){
-/   var month = @tournament['month'] - 1;
-/   $('#counter').countdown({
-/     until: $.countdown.UTCDate(+0, @tournament['year'], @tournament['month'], @tournament['day'], @tournament['hours'], @tournament['minutes'], @tournament['seconds']),
-/     format: 'HMS',
-/     compact: true
-/   });
-/ });
+  = link_to "Back to Active Tournaments", home_path
