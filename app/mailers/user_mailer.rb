@@ -33,7 +33,7 @@ class UserMailer < ActionMailer::Base
   def new_group_invite(owner_id, invitee_id)
     owner, invitee = User.find(owner_id), User.find(invitee_id)
     grp_name = owner.custom_group.group_name
-    subj = '{user} has invited you to join group #{group}'
+    subj = '{user} has invited you to join group {group}'
     generic_mail(invitee.email, subj, :user => owner.fullname, :group => grp_name)
   end
 

@@ -64,12 +64,12 @@ module LetsPredict
     config.action_mailer.smtp_settings = {
         :address              => "smtp.gmail.com",
         :port                 => 587,
-        :domain               => 'pramati.com',
+        :domain               => 'gmail.com',
         :authentication       => 'plain',
-        :user_name            => 'supraja.s@imaginea.com',
+        :user_name            => 'predict.imaginea@gmail.com',
         :password             => SECURE_TREE['mail_pwd'],
         :openssl_verify_mode  => 'none',
-        :enable_starttls_auto => true  
+        :enable_starttls_auto => true
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.default_url_options = { :host => 'localhost:3000' }
