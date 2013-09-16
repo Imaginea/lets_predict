@@ -282,30 +282,31 @@ td.middle, th.middle, img.middle, div.middle, span.middle { vertical-align: midd
 }
 
 #disconnectgrp {
-  color : #F9A732;
+  color: #F9A732;
 }
 
 #revokereq{
-  color : #363636;
+  color: #363636;
 }
 
 #newGroupsModal{
-  width : 600px;
-  margin-left : -292px;
+  width: 600px;
+  margin-left: -292px;
 }
 #newGroupsModal .users { clear:both; }
 #newGroupsModal .users p.left { float:left; width:285px; }
 #newGroupsModal .users p.right { float:left; }
 
 .custom-new-grp{
-  width : 355px;
+  width: 355px;
 }
 
 .own-grp-txt-fd{
- margin-top : 10px; 
+ margin-top: 10px; 
 }
 
 .grpList{
-  margin-left : 200px;
+  margin-left: 200px;
+  width: 640px;
 }
-
+.grpList .join-group-btn { margin-top:17px; }

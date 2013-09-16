@@ -2,6 +2,12 @@
 .grpList
   %h2.pull-left
     Groups
+  - unless @tournament_running
+    .pull-right.join-group-btn
+      - if @groups_to_join > 0
+        = link_to "Join #{@groups_to_join} New Group(s)", new_groups_custom_groups_path(:tournament_id => @current_tournament.id), :remote => true, :class => "btn btn-success"
+      - else
+        = link_to 'No New Groups To Join', "javascript:;", :class => "btn btn"
   %div{:style => 'clear:both;'}
 
   %h4 Your Group
@@ -88,8 +94,4 @@
           .customGrp{:id => "grpcons-#{gc.id}", :style => "display:none;"}
             = render :partial => "connected_members", :locals => {:cmembers => final_con, :grp_con_status => gc.status}
           %br/
-  - if @groups_to_join > 0
-    = link_to "Join #{@groups_to_join} New Group(s)", new_groups_custom_groups_path(:tournament_id => @current_tournament.id), :remote => true, :class => "btn btn-primary"
-  - else
-    = link_to 'No New Groups To Join', "javascript:;", :class => "btn btn"
   = link_to 'Back to Home', home_path, :style => 'margin-left:5px;'
