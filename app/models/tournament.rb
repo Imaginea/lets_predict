@@ -46,7 +46,7 @@ class Tournament < ActiveRecord::Base
     SQL
 
     self.joins("INNER JOIN (#{matches_sql}) M ON M.tournament_id = tournaments.id").
-      where("M.first_match_date >= ? AND M.last_match_date <= ?", Date.today, Date.today).
+      where("M.first_match_date <= ? AND M.last_match_date >= ?", Date.today, Date.today).
       count > 0
   end
 
@@ -78,13 +78,13 @@ class Tournament < ActiveRecord::Base
     self.matches.includes(:team, :opponent).
       where('date < ? AND winner_id is NOT NULL', Time.now.utc).
       order('date DESC').first
-  end 
+  end
 
   def next_match
     self.matches.includes(:team, :opponent).
       where('date > ?',Time.now.utc).
       order('date').first
-  end 
+  end
 
   def first_non_league_match
     self.matches.non_leagues.order('date').first
@@ -129,13 +129,13 @@ class Tournament < ActiveRecord::Base
         older << m
       elsif match_day <= today && m.date <= Time.now.utc
         recent << m
-      else  
+      else
         remaining << m
       end
     end
     [older, recent, remaining]
   end
-                                                   
+
   def categorize_matches_for_predict
     old, todays, remaining = [[],[],[]]
     today = Time.now.utc.to_date
