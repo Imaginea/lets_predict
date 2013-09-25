@@ -164,11 +164,12 @@ class Tournament < ActiveRecord::Base
 
   def connected_users_in_group(group)
     uids = group.connected_members_ids
-    User.joins("left outer join predictions on users.id = predictions.user_id AND predictions.tournament_id = #{self.id}").
+    con_users ||= User.joins("left outer join predictions on users.id = predictions.user_id AND predictions.tournament_id = #{self.id}").
       where('users.id IN (?)', uids).
       group('users.id, fullname').
       order('sum(points) DESC,fullname').
       select('users.id, fullname, location, sum(points) as total_points')
+    con_users.sort_by{|x| x.total_points.to_i}.reverse
   end
 
   def prediction_accuracy_by_user
