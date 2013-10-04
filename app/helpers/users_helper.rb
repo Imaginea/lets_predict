@@ -14,14 +14,8 @@ module UsersHelper
     "icon-ok pull-right hide"
   end
 
-  def get_accordion_class(today_matches)
-    return "accordion-body collapse in" if today_matches == 0
-    "accordion-body collapse"
-  end
-
-  def get_recent_accordion_class(recent_matches)
-    return "accordion-body collapse" if recent_matches == 0
-    "accordion-body collapse in"
+  def get_accordion_class(show = true)
+    "accordion-body collapse #{show ? 'in' : ''}"
   end
 
 end

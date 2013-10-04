@@ -17,7 +17,7 @@
             Completed Matches
             == (#{older.length})
 
-        %div{:id => "completedMatches", :class => get_accordion_class(recent.length)}    
+        %div{:id => "completedMatches", :class => get_accordion_class(recent.length == 0)}    
           = render :partial => "tournaments/statistics_part", :locals => {:matches => older}
       .accordion-group
         .accordion-heading
@@ -25,7 +25,7 @@
             Recent Matches
             == (#{recent.length})
 
-        %div{:id => "recentMatches", :class => get_recent_accordion_class(recent.length)}    
+        %div{:id => "recentMatches", :class => get_accordion_class(recent.length != 0)}    
           = render :partial => "tournaments/statistics_part", :locals => {:matches => recent}
       - if @user.id == current_user.id  
         .accordion-group
