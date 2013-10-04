@@ -16,14 +16,16 @@
           %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#completedMatches"}
             Completed Matches
             == (#{older.length})
-        #completedMatches.accordion-body.collapse
+
+        %div{:id => "completedMatches", :class => get_accordion_class(recent.length)}    
           = render :partial => "tournaments/statistics_part", :locals => {:matches => older}
       .accordion-group
         .accordion-heading
           %a.accordion-toggle{"data-parent" => "#statistics-accordion", "data-toggle"=>"collapse", :href=>"#recentMatches"}
             Recent Matches
             == (#{recent.length})
-        #recentMatches.accordion-body.collapse.in
+
+        %div{:id => "recentMatches", :class => get_recent_accordion_class(recent.length)}    
           = render :partial => "tournaments/statistics_part", :locals => {:matches => recent}
       - if @user.id == current_user.id  
         .accordion-group

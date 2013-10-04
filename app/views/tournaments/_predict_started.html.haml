@@ -36,7 +36,7 @@
               %a.accordion-toggle{"data-parent" => "#predict-accordion", "data-toggle"=>"collapse", :href=>"#futureMatches"}
                 Upcoming Matches
                 == (#{remaining.length})
-            #futureMatches.accordion-body.collapse
+            %div{:id => "futureMatches", :class => get_accordion_class(today.length)}
               %table.table.table-condensed.table-striped.match
                 %tbody
                   - remaining.select{ |m| m["match_type"] == "league" }.each do |match|
