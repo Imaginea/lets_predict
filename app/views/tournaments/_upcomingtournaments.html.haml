@@ -26,7 +26,7 @@
           - msg = alert_color = nil
           - if t.waiting_for_non_leagues?
             - m, alert_color = t.first_non_league_match, 'red'
-            - msg = 'Predictions for ALL play-offs ends in'
+            - msg = 'Predictions for <b>ALL play-offs</b> ends in'.html_safe
           - elsif prediction_percent != '100%'
             - m = t.first_unpredicted_match(current_user.id)
             - alert_color = (m.date - Time.now.utc) > 36.hours ? 'green' : 'red'
