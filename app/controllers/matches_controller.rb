@@ -19,6 +19,7 @@ class MatchesController < ApplicationController
 
   def update_results
     t = Tournament.find(params[:tournament_id])
+    @teams = t.teams
     @matches = t.matches_to_update.to_a
   end
 

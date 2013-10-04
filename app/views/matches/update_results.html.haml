@@ -14,10 +14,13 @@
         = hidden_field_tag "tournament_id", m.tournament_id
         %tr
           %td= m.date.label
-          %td= m.team.name
-          %td= m.opponent.name
+          %td= m.team.try(:name)
+          %td= m.opponent.try(:name)
           %td
-            = select_tag :winner_id, options_for_select([[m.team.name, m.team.id],[m.opponent.name, m.opponent.id]])
+            - if(m.team == nil && m.opponent == nil)
+              = select_tag :winner_id, options_from_collection_for_select(@teams, "id", "name")
+            -else
+              = select_tag :winner_id, options_for_select([[m.team.name, m.team.id],[m.opponent.name, m.opponent.id]])
           %td
             = submit_tag "Update", :class => "btn btn-primary"
 
