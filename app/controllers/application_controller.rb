@@ -25,6 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def restrict_to_running_tournaments
+    @current_tournament =  Tournament.find(params[:tournament_id])
     access_denied if Tournament.any_running?
   end
 

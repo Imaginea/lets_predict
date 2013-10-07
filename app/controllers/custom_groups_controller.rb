@@ -3,6 +3,7 @@ class CustomGroupsController < ApplicationController
   include CustomGroupsHelper
 
   def index
+    @current_tournament =  Tournament.find(params[:tournament_id])
     @tournament_running = Tournament.any_running?
     @own_group = current_user.custom_group
     scope = @tournament_running ? :connected : :requested
