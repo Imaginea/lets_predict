@@ -1,5 +1,5 @@
 class CustomGroupsController < ApplicationController
-  before_filter :restrict_to_closed_tournaments
+  before_filter :restrict_to_running_tournaments, :except => :index
   include CustomGroupsHelper
 
   def index

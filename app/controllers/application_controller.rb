@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
     access_denied unless @current_tournament.started?
   end
 
+  def restrict_to_running_tournaments
+    access_denied if Tournament.any_running?
+  end
+
   # used in predictions controller
   def restrict_to_closed_tournaments
     @current_tournament = Tournament.find(params[:tournament_id])
