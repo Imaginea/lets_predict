@@ -25,6 +25,21 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Find all users who are part of the current tournament
+  # and having an unpredicted match coming up shortly.
+  # Use it in cron(runs every 5mins) to send out remainder emails.
+  #
+  # Returns the User scope which can be chained further, like:
+  # User.with_immediate_unpredicted_match.pluck(:email)
+  #
+  def self.with_immediate_unpredicted_match
+    now = Time.now.utc
+    User.joins(:predictions => [:tournament, :match]).
+      where(:tournaments => "start_date <= #{Date.today} AND end_date >= #{Date.today}").
+      where(:matches     => "date > #{now} AND date <= #{now + 2.hours}").
+      where(:predictions => "predicted_team_id IS NULL")
+  end
+
   def location_invalid?
     loc = self.location.to_s.strip
     !VALID_LOCATIONS.include?(loc)
