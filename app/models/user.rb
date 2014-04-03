@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
     now = Time.now.utc
     User.joins(:predictions => [:tournament, :match]).
       where(:tournaments => "start_date <= #{Date.today} AND end_date >= #{Date.today}").
-      where(:matches     => "date > #{now} AND date <= #{now + 2.hours}").
+      where(:matches     => "match_type = 'league' AND date > #{now} AND date <= #{now + 2.hours}").
       where(:predictions => "predicted_team_id IS NULL")
   end
 
