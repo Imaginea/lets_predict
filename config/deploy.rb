@@ -22,9 +22,9 @@ set :use_sudo, false
 set :deploy_to, "/data/www/#{application}"
 set :deploy_via, :remote_cache
 
-role :web, "192.168.6.44"                          # Your HTTP server, Apache/etc
-role :app, "192.168.6.44"                          # This may be the same as your `Web` server
-role :db,  "192.168.6.44", :primary => true # This is where Rails migrations will run
+role :web, "172.17.1.200"                          # Your HTTP server, Apache/etc
+role :app, "172.17.1.200"                          # This may be the same as your `Web` server
+role :db,  "172.17.1.200", :primary => true # This is where Rails migrations will run
 
 before 'deploy:setup', 'rvm:create_gemset'
 before 'deploy:migrate', 'deploy:setup_database_yml'
