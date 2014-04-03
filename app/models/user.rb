@@ -35,9 +35,9 @@ class User < ActiveRecord::Base
   def self.with_immediate_unpredicted_match
     now = Time.now.utc
     User.joins(:predictions => [:tournament, :match]).
-      where(:tournaments => "start_date <= #{Date.today} AND end_date >= #{Date.today}").
-      where(:matches     => "match_type = 'league' AND date > #{now} AND date <= #{now + 2.hours}").
-      where(:predictions => "predicted_team_id IS NULL")
+      where("tournaments.start_date <= '#{Date.today}' AND tournaments.end_date >= '#{Date.today}'").
+      where("matches.match_type = 'league' AND matches.date > '#{now}' AND matches.date <= '#{now + 2.hours}'").
+      where("predictions.predicted_team_id IS NULL")
   end
 
   def location_invalid?
