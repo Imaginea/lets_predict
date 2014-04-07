@@ -28,6 +28,8 @@ gem 'carrierwave'
 gem 'daemons'
 gem 'delayed_job_active_record'
 
+gem 'whenever', :require => false
+
 #gem 'fastercsv'
 
 # To use ActiveModel has_secure_password

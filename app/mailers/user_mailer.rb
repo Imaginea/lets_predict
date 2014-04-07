@@ -68,6 +68,11 @@ class UserMailer < ActionMailer::Base
     generic_mail(to_emails, subj, tokens)
   end
 
+  def prediction_reminder_email(emails)
+    mail(:to => emails, :subject => 'You have not predicted for the next upcoming match!')
+  end
+
+
   protected
 
   # Common bodyless mails that varies only in :to and :subject

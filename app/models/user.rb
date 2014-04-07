@@ -31,12 +31,12 @@ class User < ActiveRecord::Base
   #
   # Returns the User scope which can be chained further, like:
   # User.with_immediate_unpredicted_match.pluck(:email)
-  #
+  
   def self.with_immediate_unpredicted_match
     now = Time.now.utc
     User.joins(:predictions => [:tournament, :match]).
       where("tournaments.start_date <= '#{Date.today}' AND tournaments.end_date >= '#{Date.today}'").
-      where("matches.match_type = 'league' AND matches.date > '#{now}' AND matches.date <= '#{now + 2.hours}'").
+      where("matches.match_type = ? AND matches.date > ? AND matches.date < ?","league",Time.now,Time.now + 2.hours).
       where("predictions.predicted_team_id IS NULL")
   end
 
@@ -124,6 +124,12 @@ class User < ActiveRecord::Base
 
   def invitations
     GroupConnection.pending_connections(self)
+  end
+
+  def self.send_prediction_reminder
+    recipients = self.with_immediate_unpredicted_match
+    emails = recipients.collect{|user| user.email}
+    UserMailer.prediction_reminder_email(emails).deliver
   end
 
   private
