@@ -34,7 +34,7 @@ class Tournament < ActiveRecord::Base
 
   def self.past_tournaments
     today = Date.today
-    self.where("end_date < ?", today-3).order('end_date DESC')
+    self.where("end_date <= ?", today-2).order('end_date DESC')
   end
 
   # returns true if there's an active/ongoing tournament
