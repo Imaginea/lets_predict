@@ -69,7 +69,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def prediction_reminder_email(emails)
-    mail(:to => emails, :subject => 'You have not predicted for the next upcoming match!')
+    generic_mail(emails, 'Reminder - You have an unpredicted match starting soon')
   end
 
 
