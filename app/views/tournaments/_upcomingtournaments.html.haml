@@ -31,7 +31,7 @@
             - m = t.first_unpredicted_match(current_user.id)
             - alert_color = (m.date - Time.now.utc) > 36.hours ? 'green' : 'red'
             - msg = 'Next unpredicted match starts in'
-          - if msg && alert_color
+          - if msg && alert_color && !current_user.location_invalid?
             %p.alert.alert-warning#upcoming-alert
               = msg
               %span{:style => "color:#{alert_color}"}= distance_of_time_in_words(m.date, Time.now.utc)
