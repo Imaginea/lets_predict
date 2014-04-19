@@ -1,8 +1,13 @@
+- users_by_loc = tournament.predictors.group_by(&:location)
 .modal-backdrop.in
 #usersModal.modal{:role => "dialog", :tabindex => "-1", "aria-hidden"=>"true", :style => 'width:675px;'}
   .modal-header
     %button.close-button.close{:type => "button", "data-dismiss" => "modal", "aria-hidden" => "true"}x
     %h3= tournament.name
+    %h5
+      - users_by_loc.each do |loc, users|
+        %a{:href => "##{loc}", :style => 'margin-right:10px;'}
+          ==#{loc} (#{users.size})
   .modal-body
     %table.table.table-striped.table-condensed
       %thead
@@ -11,9 +16,12 @@
           %th Predictions
           %th Location
       %tbody
-        - tournament.predictors.each do |u|
-          %tr
-            %td= u.fullname
-            %td= u.matches_predicted
-            %td= u.location
+        - users_by_loc.each do |loc, users|
+          %tr{:id => loc}
+            %th.center{:colspan => 3}= loc
+          - users.each do |u|
+            %tr
+              %td= u.fullname
+              %td= u.matches_predicted
+              %td= u.location
   .modal-footer
