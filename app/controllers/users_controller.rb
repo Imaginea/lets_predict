@@ -10,6 +10,8 @@ class UsersController < ApplicationController
   end
 
   def leaderboard
+    loc = params[:loc]
+    @users = @current_tournament.leaderboard_users(loc).all
   end
 
   def location_change

@@ -153,10 +153,11 @@ class Tournament < ActiveRecord::Base
     [old, todays, remaining]
   end
 
-  def leaderboard_users
+  def leaderboard_users(loc = nil)
+    loc_conds = "AND location = '#{loc}'" if loc.present?
     @leaderboard_users ||= self.predictions.
       joins(:user).
-      where('predicted_team_id IS NOT NULL').
+      where("predicted_team_id IS NOT NULL #{loc_conds}").
       group('users.id, fullname, location').
       order('sum(points) DESC,fullname').
       select('users.id, fullname, location, sum(points) as total_points, count(predicted_team_id) as matches_predicted')
@@ -205,6 +206,14 @@ class Tournament < ActiveRecord::Base
       group('fullname,location').
       order('fullname').
       select('fullname, location, count(predicted_team_id) as matches_predicted').to_a
+  end
+
+  # find locations of all players for the current tournament
+  # used for filter options in leaderbord view
+  def predictor_locations
+    @predictor_locations ||= self.predictions.joins(:user).
+      where('predicted_team_id IS NOT NULL').
+      group('location').pluck(:location)
   end
 
   def inactive_users

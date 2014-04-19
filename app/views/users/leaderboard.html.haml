@@ -5,6 +5,16 @@
 = link_to 'Back to Home', home_path, :class => 'pull-right', :style => 'margin-top:20px;'
 %div{:style => 'clear:both;'}
 
+- locs = @current_tournament.predictor_locations
+- if locs.size > 1
+  %p
+    Filter by location:
+    - locs.each do |loc|
+      %a{:href => leaderboard_users_path(:tournament_id => @current_tournament.id, :loc => loc), :style => 'margin-left:15px;'}
+        = loc
+    %a.btn{:href => leaderboard_users_path(:tournament_id => @current_tournament.id), :style => 'margin-left:10px;'}
+      Clear Filter
+
 %table.table.table-striped#users
   %thead.header
     %tr
@@ -19,7 +29,7 @@
   %tbody
     - position, last_points = 0, -1
     - accuracy_map = @current_tournament.prediction_accuracy_by_user
-    -  @current_tournament.leaderboard_users.all.each_with_index do |u, i|
+    -  @users.each_with_index do |u, i|
       - me = u.id == current_user.id
       - position += 1 unless last_points == u.total_points.to_i
       %tr{:style => me ? 'border:2px solid green' : ''}
