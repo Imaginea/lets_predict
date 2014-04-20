@@ -1,8 +1,9 @@
-#logo-inner=link_to image_tag('logo_small.png'), home_path
+#logo-inner.hidden-phone
+  =link_to image_tag('logo_small.png'), home_path
 .pull-right#nav-pull-right
   %span{:style => 'font-size:17;color:#b4c0cb;vertical-align:middle'}
     = current_user.fullname.upcase 
-  %a.help{:href => '#how_it_works', 'data-toggle' => 'modal', :title => 'Help'}
+  %a.help.hidden-phone{:href => '#how_it_works', 'data-toggle' => 'modal', :title => 'Help'}
     =image_tag('help.png', :id => 'help-image')
   %a.signout{:href => signout_path, :title => 'Signout' }
     =image_tag('signout.png', :id => 'signout-image')

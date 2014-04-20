@@ -1,6 +1,7 @@
-.span5
+%h1.visible-phone Lets Predict
+.span5.hidden-phone
   =image_tag('logo.png', :id => 'logo')
-= form_tag sessions_path, :method => :post, :class => 'well', :style => 'width:350px;margin:50px;margin-bottom:20px;float:left;' do
+= form_tag sessions_path, :method => :post, :class => 'well login-form' do
   %legend Login
   .controls
     = text_field_tag "user[login]", "", :placeholder => 'LDAP Username', :class => 'input-large'

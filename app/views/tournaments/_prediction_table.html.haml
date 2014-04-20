@@ -15,4 +15,4 @@
       %i{:id => "opponent-icon-#{index}","data-index" => "#{index}", :class => get_icon_class(@predicted_teams, m.id, m.opponent.name)}
   -foo = "at "
   -foo << m.venue
-  %td#venue-td= foo
+  %td#venue-td.hidden-phone= foo
