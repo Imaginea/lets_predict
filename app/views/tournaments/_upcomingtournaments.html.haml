@@ -4,7 +4,7 @@
     .well
       %h4.pull-left#name-pull-left
         = t.name
-      .pull-right.hidden-phone
+      .pull-right
         - groups_cnt = CustomGroup.count
         - link_text = groups_cnt > 0 ? pluralize(groups_cnt, 'Group') : 'Groups'
         = link_to link_text, custom_groups_path(:tournament_id => t.id), :class => "k_spec strong"
