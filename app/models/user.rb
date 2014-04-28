@@ -71,6 +71,11 @@ class User < ActiveRecord::Base
     self.predictions.where(:match_id => match.id).first
   end
 
+  def predicted_team_for(match)
+    p = self.prediction_for(match)
+    p.try(:predicted_team)
+  end
+
   def total_points_for(t_id)
     predictions.where(:tournament_id => t_id).sum(:points)
   end

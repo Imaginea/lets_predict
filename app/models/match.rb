@@ -45,6 +45,14 @@ class Match < ActiveRecord::Base
     @predictions ||= self.predictions.joins(:user).where(:points => self.success_points).select('fullname,location')
   end
 
+  def predictors_count
+    self.predictions.where('predicted_team_id IS NOT NULL').count
+  end
+
+  def predictors_count_for(team)
+    self.predictions.where('predicted_team_id = ?', team.id).count
+  end
+
   private 
 
   def league_match? 

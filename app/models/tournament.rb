@@ -86,6 +86,12 @@ class Tournament < ActiveRecord::Base
       order('date').first
   end
 
+  def current_match
+    self.matches.includes(:team, :opponent).
+      where('date < ? AND winner_id IS NULL', Time.now.utc).
+      order('date DESC').first
+  end
+
   def first_non_league_match
     self.matches.non_leagues.order('date').first
   end

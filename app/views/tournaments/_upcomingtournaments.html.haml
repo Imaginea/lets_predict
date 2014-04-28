@@ -1,20 +1,21 @@
 #modal-container.hide
 - if @new_tournaments.any?
   - @new_tournaments.each do |t|
-    .well
-      %h4.pull-left#name-pull-left
-        = t.name
-      .pull-right
-        - groups_cnt = CustomGroup.count
-        - link_text = groups_cnt > 0 ? pluralize(groups_cnt, 'Group') : 'Groups'
-        = link_to link_text, custom_groups_path(:tournament_id => t.id), :class => "k_spec strong hidden-phone"
-        .groupslnk{:style => current_user.admin? ? 'border-left:1px solid black; padding-left:5px; float : right' : ''}
-          -if current_user.admin?
-            = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)
-        %div{:style => 'clear:both;'}
-      %span.label.label-info
-        = "#{t.start_date.label} - #{t.end_date.label}"
+    %h4.pull-left#name-pull-left{:style => 'margin-bottom:5px;'}
+      = t.name
+    .pull-right
+      - groups_cnt = CustomGroup.count
+      - link_text = groups_cnt > 0 ? pluralize(groups_cnt, 'Group') : 'Groups'
+      = link_to link_text, custom_groups_path(:tournament_id => t.id), :class => "k_spec strong hidden-phone"
+      .groupslnk{:style => current_user.admin? ? 'border-left:1px solid black; padding-left:5px; float : right' : ''}
+        -if current_user.admin?
+          = link_to 'Update Results', update_results_matches_path(:tournament_id => t.id)
       %div{:style => 'clear:both;'}
+    %span.label.label-info
+      = "#{t.start_date.label} - #{t.end_date.label}"
+    %div{:style => 'clear:both;'}
+
+    .well
       .pull-left#upcoming-left-pull-left
         - unless t.predictions_closed?
           - prediction_percent = ((current_user.predictions_count(t.id) / t.matches_count.to_f) * 100).round.to_s + '%'
@@ -90,6 +91,19 @@
             .clear-left-div
           = link_to "Check Tournament Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"
       .clear-left-div
+    - if m_cur = t.current_match
+      - teams = m_cur.abbrev_team_names
+      - pred_team = current_user.predicted_team_for(m_cur)
+      - report_team = pred_team || m_cur.team
+      %p.alert.alert-success{:style => 'margin-top:-14px;'}
+        %b Current Match:
+        = teams.first + " vs " + teams.last
+        %span.seperator= " | "
+        %span Your prediction: #{pred_team.try(:abbrev) || 'NA'}
+        %span.seperator= " | "
+        %span
+          %b== #{m_cur.predictors_count}/#{m_cur.predictors_count_for(report_team)}
+          == has predicted for #{report_team.abbrev}
 - else
   .well
     %h5 There are no Active Tournaments
