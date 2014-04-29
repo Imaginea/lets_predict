@@ -15,6 +15,24 @@
       = "#{t.start_date.label} - #{t.end_date.label}"
     %div{:style => 'clear:both;'}
 
+    - if m_cur = t.current_match
+      - teams = m_cur.abbrev_team_names
+      - pred_team = current_user.predicted_team_for(m_cur)
+      - report_team = pred_team || m_cur.team
+      %p.alert.alert-success{:style => 'margin:10px 0;'}
+        %b Current Match:
+        = teams.first + " vs " + teams.last
+        %span.seperator= " | "
+        %span Your prediction: #{pred_team.try(:abbrev) || 'NA'}
+        %span.seperator= " | "
+        %span
+          - count_for_team = m_cur.predictors_count_for(report_team)
+          - total_count = m_cur.predictors_count
+          - percent = total_count > 0 ? count_for_team / total_count.to_f * 100 : 0
+          %b== #{count_for_team}/#{total_count}
+          %b== (#{percent.round}%)
+          == has predicted for #{report_team.abbrev}
+          
     .well
       .pull-left#upcoming-left-pull-left
         - unless t.predictions_closed?
@@ -91,23 +109,6 @@
             .clear-left-div
           = link_to "Check Tournament Leaderboard", leaderboard_users_path(:tournament_id => t.id), :class => "btn btn-primary"
       .clear-left-div
-    - if m_cur = t.current_match
-      - teams = m_cur.abbrev_team_names
-      - pred_team = current_user.predicted_team_for(m_cur)
-      - report_team = pred_team || m_cur.team
-      %p.alert.alert-success{:style => 'margin-top:-14px;'}
-        %b Current Match:
-        = teams.first + " vs " + teams.last
-        %span.seperator= " | "
-        %span Your prediction: #{pred_team.try(:abbrev) || 'NA'}
-        %span.seperator= " | "
-        %span
-          - count_for_team = m_cur.predictors_count_for(report_team)
-          - total_count = m_cur.predictors_count
-          - percent = total_count > 0 ? count_for_team / total_count.to_f * 100 : 0
-          %b== #{count_for_team}/#{total_count}
-          %b== (#{percent.round}%)
-          == has predicted for #{report_team.abbrev}
 - else
   .well
     %h5 There are no Active Tournaments
