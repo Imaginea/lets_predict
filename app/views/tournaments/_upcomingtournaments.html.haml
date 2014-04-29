@@ -102,7 +102,11 @@
         %span Your prediction: #{pred_team.try(:abbrev) || 'NA'}
         %span.seperator= " | "
         %span
-          %b== #{m_cur.predictors_count}/#{m_cur.predictors_count_for(report_team)}
+          - count_for_team = m_cur.predictors_count_for(report_team)
+          - total_count = m_cur.predictors_count
+          - percent = total_count > 0 ? count_for_team / total_count.to_f * 100 : 0
+          %b== #{count_for_team}/#{total_count}
+          %b== (#{percent.round}%)
           == has predicted for #{report_team.abbrev}
 - else
   .well

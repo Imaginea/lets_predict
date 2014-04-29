@@ -46,7 +46,7 @@ class Match < ActiveRecord::Base
   end
 
   def predictors_count
-    self.predictions.where('predicted_team_id IS NOT NULL').count
+    @predictors_count ||= self.predictions.where('predicted_team_id IS NOT NULL').count
   end
 
   def predictors_count_for(team)
