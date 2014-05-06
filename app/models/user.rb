@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   after_create :get_ldap_params
 
   VALID_LOCATIONS = ['Chennai', 'Bangalore', 'Hyderabad']
-  ADMINS = ['suprajas', 'sathishn', 'kalyanc']
+  ADMINS = ['suprajas', 'sathishn', 'padmanabhanr']
 
   def self.authenticate(params)
     if ldap_authenticate(params[:login], params[:password])
