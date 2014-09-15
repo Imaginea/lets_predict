@@ -1,60 +1,32 @@
-04/16/2014 20:00:00;Abu Dhabi;league;Mumbai Indians;Kolkata Knight Riders
-04/17/2014 20:00:00;Sharjah;league;Delhi Daredevils;Royal Challengers Bangalore
-04/18/2014 16:00:00;Abu Dhabi;league;Chennai Super Kings;Kings XI Punjab
-04/18/2014 20:00:00;Abu Dhabi;league;Sun Risers Hyderabad;Rajasthan Royals
-04/19/2014 16:00:00;Dubai;league;Royal Challengers Bangalore;Mumbai Indians
-04/19/2014 20:00:00;Dubai;league;Kolkata Knight Riders;Delhi Daredevils
-04/20/2014 20:00:00;Sharjah;league;Rajasthan Royals;Kings XI Punjab
-04/21/2014 20:00:00;Abu Dhabi;league;Chennai Super Kings;Delhi Daredevils
-04/22/2014 20:00:00;Sharjah;league;Kings XI Punjab;Sun Risers Hyderabad
-04/23/2014 20:00:00;Dubai;league;Rajasthan Royals;Chennai Super Kings
-04/24/2014 20:00:00;Sharjah;league;Royal Challengers Bangalore;Kolkata Knight Riders
-04/25/2014 16:00:00;Dubai;league;Sun Risers Hyderabad;Delhi Daredevils
-04/25/2014 20:00:00;Dubai;league;Chennai Super Kings;Mumbai Indians
-04/26/2014 16:00:00;Abu Dhabi;league;Rajasthan Royals;Royal Challengers Bangalore
-04/26/2014 20:00:00;Abu Dhabi;league;Kolkata Knight Riders;Kings XI Punjab
-04/27/2014 16:00:00;Sharjah;league;Delhi Daredevils;Mumbai Indians
-04/27/2014 20:00:00;Sharjah;league;Sun Risers Hyderabad;Chennai Super Kings
-04/28/2014 20:00:00;Dubai;league;Kings XI Punjab;Royal Challengers Bangalore
-04/29/2014 20:00:00;Abu Dhabi;league;Kolkata Knight Riders;Rajasthan Royals
-04/30/2014 20:00:00;Dubai;league;Mumbai Indians;Sun Risers Hyderabad
-05/02/2014 20:00:00;Ranchi;league;Chennai Super Kings;Kolkata Knight Riders
-05/03/2014 16:00:00;Mumbai;league;Mumbai Indians;Kings XI Punjab
-05/03/2014 20:00:00;Delhi;league;Delhi Daredevils;Rajasthan Royals
-05/04/2014 20:00:00;Bangalore;league;Royal Challengers Bangalore;Sun Risers Hyderabad
-05/05/2014 16:00:00;Ahmedabad;league;Rajasthan Royals;Kolkata Knight Riders
-05/05/2014 20:00:00;Delhi;league;Delhi Daredevils;Chennai Super Kings
-05/06/2014 20:00:00;Mumbai;league;Mumbai Indians;Royal Challengers Bangalore
-05/07/2014 16:00:00;Delhi;league;Delhi Daredevils;Kolkata Knight Riders
-05/07/2014 20:00:00;Cuttack;league;Kings XI Punjab;Chennai Super Kings
-05/08/2014 20:00:00;Ahmedabad;league;Rajasthan Royals;Sun Risers Hyderabad
-05/09/2014 20:00:00;Bangalore;league;Royal Challengers Bangalore;Kings XI Punjab
-05/10/2014 16:00:00;Delhi;league;Delhi Daredevils;Sun Risers Hyderabad
-05/10/2014 20:00:00;Mumbai;league;Mumbai Indians;Chennai Super Kings
-05/11/2014 16:00:00;Cuttack;league;Kings XI Punjab;Kolkata Knight Riders
-05/11/2014 20:00:00;Bangalore;league;Royal Challengers Bangalore;Rajasthan Royals
-05/12/2014 20:00:00;Hyderabad;league;Sun Risers Hyderabad;Mumbai Indians
-05/13/2014 16:00:00;Ranchi;league;Chennai Super Kings;Rajasthan Royals
-05/13/2014 20:00:00;Bangalore;league;Royal Challengers Bangalore;Delhi Daredevils
-05/14/2014 16:00:00;Hyderabad;league;Sun Risers Hyderabad;Kings XI Punjab
-05/14/2014 20:00:00;Kolkata;league;Kolkata Knight Riders;Mumbai Indians
-05/15/2014 20:00:00;Ahmedabad;league;Rajasthan Royals;Delhi Daredevils
-05/18/2014 16:00:00;Chennai;league;Chennai Super Kings;Royal Challengers Bangalore
-05/18/2014 20:00:00;Hyderabad;league;Sun Risers Hyderabad;Kolkata Knight Riders
-05/19/2014 16:00:00;Ahmedabad;league;Rajasthan Royals;Mumbai Indians
-05/19/2014 20:00:00;Delhi;league;Delhi Daredevils;Kings XI Punjab
-05/20/2014 16:00:00;Hyderabad;league;Sun Risers Hyderabad;Royal Challengers Bangalore
-05/20/2014 20:00:00;Kolkata;league;Kolkata Knight Riders;Chennai Super Kings
-05/21/2014 20:00:00;Chandigarh;league;Kings XI Punjab;Mumbai Indians
-05/22/2014 16:00:00;Kolkata;league;Kolkata Knight Riders;Royal Challengers Bangalore
-05/22/2014 20:00:00;Chennai;league;Chennai Super Kings;Sun Risers Hyderabad
-05/23/2014 16:00:00;Mumbai;league;Mumbai Indians;Delhi Daredevils
-05/23/2014 20:00:00;Chandigarh;league;Kings XI Punjab;Rajasthan Royals
-05/24/2014 16:00:00;Bangalore;league;Royal Challengers Bangalore;Chennai Super Kings
-05/24/2014 20:00:00;Kolkata;league;Kolkata Knight Riders;Sun Risers Hyderabad
-05/25/2014 16:00:00;Chandigarh;league;Kings XI Punjab;Delhi Daredevils
-05/25/2014 20:00:00;Mumbai;league;Mumbai Indians;Rajasthan Royals
-05/27/2014 20:00:00;Chennai;qualifier;TBC;TBC
-05/28/2014 20:00:00;Chennai;eliminator;TBC;TBC
-05/30/2014 20:00:00;Mumbai;qualifier;TBC;TBC
-06/01/2014 20:00:00;Mumbai;final;TBC;TBC
+09/17/2014 20:00:00;Hyderabad;league;Kolkata Knight Riders;Chennai Super Kings
+09/18/2014 20:00:00;Mohali;league;Kings XI Punjab;Hobart Hurricanes
+09/19/2014 20:00:00;Raipur;league;Cape Cobras;TBC
+09/20/2014 16:00:00;Mohali;league;Dolphins;Perth Scorchers
+09/20/2014 20:00:00;Mohali;league;Barbados Tridents;Kings XI Punjab
+09/21/2014 16:00:00;Hyderabad;league;Cape Cobras;Hobart Hurricanes
+09/21/2014 20:00:00;Hyderabad;league;Kolkata Knight Riders;TBC
+09/22/2014 20:00:00;Bangalore;league;Dolphins;Chennai Super Kings
+09/23/2014 20:00:00;Raipur;league;Hobart Hurricanes;TBC
+09/24/2014 20:00:00;Hyderabad;league;Kolkata Knight Riders;Perth Scorchers
+09/25/2014 20:00:00;Bangalore;league;Chennai Super Kings;TBC
+09/26/2014 16:00:00;Mohali;league;Barbados Tridents;Cape Cobras
+09/26/2014 20:00:00;Mohali;league;Kings XI Punjab;TBC
+09/27/2014 16:00:00;Bangalore;league;Dolphins;TBC
+09/27/2014 20:00:00;Bangalore;league;Perth Scorchers;Chennai Super Kings
+09/28/2014 16:00:00;Mohali;league;Barbados Tridents;Hobart Hurricanes
+09/28/2014 20:00:00;Mohali;league;Kings XI Punjab;Cape Cobras
+09/29/2014 20:00:00;Hyderabad;league;Kolkata Knight Riders;Dolphins
+09/30/2014 16:00:00;Bangalore;league;Perth Scorchers;TBC
+09/30/2014 20:00:00;Bangalore;league;Barbados Tridents;TBC
+10/02/2014 16:00:00;Hyderabad;semifinal;TBC,TBC
+10/02/2014 20:00:00;Hyderabad;semifinal;TBC,TBC
+10/04/2014 20:00:00;Bangalore;final;TBC,TBC
+
+
+
+
+
+
+
+
+
