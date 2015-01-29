@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'net/ldap'
+
+term = ARGV.first.to_s.strip
+if term.empty?
+  puts "Usage:"
+  puts "./script/ldap_search sathish"
+  exit(0)
+end
+
+ldap = Net::LDAP.new
+ldap.host = "ldap.pramati.com"
+filter = Net::LDAP::Filter.eq("uid", "#{term}*")
+treebase = "ou=Employees, dc=pramati, dc=com"
+results = ldap.search(:base => treebase, :filter => filter)
+
+puts results.inspect
