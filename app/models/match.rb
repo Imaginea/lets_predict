@@ -7,7 +7,7 @@ class Match < ActiveRecord::Base
   belongs_to :winner, :class_name => 'Team'
   has_many :predictions
 
-  VALID_MATCH_TYPES = %w(league semifinal final qualifier eliminator)
+  VALID_MATCH_TYPES = %w(league quarterfinal semifinal final qualifier eliminator)
 
   validates :date, :presence => true
   validates :match_type, :inclusion => { :in => VALID_MATCH_TYPES, :message => "Not a valid match type" }
@@ -21,7 +21,7 @@ class Match < ActiveRecord::Base
     case self.match_type.to_sym
     when :league
       3
-    when :semifinal, :qualifier, :eliminator
+    when :quarterfinal, :semifinal, :qualifier, :eliminator
       6
     when :final
       9

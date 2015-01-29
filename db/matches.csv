@@ -1,23 +1,49 @@
-09/17/2014 20:00:00;Hyderabad;league;Kolkata Knight Riders;Chennai Super Kings
-09/18/2014 20:00:00;Mohali;league;Kings XI Punjab;Hobart Hurricanes
-09/19/2014 20:00:00;Raipur;league;Cape Cobras;TBC
-09/20/2014 16:00:00;Mohali;league;Dolphins;Perth Scorchers
-09/20/2014 20:00:00;Mohali;league;Barbados Tridents;Kings XI Punjab
-09/21/2014 16:00:00;Hyderabad;league;Cape Cobras;Hobart Hurricanes
-09/21/2014 20:00:00;Hyderabad;league;Kolkata Knight Riders;TBC
-09/22/2014 20:00:00;Bangalore;league;Dolphins;Chennai Super Kings
-09/23/2014 20:00:00;Raipur;league;Hobart Hurricanes;TBC
-09/24/2014 20:00:00;Hyderabad;league;Kolkata Knight Riders;Perth Scorchers
-09/25/2014 20:00:00;Bangalore;league;Chennai Super Kings;TBC
-09/26/2014 16:00:00;Mohali;league;Barbados Tridents;Cape Cobras
-09/26/2014 20:00:00;Mohali;league;Kings XI Punjab;TBC
-09/27/2014 16:00:00;Bangalore;league;Dolphins;TBC
-09/27/2014 20:00:00;Bangalore;league;Perth Scorchers;Chennai Super Kings
-09/28/2014 16:00:00;Mohali;league;Barbados Tridents;Hobart Hurricanes
-09/28/2014 20:00:00;Mohali;league;Kings XI Punjab;Cape Cobras
-09/29/2014 20:00:00;Hyderabad;league;Kolkata Knight Riders;Dolphins
-09/30/2014 16:00:00;Bangalore;league;Perth Scorchers;TBC
-09/30/2014 20:00:00;Bangalore;league;Barbados Tridents;TBC
-10/02/2014 16:00:00;Hyderabad;semifinal;TBC,TBC
-10/02/2014 20:00:00;Hyderabad;semifinal;TBC,TBC
-10/04/2014 20:00:00;Bangalore;final;TBC,TBC
+02/14/2015 03:30:00;Christchurch;league;New Zealand;Sri Lanka
+02/14/2015 09:00:00;Melbourne;league;Australia;England
+02/15/2015 06:30:00;Hamilton;league;South Africa;Zimbabwe
+02/15/2015 09:00:00;Adelaide;league;India;Pakistan
+02/16/2015 03:30:00;Nelson;league;Ireland;West Indies
+02/17/2015 03:30:00;Dunedin;league;New Zealand;Scotland
+02/18/2015 09:00:00;Canberra;league;Afghanistan;Bangladesh
+02/19/2015 03:30:00;Nelson;league;United Arab Emirates;Zimbabwe
+02/20/2015 06:30:00;Wellington;league;New Zealand;England
+02/21/2015 03:30:00;Christchurch;league;Pakistan;West Indies
+02/21/2015 09:00:00;Brisbane;league;Australia;Bangladesh
+02/22/2015 03:30:00;Dunedin;league;Afghanistan;Sri Lanka
+02/22/2015 09:00:00;Melbourne;league;India;South Africa
+02/23/2015 03:30:00;Christchurch;league;England;Scotland
+02/24/2015 09:00:00;Canberra;league;West Indies;Zimbabwe
+02/25/2015 09:00:00;Brisbane;league;Ireland;United Arab Emirates
+02/26/2015 03:30:00;Dunedin;league;Afghanistan;Scotland
+02/26/2015 09:00:00;Melbourne;league;Bangladesh;Sri Lanka
+02/27/2015 09:00:00;Sydney;league;South Africa;West Indies
+02/28/2015 06:30:00;Auckland;league;New Zealand;Australia
+02/28/2015 12:00:00;Perth;league;India;United Arab Emirates
+03/01/2015 03:30:00;Wellington;league;England;Sri Lanka
+03/01/2015 09:00:00;Brisbane;league;Pakistan;Zimbabwe
+03/03/2015 09:00:00;Canberra;league;Ireland;South Africa
+03/04/2015 06:30:00;Napier;league;Pakistan;United Arab Emirates
+03/04/2015 12:00:00;Perth;league;Australia;Afghanistan
+03/05/2015 03:30:00;Nelson;league;Bangladesh;Scotland
+03/06/2015 12:00:00;Perth;league;India;West Indies
+03/07/2015 06:30:00;Auckland;league;Pakistan;South Africa
+03/07/2015 09:00:00;Hobart;league;Ireland;Zimbabwe
+03/08/2015 03:30:00;Napier;league;New Zealand;Afghanistan
+03/08/2015 09:00:00;Sydney;league;Australia;Sri Lanka
+03/09/2015 09:00:00;Adelaide;league;England;Bangladesh
+03/10/2015 06:30:00;Hamilton;league;India;Ireland
+03/11/2015 09:00:00;Hobart;league;Scotland;Sri Lanka
+03/12/2015 06:30:00;Wellington;league;South Africa;United Arab Emirates
+03/13/2015 06:30:00;Hamilton;league;New Zealand;Bangladesh
+03/13/2015 09:00:00;Sydney;league;Afghanistan;England
+03/14/2015 06:30:00;Auckland;league;India;Zimbabwe
+03/14/2015 09:00:00;Hobart;league;Australia;Scotland
+03/15/2015 03:30:00;Napier;league;United Arab Emirates;West Indies
+03/15/2015 09:00:00;Adelaide;league;Ireland;Pakistan
+03/18/2015 09:00:00;Sydney;quarterfinal;A1;B4
+03/19/2015 09:00:00;Melbourne;quarterfinal;A2;B3
+03/20/2015 09:00:00;Adelaide;quarterfinal;A3;B2
+03/21/2015 06:30:00;Wellington;quarterfinal;A4;B1
+03/24/2015 06:30:00;Auckland;semifinal;TBC;TBC
+03/26/2015 09:00:00;Sydney;semifinal;TBC;TBC
+03/29/2015 09:00:00;Melbourne;final;TBC;TBC
