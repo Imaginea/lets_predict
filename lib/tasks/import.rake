@@ -14,8 +14,8 @@ namespace :db do
     raise "Tournament name is required to import matches" if tname.blank?
 
     rows = CSV.read('db/matches.csv', :col_sep => ';')
-    first_match_time = Time.strptime(rows.first[0], "%m/%d/%Y %H:%M").to_time
-    last_match_time  = Time.strptime(rows.last[0], "%m/%d/%Y %H:%M").to_time
+    first_match_time = Time.strptime(rows.first[0], "%m/%d/%Y %H:%M").to_date
+    last_match_time  = Time.strptime(rows.last[0], "%m/%d/%Y %H:%M").to_date
     t = Tournament.create!(
       :name => tname, :start_date => first_match_time,
       :end_date => last_match_time, :sport => sport
