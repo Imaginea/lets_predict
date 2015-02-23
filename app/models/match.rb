@@ -36,6 +36,10 @@ class Match < ActiveRecord::Base
     self.date > Time.now.utc
   end
 
+  def no_result?
+    self.winner_id.zero?
+  end
+
   def abbrev_team_names
     abbrvs = [self.team, self.opponent].compact.collect(&:abbrev)
     abbrvs.empty? ? ['TBD'] * 2 : abbrvs

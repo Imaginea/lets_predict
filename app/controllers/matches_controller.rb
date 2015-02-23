@@ -5,6 +5,7 @@ class MatchesController < ApplicationController
   def update
     match = Match.find(params[:id])
     match.update_attribute(:winner_id, params[:winner_id])
+    redirect_to(:back) and return if match.no_result?
 
     pred_scope = Prediction.where(:match_id => match.id, :predicted_team_id => match.winner_id)
     res = pred_scope.update_all(:points => match.success_points)

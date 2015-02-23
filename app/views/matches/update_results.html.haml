@@ -20,7 +20,7 @@
             - if(m.team == nil && m.opponent == nil)
               = select_tag :winner_id, options_from_collection_for_select(@teams, "id", "name")
             -else
-              = select_tag :winner_id, options_for_select([[m.team.name, m.team.id],[m.opponent.name, m.opponent.id]])
+              = select_tag :winner_id, options_for_select([[m.team.name, m.team.id],[m.opponent.name, m.opponent.id],['N/A', 0]])
           %td
             = submit_tag "Update", :class => "btn btn-primary"
 

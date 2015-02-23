@@ -127,13 +127,13 @@ class Tournament < ActiveRecord::Base
 
   def categorize_matches_for_statistics
     older, recent, remaining = [[],[],[]]
-    today = Time.now.utc.to_date
+    today = Time.now.to_date
 
     all_matches.each do |m|
-      match_day = m.date.to_date
+      match_day = m.date.localtime.to_date
       if match_day < today - 2.days
         older << m
-      elsif match_day <= today && m.date <= Time.now.utc
+      elsif match_day <= today && m.date.localtime <= Time.now
         recent << m
       else
         remaining << m
@@ -144,10 +144,10 @@ class Tournament < ActiveRecord::Base
 
   def categorize_matches_for_predict
     old, todays, remaining = [[],[],[]]
-    today = Time.now.utc.to_date
+    today = Time.now.to_date
 
     all_matches.each do |m|
-      match_day = m.date.to_date
+      match_day = m.date.localtime.to_date
       if match_day < today
         old << m
       elsif match_day == today
